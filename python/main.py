@@ -1,11 +1,17 @@
 # --- constantes do projeto ---
 NOME_PROGRAMA = 'Menu de Arborização'
 
-ESPACAMENTO_PEQUENO = 4.0    
+ESPACAMENTO_PEQUENO = 4.0
 ESPACAMENTO_MEDIO = 7.0
 ESPACAMENTO_GRANDE = 10.0
 
-LIMITE_ALERTA = 10000        
+LIMITE_ALERTA = 10000
+
+LARGURA_MINIMA_CM = 150
+LARGURA_MEDIO_CM = 250
+LARGURA_GRANDE_CM = 400
+
+EPOCA_PLANTIO = 'outubro a dezembro (início das chuvas); até março, com rega frequente'
 
 
 # --- definições ---
@@ -46,16 +52,27 @@ def buscar_dica_porte(codigo):
             return 'Máxima sombra e filtragem do ar; raízes fundas melhoram o solo.'
 
 
-def ler_sementes():
+def ler_inteiro(mensagem, minimo, maximo):
     while True:
-        tentativa = input('Quantidade de sementes (1 a 1000): ')
-        if tentativa.isdigit():
-            sementes = int(tentativa)
-            if 1 <= sementes <= 1000:
-                return sementes
-            print('Quantidade fora da faixa (1 a 1000).')
+        tentativa = input(f'{mensagem} ({minimo} a {maximo}): ').strip()
+        if tentativa.isdecimal():
+            valor = int(tentativa)
+            if minimo <= valor <= maximo:
+                return valor
+            print(f'Valor fora da faixa ({minimo} a {maximo}).')
         else:
             print('Isso não é um número.')
+
+
+def indicar_porte(largura_cm):
+    if largura_cm < LARGURA_MINIMA_CM:
+        return '0'
+    elif largura_cm < LARGURA_MEDIO_CM:
+        return '1'
+    elif largura_cm < LARGURA_GRANDE_CM:
+        return '2'
+    else:
+        return '3'
 
 
 def calcular_area(sementes, espacamento):
@@ -87,69 +104,81 @@ def calcular_percentual(parte, total):
 
 
 def mostrar_espacamentos():
-    print(f'Pequeno: {ESPACAMENTO_PEQUENO:.1f} m')
-    print(f'Médio: {ESPACAMENTO_MEDIO:.1f} m')
-    print(f'Grande: {ESPACAMENTO_GRANDE:.1f} m')
+    print(f'Pequeno: {ESPACAMENTO_PEQUENO:.1f} m  (espaço livre de {LARGURA_MINIMA_CM} a {LARGURA_MEDIO_CM - 1} cm)')
+    print(f'Médio: {ESPACAMENTO_MEDIO:.1f} m  (espaço livre de {LARGURA_MEDIO_CM} a {LARGURA_GRANDE_CM - 1} cm)')
+    print(f'Grande: {ESPACAMENTO_GRANDE:.1f} m  (espaço livre a partir de {LARGURA_GRANDE_CM} cm)')
     print('Muito junto: as árvores competem por luz e água.')
     print('Muito longe: perde-se sombra e proteção do solo.')
+    print(f'Melhor época de plantio: {EPOCA_PLANTIO}.')
 
 
-def mostrar_resumo(total, soma, maior, alertas):
-    if total == 0:
+def mostrar_resumo(areas):
+    if len(areas) == 0:
         print('Nenhum plantio registrado ainda.')
     else:
-        media = calcular_media(soma, total)
-        percentual = calcular_percentual(alertas, total)
-        print(f'Plantios registrados: {total}')
+        soma = 0.00
+        maior = areas[0]
+        alertas = 0
+
+        for numero, area in enumerate(areas, start=1):
+            print(f'  {numero}. {area:.0f} m² - {classificar_faixa(area)}')
+            soma += area
+            if area > maior:
+                maior = area
+            if esta_em_alerta(area):
+                alertas += 1
+
+        media = calcular_media(soma, len(areas))
+        percentual = calcular_percentual(alertas, len(areas))
+        print(f'Plantios registrados: {len(areas)}')
         print(f'Área média: {media:.1f} m²')
         print(f'Maior área: {maior:.1f} m²')
         print(f'Plantios em alerta: {percentual:.1f}%')
 
 
-
 # --- MENU ---
-
-total_plantios = 0
-soma_areas = 0.00
-maior_area = 0.00
-plantios_alerta = 0
+areas = []
 
 print(f'=== {NOME_PROGRAMA} ===')
 
 while True:
     mostrar_menu()
-    opcao = input()
+    opcao = input().strip()
     match opcao:
         case '1':
-            codigo = input('Porte da árvore '
-                           '([1] Pequeno  [2] Médio  [3] Grande): ')
+            codigo = input('Porte da árvore ([1] Pequeno  [2] Médio  [3] Grande  '
+                           '[4] Não sei, medir pelo espaço): ').strip()
+
+            if codigo == '4':
+                largura = ler_inteiro('Largura do espaço livre em cm', 50, 2000)
+                codigo = indicar_porte(largura)
+                if codigo != '0':
+                    print(f'Para {largura} cm de largura, '
+                          f'o porte indicado é {buscar_nome_porte(codigo)}.')
+
             espacamento = buscar_espacamento(codigo)
 
             if espacamento == 0.00:
-                print('Código de porte inválido.')
+                print(f'Porte não definido: código inválido ou espaço abaixo de {LARGURA_MINIMA_CM} cm.')
             else:
-                sementes = ler_sementes()
+                sementes = ler_inteiro('Quantidade de sementes', 1, 1000)
                 area = calcular_area(sementes, espacamento)
                 faixa = classificar_faixa(area)
 
-                total_plantios += 1
-                soma_areas += area
-                if area > maior_area:
-                    maior_area = area
-                if esta_em_alerta(area):
-                    plantios_alerta += 1
+                areas.append(area)
 
                 print(f'\n{sementes} sementes de porte {buscar_nome_porte(codigo)}')
                 print(f'Distância entre cada plantio: {espacamento:.1f} m')
                 print(f'Área total necessária: {area:.0f} m²')
                 print(f'Classificação: {faixa}')
                 print(f'Benefício: {buscar_dica_porte(codigo)}')
+                print(f'Melhor época de plantio: {EPOCA_PLANTIO}')
 
         case '2':
             mostrar_espacamentos()
 
         case '3':
-            mostrar_resumo(total_plantios, soma_areas, maior_area, plantios_alerta)
+            mostrar_resumo(areas)
 
         case '4':
             break
