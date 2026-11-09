@@ -146,11 +146,11 @@ while True:
     opcao = input().strip()
     match opcao:
         case '1':
-            codigo = input('Porte da árvore ([1] Pequeno  [2] Médio  [3] Grande  '
-                           '[4] Não sei, medir pelo espaço): ').strip()
+            codigo = input('Porte da árvore: [1] Pequeno  [2] Médio  [3] Grande  '
+                           '[4] Não sei, medir pelo espaço\n').strip()
 
             if codigo == '4':
-                largura = ler_inteiro('Largura do espaço livre em cm', 50, 2000)
+                largura = ler_inteiro('Largura do espaço livre em cm', 150, 2000)
                 codigo = indicar_porte(largura)
                 if codigo != '0':
                     print(f'Para {largura} cm de largura, '
