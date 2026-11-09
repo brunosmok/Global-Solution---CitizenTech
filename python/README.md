@@ -118,8 +118,6 @@ Opção: [1] Novo plantio   [2] Consultar espaçamento   [3] Ver resumo   [4] Sa
 Programa encerrado. Boas plantações!
 ```
 
-> Se quiser incluir uma imagem de captura de tela no lugar (ou além) do bloco acima, salve o print na pasta (por exemplo `print-execucao.png`) e adicione `![Execução do programa](print-execucao.png)` nesta seção.
-
 ## Estrutura da pasta
 
 ```text
