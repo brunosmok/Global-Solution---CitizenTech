@@ -1,15 +1,15 @@
-# Menu de Arborização
+# ArborIA: Guardião da Muda
 
-Programa de terminal em Python que ajuda a planejar um plantio de árvores. A partir do porte da árvore (ou da largura do espaço livre) e da quantidade de sementes, ele calcula o espaçamento, a área total necessária, classifica o plantio e mostra dicas de benefício e época de plantio.
+Um ecossistema de software integrado desenvolvido em Python para auxiliar no planejamento e no monitoramento do plantio de árvores em áreas urbanas e domésticas. O projeto atua em duas frentes dentro de um único sistema: **Pré-plantio** (cálculos e planejamento) e **Pós-plantio** (dashboard de monitoramento integrado ao hardware Arduino/ESP32).
 
-## Funcionalidades
+## Módulos do Sistema
 
-- **Novo plantio**: escolhe o porte (Pequeno, Médio ou Grande) ou deixa o programa indicar o porte pela largura do espaço livre (em cm), e calcula a área total (`sementes × espaçamento²`).
-- **Consultar espaçamento**: mostra a tabela de espaçamentos por porte e a melhor época de plantio.
-- **Ver resumo**: lista todos os plantios da sessão, com área média, maior área e percentual de plantios em alerta.
-- **Sair**: encerra o programa.
+Ao iniciar o programa, um Menu Principal permite escolher qual dos dois módulos abaixo você deseja executar.
 
-### Regras principais
+### 1. Planejamento de Arborização (Pré-Plantio)
+Módulo executado **antes** de colocar a muda na terra. A partir do porte da árvore (ou da largura do espaço livre) e da quantidade de mudas, ele calcula o espaçamento ideal, a área total de solo necessária, classifica o tamanho da obra e mostra dicas de benefícios ambientais.
+
+**Regras principais (Pré-plantio):**
 
 | Porte   | Espaçamento | Espaço livre indicado |
 |---------|-------------|-----------------------|
@@ -24,109 +24,40 @@ Programa de terminal em Python que ajuda a planejar um plantio de árvores. A pa
 | até 10.000 m²    | Plantio grande (parque, sítio)                 |
 | acima de 10.000 m² | ALERTA: acima de 1 hectare, exige planejamento |
 
+### 2. Dashboard Pós-Plantio (Monitoramento)
+Módulo executado **depois** do plantio. Ele atua como o "cérebro" de análise, recebendo dados dos sensores físicos do Guardião da Muda (ESP32) que fica no jardim. 
+
+**Funcionalidades do Painel:**
+- Recebe leituras manuais ou coladas do Monitor Serial referentes à Umidade do Solo, Temperatura, Luz e Qualidade do Ar.
+- Classifica o estado da muda com a mesma lógica embarcada no microcontrolador (ex: `SOLO OK`, `ATENÇÃO`, `REGANDO`, `ALERTA`).
+- Mantém um histórico diário e compara os dados climáticos atuais com a "Linha de Base" do dia do plantio.
+- Permite consultar dados simulados do microclima de bairros do Rio de Janeiro.
+
 ## Requisitos
 
-- **Python 3.10 ou superior** (o código usa `match/case`).
-- Nenhuma biblioteca externa.
+- **Python 3.10 ou superior** (o código usa a estrutura de controle `match/case`).
+- Nenhuma biblioteca externa necessária.
 
-Para conferir sua versão:
-
+Para conferir sua versão de Python, digite no terminal:
 ```bash
 python3 --version
 ```
 
-## Como rodar
-
-1. Abra um terminal na pasta do projeto (onde está o `main.py`).
-2. Execute:
-
-```bash
-python3 main.py
-```
-
-No Windows, se `python3` não funcionar, use `python main.py` ou `py main.py`.
-
-3. Digite o número da opção desejada no menu e pressione Enter. Use a opção `4` para sair.
-
-## Exemplo de execução
-
-Saída de uma sessão real do programa (o que o usuário digita aparece depois de `>`):
-
-```text
-=== Menu de Arborização ===
-
-Opção: [1] Novo plantio   [2] Consultar espaçamento   [3] Ver resumo   [4] Sair
-> 2
-Pequeno: 4.0 m  (espaço livre de 150 a 249 cm)
-Médio: 7.0 m  (espaço livre de 250 a 399 cm)
-Grande: 10.0 m  (espaço livre a partir de 400 cm)
-Muito junto: as árvores competem por luz e água.
-Muito longe: perde-se sombra e proteção do solo.
-Melhor época de plantio: outubro a dezembro (início das chuvas); até março, com rega frequente.
-
-Opção: [1] Novo plantio   [2] Consultar espaçamento   [3] Ver resumo   [4] Sair
-> 1
-Porte da árvore ([1] Pequeno  [2] Médio  [3] Grande  [4] Não sei, medir pelo espaço): > 1
-Quantidade de sementes (1 a 1000): > 30
-
-30 sementes de porte Pequeno
-Distância entre cada plantio: 4.0 m
-Área total necessária: 480 m²
-Classificação: Plantio doméstico (quintal, praça pequena)
-Benefício: Sombra pontual e boa atração de polinizadores.
-Melhor época de plantio: outubro a dezembro (início das chuvas); até março, com rega frequente
-
-Opção: [1] Novo plantio   [2] Consultar espaçamento   [3] Ver resumo   [4] Sair
-> 1
-Porte da árvore ([1] Pequeno  [2] Médio  [3] Grande  [4] Não sei, medir pelo espaço): > 4
-Largura do espaço livre em cm (50 a 2000): > 300
-Para 300 cm de largura, o porte indicado é Médio.
-Quantidade de sementes (1 a 1000): > 20
-
-20 sementes de porte Médio
-Distância entre cada plantio: 7.0 m
-Área total necessária: 980 m²
-Classificação: Plantio médio (condomínio, rua arborizada)
-Benefício: Sombra contínua e espaço para as raízes captarem água.
-Melhor época de plantio: outubro a dezembro (início das chuvas); até março, com rega frequente
-
-Opção: [1] Novo plantio   [2] Consultar espaçamento   [3] Ver resumo   [4] Sair
-> 1
-Porte da árvore ([1] Pequeno  [2] Médio  [3] Grande  [4] Não sei, medir pelo espaço): > 3
-Quantidade de sementes (1 a 1000): > 150
-
-150 sementes de porte Grande
-Distância entre cada plantio: 10.0 m
-Área total necessária: 15000 m²
-Classificação: ALERTA: acima de 1 hectare, exige planejamento
-Benefício: Máxima sombra e filtragem do ar; raízes fundas melhoram o solo.
-Melhor época de plantio: outubro a dezembro (início das chuvas); até março, com rega frequente
-
-Opção: [1] Novo plantio   [2] Consultar espaçamento   [3] Ver resumo   [4] Sair
-> 3
-  1. 480 m² - Plantio doméstico (quintal, praça pequena)
-  2. 980 m² - Plantio médio (condomínio, rua arborizada)
-  3. 15000 m² - ALERTA: acima de 1 hectare, exige planejamento
-Plantios registrados: 3
-Área média: 5486.7 m²
-Maior área: 15000.0 m²
-Plantios em alerta: 33.3%
-
-Opção: [1] Novo plantio   [2] Consultar espaçamento   [3] Ver resumo   [4] Sair
-> 4
-
-Programa encerrado. Boas plantações!
-```
-
-## Estrutura da pasta
+## Estrutura da Pasta
 
 ```text
 .
-├── main.py       # código do programa
-├── README.md     # este arquivo
-└── prompts.md    # prompts usados no desenvolvimento
+├── main.py       # Sistema central unificado (Módulos Pré e Pós-plantio)
+└── README.md     # Este arquivo de documentação
 ```
 
-## Prompts
+## Como rodar
 
-Os prompts usados na construção do projeto estão registrados em [prompts.md](prompts.md).
+1. Abra um terminal nesta pasta do projeto.
+2. Execute o sistema principal:
+```bash
+python main.py
+```
+
+3. O sistema exibirá o **Menu Principal**. Digite `1` para acessar a calculadora de planejamento ou `2` para acessar o painel de monitoramento dos sensores.
+4. Siga as instruções dos submenus interativos. Para encerrar ou trocar de módulo, use as opções de voltar ou sair.
