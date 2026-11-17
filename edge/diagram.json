@@ -1,0 +1,436 @@
+{
+  "version": 1,
+  "author": "ArborIA",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-lcd2004",
+      "id": "lcd",
+      "top": -200,
+      "left": 150,
+      "attrs": {
+        "pins": "i2c"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "solo",
+      "top": -60,
+      "left": -60,
+      "attrs": {
+        "value": "700"
+      }
+    },
+    {
+      "type": "wokwi-photoresistor-sensor",
+      "id": "luz",
+      "top": 40,
+      "left": -212,
+      "attrs": {
+        "lux": "500"
+      }
+    },
+    {
+      "type": "wokwi-gas-sensor",
+      "id": "ar",
+      "top": 104,
+      "left": -177,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "buzzer",
+      "top": 172,
+      "left": -100,
+      "attrs": {
+        "volume": "0.2"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "botao",
+      "top": 222,
+      "left": 20,
+      "attrs": {
+        "color": "blue",
+        "label": "Salvar base"
+      }
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": 225,
+      "left": 112,
+      "rotate": 180,
+      "attrs": {
+        "temperature": "28",
+        "humidity": "60"
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "valvula",
+      "top": 240,
+      "left": 200,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 90,
+      "left": 180,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 142,
+      "left": 180,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 194,
+      "left": 180,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledVerde",
+      "top": 54,
+      "left": 225,
+      "attrs": {
+        "color": "green",
+        "flip": "1"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledAmarelo",
+      "top": 106,
+      "left": 225,
+      "attrs": {
+        "color": "yellow",
+        "flip": "1"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledVermelho",
+      "top": 158,
+      "left": 225,
+      "attrs": {
+        "color": "red",
+        "flip": "1"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "lcd:GND",
+      "esp:GND.2",
+      "black",
+      [
+        "h-40",
+        "v197"
+      ]
+    ],
+    [
+      "lcd:VCC",
+      "esp:5V",
+      "red",
+      [
+        "h-384",
+        "v443",
+        "h228",
+        "v-83"
+      ]
+    ],
+    [
+      "lcd:SDA",
+      "esp:21",
+      "blue",
+      [
+        "h-30",
+        "v226"
+      ]
+    ],
+    [
+      "lcd:SCL",
+      "esp:22",
+      "orange",
+      [
+        "h-20",
+        "v187"
+      ]
+    ],
+    [
+      "solo:SIG",
+      "esp:VP",
+      "green",
+      [
+        "v39"
+      ]
+    ],
+    [
+      "solo:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "v20"
+      ]
+    ],
+    [
+      "solo:GND",
+      "ar:GND",
+      "black",
+      [
+        "v132"
+      ]
+    ],
+    [
+      "luz:GND",
+      "solo:GND",
+      "black",
+      [
+        "h9"
+      ]
+    ],
+    [
+      "luz:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h36",
+        "v-27"
+      ]
+    ],
+    [
+      "luz:AO",
+      "esp:32",
+      "teal",
+      []
+    ],
+    [
+      "ar:AOUT",
+      "esp:33",
+      "violet",
+      [
+        "h20",
+        "v-25"
+      ]
+    ],
+    [
+      "ar:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h32",
+        "v13"
+      ]
+    ],
+    [
+      "ar:VCC",
+      "esp:5V",
+      "red",
+      [
+        "h26",
+        "v52"
+      ]
+    ],
+    [
+      "esp:13",
+      "buzzer:2",
+      "purple",
+      [
+        "h-25",
+        "v101",
+        "h-43"
+      ]
+    ],
+    [
+      "buzzer:1",
+      "botao:2.l",
+      "black",
+      [
+        "v16",
+        "h93"
+      ]
+    ],
+    [
+      "botao:2.l",
+      "esp:GND.1",
+      "black",
+      [
+        "h-25",
+        "v-100"
+      ]
+    ],
+    [
+      "botao:1.r",
+      "esp:15",
+      "cyan",
+      [
+        "h20",
+        "v-62"
+      ]
+    ],
+    [
+      "botao:2.r",
+      "dht:GND",
+      "black",
+      [
+        "h23",
+        "v-31",
+        "h15"
+      ]
+    ],
+    [
+      "dht:SDA",
+      "esp:16",
+      "gray",
+      [
+        "v-91"
+      ]
+    ],
+    [
+      "dht:VCC",
+      "esp:5V",
+      "red",
+      [
+        "v-5",
+        "h-156",
+        "v-18"
+      ]
+    ],
+    [
+      "valvula:PWM",
+      "esp:4",
+      "magenta",
+      [
+        "h-15",
+        "v-97",
+        "h-67",
+        "v-68"
+      ]
+    ],
+    [
+      "valvula:V+",
+      "dht:VCC",
+      "red",
+      [
+        "h-22",
+        "v-78",
+        "h-23"
+      ]
+    ],
+    [
+      "esp:19",
+      "r1:1",
+      "green",
+      []
+    ],
+    [
+      "r1:2",
+      "ledVerde:A",
+      "green",
+      []
+    ],
+    [
+      "esp:18",
+      "r2:1",
+      "gold",
+      [
+        "h64",
+        "v42"
+      ]
+    ],
+    [
+      "r2:2",
+      "ledAmarelo:A",
+      "gold",
+      []
+    ],
+    [
+      "esp:17",
+      "r3:1",
+      "red",
+      [
+        "h49",
+        "v75"
+      ]
+    ],
+    [
+      "r3:2",
+      "ledVermelho:A",
+      "red",
+      []
+    ],
+    [
+      "ledVerde:C",
+      "esp:GND.3",
+      "black",
+      [
+        "v-10"
+      ]
+    ],
+    [
+      "ledVerde:C",
+      "ledAmarelo:C",
+      "black",
+      [
+        "h30",
+        "v52",
+        "h-30"
+      ]
+    ],
+    [
+      "ledAmarelo:C",
+      "ledVermelho:C",
+      "black",
+      [
+        "h30",
+        "v52",
+        "h-30"
+      ]
+    ],
+    [
+      "ledVermelho:C",
+      "valvula:GND",
+      "black",
+      [
+        "h30",
+        "v32",
+        "h-88",
+        "v58"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}
