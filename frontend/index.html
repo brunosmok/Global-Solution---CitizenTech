@@ -1,241 +1,802 @@
 <!doctype html>
+<!-- =========================================================================
+     ArborIA — index.html (página inicial)
+     Global Solution 2026.2 · CitizenTech · FIAP, Engenharia de Software, 1º ano
+     Integrantes: Anauã Vieitas (RM 576103) · Bruno Smoktunowicz (RM 574739) · Caio Machado (RM 575113)
+     Estilos em style.css e interações em main.js (com tema.js, bairros.js e sala.js).
+     ========================================================================= -->
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0E1512" />
+    <meta
+      name="description"
+      content="A ArborIA usa imagens de satélite para mostrar onde uma árvore nova faz mais diferença no Rio de Janeiro, com a conta aberta e os limites explicados."
+    />
     <title>ArborIA | Onde o Rio planta primeiro</title>
-    <meta name="description" content="A ArborIA usa imagens de satélite para mostrar onde uma árvore nova faz mais diferença no Rio de Janeiro, com a conta aberta e os limites explicados." />
     <meta property="og:title" content="ArborIA | Onde o Rio planta primeiro" />
-    <meta property="og:description" content="Imagens de satélite para decidir onde plantar cada árvore no Rio de Janeiro." />
+    <meta
+      property="og:description"
+      content="Imagens de satélite para decidir onde plantar cada árvore no Rio de Janeiro."
+    />
     <meta property="og:image" content="https://arboria-ai.vercel.app/og.png" />
     <meta property="og:url" content="https://arboria-ai.vercel.app/" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/svg+xml" href="imagens/favicon.svg" />
+    <!-- Fonte: Archivo, nos dois estilos (título e texto). No CSS só se declara font-family. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
-    <script>document.documentElement.classList.add('js')</script>
-    <script src="tema.js"></script>
-    <script src="bairros.js" defer></script>
-    <script src="main.js" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <script src="js/tema.js"></script>
+    <script src="js/bairros.js" defer></script>
+    <script src="js/main.js" defer></script>
   </head>
   <body>
     <!-- ============================ TOPO ============================ -->
     <header class="topo">
-      <a class="marca" href="index.html" aria-label="ArborIA, início">
-        <svg class="logo" viewBox="0 0 1317.6 298.1" width="133" height="30" aria-hidden="true" focusable="false">
-          <path fill="#EEF0E6" d="M4.0 272.6 55.3 30.9H128.4L179.7 272.6H123.4L115.0 228.0H66.5L58.8 272.6ZM73.2 183.0H108.7L97.8 118.4Q97.4 115.9 96.7 111.3Q96.0 106.8 95.3 101.0Q94.6 95.2 93.8 89.6Q92.9 83.9 92.2 79.0H89.7Q89.0 85.0 88.0 92.4Q86.9 99.8 86.0 106.8Q85.2 113.8 84.1 118.4ZM189.5 272.6V87.1H229.9L232.7 112.1H234.1Q236.9 102.9 241.0 96.6Q245.0 90.3 250.4 86.6Q255.9 82.9 262.6 82.9Q265.4 82.9 268.2 83.4Q271.0 83.9 273.8 85.4V135.6H258.0Q251.7 135.6 247.5 138.4Q243.2 141.2 241.0 147.0Q238.7 152.8 237.8 161.4Q236.9 170.0 236.9 181.6V272.6ZM363.0 276.8Q347.6 276.8 339.0 269.3Q330.4 261.7 326.2 250.8H324.4L321.6 272.6H282.2V17.9H330.0V107.8H331.8Q334.2 100.8 338.6 95.2Q343.0 89.6 349.7 86.2Q356.4 82.9 365.5 82.9Q381.3 82.9 390.8 92.9Q400.3 102.9 404.5 123.8Q408.7 144.7 408.7 177.7Q408.7 211.5 404.3 233.4Q399.9 255.4 389.9 266.1Q379.9 276.8 363.0 276.8ZM344.8 234.3Q350.4 234.3 353.7 230.3Q357.1 226.2 358.5 217.6Q359.9 209.0 359.9 195.7V167.6Q359.9 153.2 358.3 144.7Q356.7 136.3 353.6 132.4Q350.4 128.6 345.1 128.6Q340.6 128.6 337.6 130.8Q334.6 133.1 332.8 137.7Q331.1 142.3 330.4 149.6Q329.7 157.0 329.7 167.6V195.7Q329.7 208.7 330.9 217.3Q332.1 225.9 335.5 230.1Q338.8 234.3 344.8 234.3ZM487.4 276.8Q465.3 276.8 451.0 266.8Q436.8 256.8 429.8 235.4Q422.8 213.9 422.8 179.9Q422.8 146.1 429.8 124.7Q436.8 103.3 451.0 93.1Q465.3 82.9 487.4 82.9Q509.2 82.9 523.6 93.1Q538.0 103.3 545.2 124.7Q552.4 146.1 552.4 179.9Q552.4 213.9 545.2 235.4Q538.0 256.8 523.6 266.8Q509.2 276.8 487.4 276.8ZM487.4 237.5Q493.4 237.5 496.9 234.0Q500.4 230.4 502.0 221.3Q503.6 212.2 503.6 196.4V163.7Q503.6 147.5 502.0 138.6Q500.4 129.6 496.9 125.9Q493.4 122.2 487.4 122.2Q481.4 122.2 477.9 125.9Q474.4 129.6 473.0 138.6Q471.6 147.5 471.6 163.7V196.4Q471.6 212.2 473.0 221.3Q474.4 230.4 477.9 234.0Q481.4 237.5 487.4 237.5ZM570.7 272.6V87.1H611.1L613.9 112.1H615.3Q618.1 102.9 622.1 96.6Q626.2 90.3 631.6 86.6Q637.1 82.9 643.7 82.9Q646.5 82.9 649.4 83.4Q652.2 83.9 655.0 85.4V135.6H639.2Q632.8 135.6 628.6 138.4Q624.4 141.2 622.1 147.0Q619.8 152.8 619.0 161.4Q618.1 170.0 618.1 181.6V272.6ZM665.9 272.6V30.9H719.6V272.6ZM731.9 272.6 783.2 30.9H856.3L907.6 272.6H851.4L842.9 228.0H794.5L786.7 272.6ZM801.1 183.0H836.6L825.7 118.4Q825.4 115.9 824.7 111.3Q824.0 106.8 823.3 101.0Q822.6 95.2 821.7 89.6Q820.8 83.9 820.1 79.0H817.6Q816.9 85.0 815.9 92.4Q814.8 99.8 813.9 106.8Q813.1 113.8 812.0 118.4Z"/>
-          <path fill="#C9DC3C" stroke="#C9DC3C" stroke-width="9" stroke-linejoin="miter" fill-rule="evenodd" d="M1028.9 4.6L1029.7 4.0L1030.3 4.6L1033.0 10.6L1077.1 113.6L1077.5 114.6L1076.7 115.8L1066.7 115.8L1065.7 115.6L1065.0 114.6L1029.7 32.0L994.4 114.6L993.7 115.6L992.7 115.8L982.7 115.8L981.9 114.6ZM1028.9 86.6L1029.7 85.9L1030.2 86.6L1032.9 92.6L1098.1 244.6L1101.0 251.6L1100.7 252.9L1084.7 253.2L1083.7 252.9L1082.7 251.6L1029.7 127.1L1027.5 130.6L975.8 252.6L974.7 253.2L959.7 253.2L958.1 252.6L958.3 250.6L966.0 233.6L1026.3 91.6Z"/>
-          <path fill="#E8A33D" stroke="#E8A33D" stroke-width="5.4" fill-rule="evenodd" d="M1024.1 189.6L1024.7 188.8L1025.7 188.8L1033.7 188.8L1035.2 189.6L1035.2 293.6L1033.7 294.1L1024.7 294.1L1024.1 293.6Z"/>
-
-        </svg>
-      </a>
-
+      <a class="marca" href="index.html" aria-label="ArborIA, início"
+        ><svg
+          class="marca__logo"
+          viewBox="0 -4 1109.5 306.1"
+          width="109"
+          height="30"
+          aria-hidden="true"
+        >
+          <path
+            class="marca__texto"
+            d="M4.0 272.6 55.3 30.9H128.4L179.7 272.6H123.4L115.0 228.0H66.5L58.8 272.6ZM73.2 183.0H108.7L97.8 118.4Q97.4 115.9 96.7 111.3Q96.0 106.8 95.3 101.0Q94.6 95.2 93.8 89.6Q92.9 83.9 92.2 79.0H89.7Q89.0 85.0 88.0 92.4Q86.9 99.8 86.0 106.8Q85.2 113.8 84.1 118.4ZM189.5 272.6V87.1H229.9L232.7 112.1H234.1Q236.9 102.9 241.0 96.6Q245.0 90.3 250.4 86.6Q255.9 82.9 262.6 82.9Q265.4 82.9 268.2 83.4Q271.0 83.9 273.8 85.4V135.6H258.0Q251.7 135.6 247.5 138.4Q243.2 141.2 241.0 147.0Q238.7 152.8 237.8 161.4Q236.9 170.0 236.9 181.6V272.6ZM363.0 276.8Q347.6 276.8 339.0 269.3Q330.4 261.7 326.2 250.8H324.4L321.6 272.6H282.2V17.9H330.0V107.8H331.8Q334.2 100.8 338.6 95.2Q343.0 89.6 349.7 86.2Q356.4 82.9 365.5 82.9Q381.3 82.9 390.8 92.9Q400.3 102.9 404.5 123.8Q408.7 144.7 408.7 177.7Q408.7 211.5 404.3 233.4Q399.9 255.4 389.9 266.1Q379.9 276.8 363.0 276.8ZM344.8 234.3Q350.4 234.3 353.7 230.3Q357.1 226.2 358.5 217.6Q359.9 209.0 359.9 195.7V167.6Q359.9 153.2 358.3 144.7Q356.7 136.3 353.6 132.4Q350.4 128.6 345.1 128.6Q340.6 128.6 337.6 130.8Q334.6 133.1 332.8 137.7Q331.1 142.3 330.4 149.6Q329.7 157.0 329.7 167.6V195.7Q329.7 208.7 330.9 217.3Q332.1 225.9 335.5 230.1Q338.8 234.3 344.8 234.3ZM487.4 276.8Q465.3 276.8 451.0 266.8Q436.8 256.8 429.8 235.4Q422.8 213.9 422.8 179.9Q422.8 146.1 429.8 124.7Q436.8 103.3 451.0 93.1Q465.3 82.9 487.4 82.9Q509.2 82.9 523.6 93.1Q538.0 103.3 545.2 124.7Q552.4 146.1 552.4 179.9Q552.4 213.9 545.2 235.4Q538.0 256.8 523.6 266.8Q509.2 276.8 487.4 276.8ZM487.4 237.5Q493.4 237.5 496.9 234.0Q500.4 230.4 502.0 221.3Q503.6 212.2 503.6 196.4V163.7Q503.6 147.5 502.0 138.6Q500.4 129.6 496.9 125.9Q493.4 122.2 487.4 122.2Q481.4 122.2 477.9 125.9Q474.4 129.6 473.0 138.6Q471.6 147.5 471.6 163.7V196.4Q471.6 212.2 473.0 221.3Q474.4 230.4 477.9 234.0Q481.4 237.5 487.4 237.5ZM570.7 272.6V87.1H611.1L613.9 112.1H615.3Q618.1 102.9 622.1 96.6Q626.2 90.3 631.6 86.6Q637.1 82.9 643.7 82.9Q646.5 82.9 649.4 83.4Q652.2 83.9 655.0 85.4V135.6H639.2Q632.8 135.6 628.6 138.4Q624.4 141.2 622.1 147.0Q619.8 152.8 619.0 161.4Q618.1 170.0 618.1 181.6V272.6ZM665.9 272.6V30.9H719.6V272.6ZM731.9 272.6 783.2 30.9H856.3L907.6 272.6H851.4L842.9 228.0H794.5L786.7 272.6ZM801.1 183.0H836.6L825.7 118.4Q825.4 115.9 824.7 111.3Q824.0 106.8 823.3 101.0Q822.6 95.2 821.7 89.6Q820.8 83.9 820.1 79.0H817.6Q816.9 85.0 815.9 92.4Q814.8 99.8 813.9 106.8Q813.1 113.8 812.0 118.4Z"
+          />
+          <path
+            class="marca__arvore"
+            fill-rule="evenodd"
+            d="M1028.9 4.6L1029.7 4.0L1030.3 4.6L1033.0 10.6L1077.1 113.6L1077.5 114.6L1076.7 115.8L1066.7 115.8L1065.7 115.6L1065.0 114.6L1029.7 32.0L994.4 114.6L993.7 115.6L992.7 115.8L982.7 115.8L981.9 114.6ZM1028.9 86.6L1029.7 85.9L1030.2 86.6L1032.9 92.6L1098.1 244.6L1101.0 251.6L1100.7 252.9L1084.7 253.2L1083.7 252.9L1082.7 251.6L1029.7 127.1L1027.5 130.6L975.8 252.6L974.7 253.2L959.7 253.2L958.1 252.6L958.3 250.6L966.0 233.6L1026.3 91.6Z"
+          />
+          <path
+            class="marca__tronco"
+            fill-rule="evenodd"
+            d="M1024.1 189.6L1024.7 188.8L1025.7 188.8L1033.7 188.8L1035.2 189.6L1035.2 293.6L1033.7 294.1L1024.7 294.1L1024.1 293.6Z"
+          /></svg
+      ></a>
       <nav class="menu" id="menu" aria-label="Seções">
         <ul class="menu__lista">
           <li><a href="#bairro">Seu bairro</a></li>
           <li><a href="#metodo">O método</a></li>
           <li><a href="#limites">Os limites</a></li>
           <li><a href="#ods">ODS</a></li>
-          <li><a class="menu-plantar" href="https://arboria-ai.vercel.app/plantar">Plantar perto de mim</a></li>
+          <li class="menu__plantar">
+            <a href="https://arboria-ai.vercel.app/plantar"
+              >Plantar perto de mim</a
+            >
+          </li>
         </ul>
       </nav>
-
       <div class="topo__acoes">
-        <button type="button" class="icon-button" data-tema-botao aria-label="Alternar entre modo claro e escuro">
-          <svg class="no-escuro" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
-          <svg class="no-claro" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" /></svg>
+        <button
+          type="button"
+          class="topo__tema"
+          data-tema-botao
+          aria-label="Alternar entre modo claro e escuro"
+        >
+          <svg
+            class="no-escuro"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+            />
+          </svg>
+          <svg
+            class="no-claro"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+          </svg>
         </button>
-        <button type="button" class="menu-button" id="menu-botao" aria-expanded="false" aria-controls="menu">Menu</button>
-        <a class="btn btn--principal small bar-plantar" href="https://arboria-ai.vercel.app/plantar">Plantar perto de mim</a>
+        <button
+          type="button"
+          class="topo__menu"
+          id="menu-botao"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          Menu
+        </button>
+        <a
+          class="btn btn--pequeno topo__plantar"
+          href="https://arboria-ai.vercel.app/plantar"
+          >Plantar perto de mim</a
+        >
       </div>
     </header>
 
     <main>
-      <!-- ============================ HERO ============================ -->
-      <div class="scene" id="scene" data-chapter-root>
-        <div class="stage" aria-hidden="true"><canvas id="room"></canvas><div class="scrim"></div></div>
+      <!-- ======================== ABERTURA E SALA 3D ======================== -->
+      <!-- A sala 3D (sala.ts) é desenhada no canvas #room, atrás da abertura. -->
+      <div class="sala" id="scene">
+        <div class="sala__palco" aria-hidden="true">
+          <canvas id="room"></canvas>
+          <div class="sala__veu"></div>
+        </div>
 
-        <section class="hero station" data-section="hero" data-chapter="0" aria-labelledby="hero-titulo">
-          <div class="hero-foto" aria-hidden="true">
-            <picture class="no-escuro foto-dia">
-              <source media="(max-width: 860px)" srcset="imagens/cristo-celular.jpg" width="900" height="1451" />
-              <img src="imagens/cristo.jpg" width="2000" height="1125" alt="" loading="lazy" />
+        <section
+          class="capitulo abertura"
+          data-section="abertura"
+          aria-labelledby="abertura-titulo"
+        >
+          <!-- Foto da abertura, só na página sem sala 3D: o Cristo de dia, entre as árvores, nos dois temas. -->
+          <div class="abertura__foto">
+            <picture>
+              <source
+                media="(max-width: 860px)"
+                srcset="imagens/cristo-celular.jpg"
+                width="900"
+                height="1451"
+              />
+              <img
+                src="imagens/cristo.jpg"
+                width="2000"
+                height="1125"
+                alt=""
+                loading="lazy"
+              />
             </picture>
-            <picture class="no-claro foto-noite">
-              <source media="(max-width: 860px)" srcset="imagens/cristo-noite-celular.jpg" width="900" height="1448" />
-              <img src="imagens/cristo-noite.jpg" width="2000" height="1125" alt="" loading="lazy" />
-            </picture>
           </div>
-          <div class="copy">
-            <h1 id="hero-titulo">Onde o Rio<br />planta primeiro</h1>
-            <p class="lead">A ArborIA usa imagens de satélite para mostrar, em toda a cidade, onde uma árvore nova faz mais diferença.</p>
-            <a class="btn btn--principal" href="https://arboria-ai.vercel.app/plantar">Ver o ponto mais perto de mim</a>
+          <div class="capitulo__texto">
+            <!-- Cada linha do título fica numa "janela" (.linha) e sobe de dentro dela quando a página abre. -->
+            <h1 id="abertura-titulo">
+              <span class="abertura__linha"><span>Onde o Rio</span></span>
+              <span class="abertura__linha"><span>planta primeiro</span></span>
+            </h1>
+            <p class="abertura__lead">
+              A ArborIA usa imagens de satélite para mostrar, em toda a cidade,
+              onde uma árvore nova faz mais diferença.
+            </p>
+            <a class="btn" href="https://arboria-ai.vercel.app/plantar"
+              >Ver o ponto mais perto de mim</a
+            >
+            <!-- Só aparece quando a sala 3D está ligada. -->
+            <p class="abertura__dica">
+              Clique nos mapas, nas telas e na plaquinha da mesa para ver de
+              perto.
+            </p>
           </div>
         </section>
-
-        <section class="station" data-chapter="1" aria-labelledby="cap1-titulo">
-          <div class="copy">
-            <h2 id="cap1-titulo">O calor,<br />visto de cima</h2>
-            <p>Treze imagens de satélite, de duas épocas quentes, mostram onde a cidade mais esquenta. Elas medem o calor da superfície, como chão e telhados, por volta das 10h. Não é a temperatura do ar.</p>
-            <p class="stat"><strong>+6,8 °C</strong> Na área mais urgente da cidade, em Cosmos, a superfície fica isso mais quente do que no lugar típico do Rio.</p>
+        <!-- Legenda do mapa ou da tela em que a pessoa clicou na sala 3D. O texto é preenchido por sala.ts. -->
+        <aside
+          class="sala-legenda"
+          id="sala-legenda"
+          aria-live="polite"
+          aria-label="Item da sala em destaque"
+          hidden
+        >
+          <div>
+            <p class="sala-legenda__titulo" id="sala-titulo"></p>
+            <p id="sala-texto"></p>
+            <!-- Lista usada pela plaquinha da mesa, com os integrantes do grupo. -->
+            <ul class="sala-legenda__lista" id="sala-lista" hidden></ul>
           </div>
-          <img class="flat" src="imagens/calor.png" width="1800" height="950" loading="lazy" alt="Mapa do Rio de Janeiro com a temperatura da superfície: a Zona Norte e a Zona Oeste aparecem em laranja e vermelho." />
-        </section>
-
-        <section class="station" data-chapter="2" aria-labelledby="cap2-titulo">
-          <div class="copy">
-            <h2 id="cap2-titulo">Onde falta<br />sombra</h2>
-            <p>Um mapa mostra as árvores com 3 metros ou mais. Falta sombra justamente onde a superfície esquenta mais.</p>
-            <p class="stat"><strong>4,7%</strong> do chão fica sob árvores nas 473 áreas que seguem no topo da lista. Em todas as áreas avaliadas, são 12,5%.</p>
-          </div>
-          <img class="flat" src="imagens/copa.png" width="1800" height="950" loading="lazy" alt="Mapa das árvores do Rio: os maciços da Tijuca, da Pedra Branca e do Mendanha em verde intenso, e a área urbana quase sem cor." />
-        </section>
-
-        <section class="station" data-chapter="3" aria-labelledby="cap3-titulo">
-          <div class="copy">
-            <h2 id="cap3-titulo">Uma nota<br />por área</h2>
-            <p>Cada pedaço da cidade, do tamanho de uns 14 campos de futebol, recebe uma nota de 0 a 100. A conta soma calor, falta de árvores, gente morando perto, construções, espaço para plantar e terreno.</p>
-            <p class="stat"><strong>7.225</strong> áreas com nota. Testamos 2.000 formas de fazer a conta: 473 áreas ficaram entre as 10% mais urgentes em pelo menos 80% das vezes.</p>
-          </div>
-          <img class="flat" src="imagens/prioridade.png" width="1800" height="953" loading="lazy" alt="Mapa do Rio dividido em hexágonos coloridos pela nota, do verde-escuro ao vermelho." />
-        </section>
-
-        <section class="station" data-chapter="4" aria-labelledby="cap4-titulo">
-          <div class="copy">
-            <h2 id="cap4-titulo">Do mapa<br />até a calçada</h2>
-            <p>Você libera a localização e vê o lugar mais próximo que precisa de árvore, com a muda indicada, a melhor época e o pedido pronto para o 1746.</p>
-            <p class="stat"><strong>Grátis</strong> e sem cadastro. A localização não sai do aparelho.</p>
-          </div>
-          <img class="flat phone-shot" src="imagens/tela-moradores.jpg" width="780" height="1688" loading="lazy" alt="Tela da página para moradores no celular: mapa com a área destacada e a mensagem Achei! Pavuna, a 150 metros a leste." />
-        </section>
+          <a class="btn btn--pequeno" id="sala-link" href="#calor"></a>
+          <button type="button" class="sala-legenda__voltar" id="sala-voltar">
+            Voltar para a sala
+          </button>
+        </aside>
       </div>
+      <!-- ============================ CAPÍTULOS ============================ -->
+      <!-- A sala 3D fica só na abertura. Daqui em diante, cada capítulo tem texto de um lado e mapa do outro. -->
 
-      <!-- ============================ BAIRRO ============================ -->
-      <section class="probe" data-section="probe" id="bairro" aria-labelledby="bairro-titulo">
-        <div class="probe-head">
+      <section
+        class="capitulo"
+        data-section="calor"
+        id="calor"
+        aria-labelledby="calor-titulo"
+      >
+        <div class="capitulo__texto">
+          <h2 id="calor-titulo">O calor,<br />visto de cima</h2>
+          <p>
+            Treze imagens de satélite, de duas épocas quentes, mostram onde a
+            cidade mais esquenta. Elas medem o calor da superfície, como chão e
+            telhados, por volta das 10h. Não é a temperatura do ar.
+          </p>
+          <p class="capitulo__numero">
+            <strong>+6,8 °C</strong> Na área mais urgente da cidade, em Cosmos,
+            a superfície fica isso mais quente do que no lugar típico do Rio.
+          </p>
+        </div>
+        <img
+          class="capitulo__mapa"
+          src="imagens/calor.png"
+          width="1800"
+          height="950"
+          decoding="async"
+          alt="Mapa do Rio de Janeiro com a temperatura da superfície: a Zona Norte e a Zona Oeste aparecem em laranja e vermelho."
+        />
+      </section>
+
+      <section
+        class="capitulo capitulo--invertido"
+        data-section="sombra"
+        id="sombra"
+        aria-labelledby="sombra-titulo"
+      >
+        <div class="capitulo__texto">
+          <h2 id="sombra-titulo">Onde falta<br />sombra</h2>
+          <p>
+            Um mapa mostra as árvores com 3 metros ou mais. Falta sombra
+            justamente onde a superfície esquenta mais.
+          </p>
+          <p class="capitulo__numero">
+            <strong>4,7%</strong> do chão fica sob árvores nas 473 áreas que
+            seguem no topo da lista. Em todas as áreas avaliadas, são 12,5%.
+          </p>
+        </div>
+        <img
+          class="capitulo__mapa"
+          src="imagens/copa.png"
+          width="1800"
+          height="950"
+          decoding="async"
+          alt="Mapa das árvores do Rio: os maciços da Tijuca, da Pedra Branca e do Mendanha em verde intenso, e a área urbana quase sem cor."
+        />
+      </section>
+
+      <section
+        class="capitulo"
+        data-section="nota"
+        id="nota"
+        aria-labelledby="nota-titulo"
+      >
+        <div class="capitulo__texto">
+          <h2 id="nota-titulo">Uma nota<br />por área</h2>
+          <p>
+            Cada pedaço da cidade, do tamanho de uns 14 campos de futebol,
+            recebe uma nota de 0 a 100. A conta soma calor, falta de árvores,
+            gente morando perto, construções, espaço para plantar e terreno.
+          </p>
+          <p class="capitulo__numero">
+            <strong>7.225</strong> áreas com nota. Testamos 2.000 formas de
+            fazer a conta: 473 áreas ficaram entre as 10% mais urgentes em pelo
+            menos 80% das vezes.
+          </p>
+        </div>
+        <img
+          class="capitulo__mapa"
+          src="imagens/prioridade.png"
+          width="1800"
+          height="953"
+          decoding="async"
+          alt="Mapa do Rio dividido em hexágonos coloridos pela nota, do verde-escuro ao vermelho."
+        />
+      </section>
+
+      <section
+        class="capitulo capitulo--invertido"
+        data-section="calcada"
+        id="calcada"
+        aria-labelledby="calcada-titulo"
+      >
+        <div class="capitulo__texto">
+          <h2 id="calcada-titulo">Do mapa<br />até a calçada</h2>
+          <p>
+            Você libera a localização e vê o lugar mais próximo que precisa de
+            árvore, com a muda indicada, a melhor época e o pedido pronto para o
+            1746.
+          </p>
+          <p class="capitulo__numero">
+            <strong>Grátis</strong> e sem cadastro. A localização não sai do
+            aparelho.
+          </p>
+        </div>
+        <img
+          class="capitulo__mapa capitulo__mapa--celular"
+          src="imagens/tela-moradores.jpg"
+          width="780"
+          height="1688"
+          decoding="async"
+          alt="Tela da página para moradores no celular: mapa com a área destacada e a mensagem Achei! Pavuna, a 150 metros a leste."
+        />
+      </section>
+
+      <!-- ============================ SEU BAIRRO ============================ -->
+      <section
+        class="bairro"
+        data-section="bairro"
+        id="bairro"
+        aria-labelledby="bairro-titulo"
+      >
+        <div class="bairro__intro">
           <h2 id="bairro-titulo">E o seu bairro?</h2>
           <p>Escolha um bairro e veja o que os dados mostram hoje.</p>
           <label for="bairro-select">Escolha o bairro</label>
-          <select id="bairro-select"><option>Cosmos</option></select>
-          <p class="aviso" id="r-aviso" aria-live="polite"></p>
+          <select id="bairro-select">
+            <option>Cosmos</option>
+          </select>
+          <p class="bairro__aviso" id="r-aviso" aria-live="polite"></p>
         </div>
-        <dl class="readout" id="readout" aria-live="polite">
-          <div class="big"><dt id="r-total">Carregando os dados</dt><dd id="r-alta">–</dd></div>
-          <div><dt>Posição da área mais urgente do bairro na cidade</dt><dd id="r-melhor">–</dd></div>
-          <div><dt>Calor da superfície, comparado ao lugar típico do Rio</dt><dd id="r-calor">–</dd></div>
-          <div><dt>Chão coberto por árvores, no valor típico do bairro</dt><dd id="r-copa">–</dd></div>
+        <dl class="bairro__numeros" id="readout" aria-live="polite">
+          <div class="bairro__item--grande">
+            <dt id="r-total">Carregando os dados</dt>
+            <dd id="r-alta">–</dd>
+          </div>
+          <div>
+            <dt>Posição da área mais urgente do bairro na cidade</dt>
+            <dd id="r-melhor">–</dd>
+          </div>
+          <div>
+            <dt>Calor da superfície, comparado ao lugar típico do Rio</dt>
+            <dd id="r-calor">–</dd>
+          </div>
+          <div>
+            <dt>Chão coberto por árvores, no valor típico do bairro</dt>
+            <dd id="r-copa">–</dd>
+          </div>
         </dl>
       </section>
 
       <!-- ============================ MÉTODO ============================ -->
-      <section class="method" data-section="method" id="metodo" aria-labelledby="metodo-titulo">
+      <section
+        class="metodo"
+        data-section="metodo"
+        id="metodo"
+        aria-labelledby="metodo-titulo"
+      >
         <h2 id="metodo-titulo">A conta é aberta</h2>
-        <p class="method-lead">Cada nota mostra de onde veio. Quanto cada fator vale é uma escolha nossa, e qualquer pessoa pode mudar esses valores e ver a lista se reorganizar.</p>
-        <table>
-          <caption>Quantos pontos cada fator vale na nota e de onde vem o dado</caption>
-          <thead><tr><th scope="col">Fator</th><th scope="col">Pontos</th><th scope="col">Fonte</th><th scope="col">Como sabemos</th></tr></thead>
+        <p class="metodo__lead">
+          Cada nota mostra de onde veio. Quanto cada fator vale é uma escolha
+          nossa, e qualquer pessoa pode mudar esses valores e ver a lista se
+          reorganizar.
+        </p>
+        <table class="metodo__tabela">
+          <caption>
+            Quantos pontos cada fator vale na nota e de onde vem o dado
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Fator</th>
+              <th scope="col">Pontos</th>
+              <th scope="col">Fonte</th>
+              <th scope="col">Como sabemos</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td>Calor da superfície</td><td>30</td><td>Satélites Landsat 8 e 9</td><td>Medido</td></tr>
-            <tr><td>Falta de árvores</td><td>25</td><td>Mapa de árvores da Meta</td><td>Estimado</td></tr>
-            <tr><td>Pessoas morando perto</td><td>20</td><td>IBGE, Censo 2022</td><td>Estimado</td></tr>
-            <tr><td>Área construída</td><td>10</td><td>Mapa ESA WorldCover 2021</td><td>Estimado</td></tr>
-            <tr><td>Espaço para plantar</td><td>10</td><td>WorldCover e OpenStreetMap</td><td>Estimado</td></tr>
-            <tr><td>Terreno plano</td><td>5</td><td>Mapa de relevo Copernicus</td><td>Estimado</td></tr>
+            <tr>
+              <td>Calor da superfície</td>
+              <td>30</td>
+              <td>Satélites Landsat 8 e 9</td>
+              <td>Medido</td>
+            </tr>
+            <tr>
+              <td>Falta de árvores</td>
+              <td>25</td>
+              <td>Mapa de árvores da Meta</td>
+              <td>Estimado</td>
+            </tr>
+            <tr>
+              <td>Pessoas morando perto</td>
+              <td>20</td>
+              <td>IBGE, Censo 2022</td>
+              <td>Estimado</td>
+            </tr>
+            <tr>
+              <td>Área construída</td>
+              <td>10</td>
+              <td>Mapa ESA WorldCover 2021</td>
+              <td>Estimado</td>
+            </tr>
+            <tr>
+              <td>Espaço para plantar</td>
+              <td>10</td>
+              <td>WorldCover e OpenStreetMap</td>
+              <td>Estimado</td>
+            </tr>
+            <tr>
+              <td>Terreno plano</td>
+              <td>5</td>
+              <td>Mapa de relevo Copernicus</td>
+              <td>Estimado</td>
+            </tr>
           </tbody>
         </table>
-        <div class="figure">
-          <p class="number">0,52 °C</p>
-          <p>Lugares com 10 pontos percentuais a mais de árvores costumam ter a superfície 0,52 °C mais fria, com margem de 0,41 a 0,62. Sem descontar construções e relevo, a diferença pareceria de 1,55 °C. Mostramos o número menor. Isso compara lugares como estão hoje e não prova quanto um plantio vai esfriar.</p>
+        <p class="metodo__ia">
+          <strong>E a IA do nome?</strong> Treinamos um modelo para estimar
+          árvores e usamos outro para ler fotos de rua. Nenhum passou em todos
+          os nossos testes, então a nota usa só dados medidos e estimados de
+          fontes públicas. Os dois resultados ficam abertos na área técnica.
+        </p>
+        <div class="metodo__destaque">
+          <p class="metodo__valor">0,52 °C</p>
+          <p>
+            Lugares com 10 pontos percentuais a mais de árvores costumam ter a
+            superfície 0,52 °C mais fria, com margem de 0,41 a 0,62. Sem
+            descontar construções e relevo, a diferença pareceria de 1,55 °C.
+            Mostramos o número menor. Isso compara lugares como estão hoje e não
+            prova quanto um plantio vai esfriar.
+          </p>
         </div>
-        <a class="btn btn--contorno ghost" href="https://arboria-ai.vercel.app/tecnico">Abrir a área técnica</a>
-        <figure class="maps">
-          <img class="m-heat" src="imagens/calor.png" width="1800" height="950" loading="lazy" alt="Mapa da temperatura da superfície no Rio de Janeiro." />
-          <img class="m-canopy" src="imagens/copa.png" width="1800" height="950" loading="lazy" alt="Mapa das árvores no Rio de Janeiro." />
-          <img class="m-score" src="imagens/prioridade.png" width="1800" height="953" loading="lazy" alt="Mapa do Rio dividido em hexágonos coloridos pela nota de prioridade." />
-          <figcaption>Calor da superfície, árvores e nota de prioridade: os três mapas calculados para toda a cidade.</figcaption>
+        <a
+          class="btn btn--invertido"
+          href="https://arboria-ai.vercel.app/tecnico"
+          >Abrir a área técnica</a
+        >
+        <figure class="metodo__mapas">
+          <img
+            class="metodo__mapa--calor"
+            src="imagens/calor.png"
+            width="1800"
+            height="950"
+            loading="lazy"
+            alt="Mapa da temperatura da superfície no Rio de Janeiro."
+          />
+          <img
+            class="metodo__mapa--copa"
+            src="imagens/copa.png"
+            width="1800"
+            height="950"
+            loading="lazy"
+            alt="Mapa das árvores no Rio de Janeiro."
+          />
+          <img
+            class="metodo__mapa--nota"
+            src="imagens/prioridade.png"
+            width="1800"
+            height="953"
+            loading="lazy"
+            alt="Mapa do Rio dividido em hexágonos coloridos pela nota de prioridade."
+          />
+          <figcaption>
+            Calor da superfície, árvores e nota de prioridade: os três mapas
+            calculados para toda a cidade.
+          </figcaption>
         </figure>
       </section>
 
       <!-- ============================ LIMITES ============================ -->
-      <section class="limits" data-section="limits" id="limites" aria-labelledby="limites-titulo">
+      <section
+        class="limites"
+        data-section="limites"
+        id="limites"
+        aria-labelledby="limites-titulo"
+      >
         <h2 id="limites-titulo">O que ela não promete</h2>
-        <ul>
-          <li><strong>Não prevê alagamento nem queda de temperatura.</strong> O simulador compara situações. Não é previsão.</li>
-          <li><strong>A temperatura é a da superfície.</strong> Medida por volta das 10h, não é a do ar nem a sensação térmica.</li>
-          <li><strong>Nota alta não garante que cabe uma árvore.</strong> Cada área tem o tamanho de uns 14 campos de futebol, e só a vistoria confirma o local.</li>
-          <li><strong>Plantar em área pública exige a Prefeitura.</strong> No Rio, a Fundação Parques e Jardins decide local e espécie.</li>
-          <li><strong>Nossa IA ainda não passou em todos os testes.</strong> Ao ler 19 mil fotos de rua, ela ficou abaixo da nossa meta de acerto em calçada e meio-fio. O modelo que estima árvores reprovou em um de três testes. Nenhum dos dois entra na nota.</li>
-          <li><strong>A muda é só uma sugestão.</strong> Segue regras escritas com base na Portaria FPJ 03/2025 e não foi testada na rua.</li>
+        <ul class="limites__lista">
+          <li>
+            <strong>Não prevê alagamento nem queda de temperatura.</strong> O
+            simulador compara situações. Não é previsão.
+          </li>
+          <li>
+            <strong>A temperatura é a da superfície.</strong> Medida por volta
+            das 10h, não é a do ar nem a sensação térmica.
+          </li>
+          <li>
+            <strong>Nota alta não garante que cabe uma árvore.</strong> Cada
+            área tem o tamanho de uns 14 campos de futebol, e só a vistoria
+            confirma o local.
+          </li>
+          <li>
+            <strong>Plantar em área pública exige a Prefeitura.</strong> No Rio,
+            a Fundação Parques e Jardins decide local e espécie.
+          </li>
+          <li>
+            <strong>Nossa IA ainda não passou em todos os testes.</strong> Ao
+            ler 19 mil fotos de rua, ela ficou abaixo da nossa meta de acerto em
+            calçada e meio-fio. O modelo que estima árvores reprovou em um de
+            três testes. Nenhum dos dois entra na nota.
+          </li>
+          <li>
+            <strong>A muda é só uma sugestão.</strong> Segue regras escritas com
+            base na Portaria FPJ 03/2025 e não foi testada na rua.
+          </li>
         </ul>
       </section>
 
       <!-- ============================ ODS ============================ -->
-      <section class="ods" data-section="ods" id="ods" aria-labelledby="ods-titulo">
-        <div class="ods-head">
+      <section
+        class="ods"
+        data-section="ods"
+        id="ods"
+        aria-labelledby="ods-titulo"
+      >
+        <header class="ods__intro">
           <h2 id="ods-titulo">Metas da ONU que guiam o projeto</h2>
-          <p>A ArborIA se conecta a três Objetivos de Desenvolvimento Sustentável (ODS) da Agenda 2030.</p>
-        </div>
-        <ol class="ods-lista">
+          <p>
+            A ArborIA se conecta a três Objetivos de Desenvolvimento Sustentável
+            (ODS) da Agenda 2030.
+          </p>
+        </header>
+        <ol class="ods__lista">
           <li>
-            <p class="ods-numero" aria-hidden="true">11</p>
+            <p class="ods__numero" aria-hidden="true">11</p>
             <div>
               <h3>ODS 11: Cidades e comunidades sustentáveis</h3>
-              <p>Mostra onde faltam árvores e ajuda a decidir onde plantar primeiro, com a conta aberta para qualquer morador conferir.</p>
-              <p class="ods-meta">Metas 11.3, planejamento urbano participativo, e 11.7, acesso a espaços públicos verdes.</p>
+              <p>
+                Mostra onde faltam árvores e ajuda a decidir onde plantar
+                primeiro, com a conta aberta para qualquer morador conferir.
+              </p>
+              <p class="ods__meta">
+                Metas 11.3, planejamento urbano participativo, e 11.7, acesso a
+                espaços públicos verdes.
+              </p>
             </div>
           </li>
           <li>
-            <p class="ods-numero" aria-hidden="true">13</p>
+            <p class="ods__numero" aria-hidden="true">13</p>
             <div>
               <h3>ODS 13: Ação contra a mudança global do clima</h3>
-              <p>Aponta os lugares que mais esquentam, para prepará-los para um clima mais quente, e explica o problema em linguagem simples.</p>
-              <p class="ods-meta">Metas 13.1, adaptação a riscos do clima, e 13.3, conscientização sobre o clima.</p>
+              <p>
+                Aponta os lugares que mais esquentam, para prepará-los para um
+                clima mais quente, e explica o problema em linguagem simples.
+              </p>
+              <p class="ods__meta">
+                Metas 13.1, adaptação a riscos do clima, e 13.3, conscientização
+                sobre o clima.
+              </p>
             </div>
           </li>
           <li>
-            <p class="ods-numero" aria-hidden="true">3</p>
+            <p class="ods__numero" aria-hidden="true">3</p>
             <div>
               <h3>ODS 3: Saúde e bem-estar</h3>
-              <p>Calor forte é um risco à saúde. Por isso a nota dá mais pontos aos lugares onde muita gente mora, para a sombra chegar antes a quem está mais exposto.</p>
-              <p class="ods-meta">Meta 3.d, redução e gerenciamento de riscos à saúde.</p>
+              <p>
+                Calor forte é um risco à saúde. Por isso a nota dá mais pontos
+                aos lugares onde muita gente mora, para a sombra chegar antes a
+                quem está mais exposto.
+              </p>
+              <p class="ods__meta">
+                Meta 3.d, redução e gerenciamento de riscos à saúde.
+              </p>
             </div>
           </li>
         </ol>
-        <p class="ods-nota">Essa é a contribuição que o projeto propõe para o planejamento da cidade. Ainda não medimos o efeito dele sobre essas metas.</p>
+        <p class="ods__nota">
+          Essa é a contribuição que o projeto propõe para o planejamento da
+          cidade. Ainda não medimos o efeito dele sobre essas metas.
+        </p>
       </section>
 
       <!-- ============================ PORTAS ============================ -->
-      <section class="doors" data-section="doors" aria-labelledby="doors-titulo">
-        <h2 id="doors-titulo">Escolha sua porta</h2>
-        <a class="door resident" href="https://arboria-ai.vercel.app/plantar">
-          <img src="imagens/tela-moradores.jpg" width="780" height="1688" loading="lazy" alt="" />
-          <span class="door-title">Moro no Rio</span>
-          <span>Quero saber onde plantar perto de casa.</span>
-        </a>
-        <a class="door technical" href="https://arboria-ai.vercel.app/tecnico">
-          <img src="imagens/tela-tecnica.jpg" width="1440" height="950" loading="lazy" alt="" />
-          <span class="door-title">Trabalho com o tema</span>
-          <span>Quero ver os mapas, os pontos de cada fator e o método.</span>
-        </a>
+      <section
+        class="portas"
+        data-section="portas"
+        aria-labelledby="portas-titulo"
+      >
+        <h2 id="portas-titulo">Escolha sua porta</h2>
+        <ul class="portas__lista">
+          <li>
+            <a
+              class="porta porta--morador"
+              href="https://arboria-ai.vercel.app/plantar"
+              ><img
+                src="imagens/tela-moradores.jpg"
+                width="780"
+                height="1688"
+                loading="lazy"
+                alt=""
+              /><span class="porta__titulo">Moro no Rio</span
+              ><span>Quero saber onde plantar perto de casa.</span></a
+            >
+          </li>
+          <li>
+            <a
+              class="porta porta--tecnico"
+              href="https://arboria-ai.vercel.app/tecnico"
+              ><img
+                src="imagens/tela-tecnica.jpg"
+                width="1440"
+                height="950"
+                loading="lazy"
+                alt=""
+              /><span class="porta__titulo">Trabalho com o tema</span
+              ><span
+                >Quero ver os mapas, os pontos de cada fator e o método.</span
+              ></a
+            >
+          </li>
+        </ul>
       </section>
     </main>
 
     <!-- ============================ RODAPÉ ============================ -->
     <footer class="rodape">
-      <nav class="footer-links" aria-label="Rodapé">
-        <a href="#bairro">Seu bairro</a>
-        <a href="#metodo">O método</a>
-        <a href="#limites">Os limites</a>
-        <a href="#ods">ODS</a>
-        <a href="https://arboria-ai.vercel.app/plantar">Plantar perto de mim</a>
-        <a href="https://arboria-ai.vercel.app/tecnico">Área técnica</a>
-      </nav>
-      <p class="credits">Projeto acadêmico da FIAP, Engenharia de Software, 2026. Dados: Landsat 8 e 9, Sentinel-2, Meta, ESA WorldCover, Copernicus, IBGE, OpenStreetMap, Mapillary e Prefeitura do Rio. Fotos na sala: pitangueira, de Mauroguanandi, domínio público; sibipiruna, de mauroguanandi, CC BY 2.0, via Wikimedia Commons. Fotos da abertura: <a href="https://commons.wikimedia.org/wiki/File:Uma_pequena_vista_natural_do_Corcovado_!.JPG">Uma pequena vista natural do Corcovado</a>, de MustafaIWP, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.pt-br">CC BY-SA 3.0</a>, recortada; <a href="https://commons.wikimedia.org/wiki/File:Rio_by_night-Christ,_the_Redeemer_over_the_clouds_(9069137249).jpg">Rio by night: Christ, the Redeemer over the clouds</a>, de Edmir Silvestre, <a href="https://creativecommons.org/licenses/by/2.0/deed.pt-br">CC BY 2.0</a>, recortada e clareada; ambas via Wikimedia Commons.</p>
-      <p class="wordmark" aria-hidden="true">ArborIA</p>
+      <!-- Rodapé em três colunas: links à esquerda, o nome ArborIA no centro, cortado pela borda de baixo,
+           e atalhos à direita. Tudo sobe e aparece conforme a rolagem (iniciarRodape, em main.js). -->
+      <div class="rodape__conteudo">
+        <!-- Foto do Cristo de dia, atrás do rodapé. -->
+        <div class="rodape__foto">
+          <picture>
+            <source
+              media="(max-width: 860px)"
+              srcset="imagens/cristo-celular.jpg"
+              width="900"
+              height="1451"
+            />
+            <img
+              src="imagens/cristo.jpg"
+              width="2000"
+              height="1125"
+              alt=""
+              loading="lazy"
+            />
+          </picture>
+        </div>
+        <p class="rodape__creditos">
+          Projeto acadêmico da FIAP, Engenharia de Software, 2026. Dados:
+          Landsat 8 e 9, Sentinel-2, Meta, ESA WorldCover, Copernicus, IBGE,
+          OpenStreetMap, Mapillary e Prefeitura do Rio. Fotos na sala:
+          pitangueira, de Mauroguanandi, domínio público; sibipiruna, de
+          mauroguanandi, CC BY 2.0, via Wikimedia Commons. Foto da abertura e do
+          rodapé:
+          <a
+            href="https://commons.wikimedia.org/wiki/File:Uma_pequena_vista_natural_do_Corcovado_!.JPG"
+            >Uma pequena vista natural do Corcovado</a
+          >, de MustafaIWP,
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.pt-br"
+            >CC BY-SA 3.0</a
+          >, recortada, via Wikimedia Commons.
+        </p>
+        <div class="rodape__faixa">
+          <nav class="rodape__links" aria-label="Rodapé">
+            <ul>
+              <li><a href="#bairro">Seu bairro</a></li>
+              <li><a href="#metodo">O método</a></li>
+              <li><a href="#limites">Os limites</a></li>
+              <li><a href="#ods">ODS</a></li>
+            </ul>
+          </nav>
+          <p class="rodape__marca" aria-hidden="true"><span>ArborIA</span></p>
+          <div class="rodape__links rodape__links--direita">
+            <ul>
+              <li>
+                <a href="https://arboria-ai.vercel.app/plantar"
+                  >Plantar perto de mim</a
+                >
+              </li>
+              <li>
+                <a href="https://arboria-ai.vercel.app/tecnico">Área técnica</a>
+              </li>
+            </ul>
+            <p>FIAP, Engenharia de Software, 2026</p>
+          </div>
+        </div>
+      </div>
     </footer>
+
+    <!-- ========================== ASSISTENTE IA ========================== -->
+    <!-- Assistente IA: o botão do canto esquerdo abre a conversa (iniciarAssistente, em main.js).
+         As respostas vêm de api/assistente.ts, no servidor. No zip, que não tem servidor, as perguntas vão para o site publicado. -->
+    <button
+      type="button"
+      class="assistente-botao"
+      id="assistente-abrir"
+      aria-expanded="false"
+      aria-controls="assistente"
+      hidden
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12Z" />
+        <path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="2.6" />
+      </svg>
+      <span>Assistente IA</span>
+    </button>
+    <section
+      class="assistente"
+      id="assistente"
+      role="dialog"
+      aria-labelledby="assistente-titulo"
+      hidden
+    >
+      <header class="assistente__topo">
+        <div>
+          <p class="assistente__titulo" id="assistente-titulo">Assistente IA</p>
+          <p class="assistente__sub">
+            Calor, árvores e bairros do Rio, com os dados da ArborIA
+          </p>
+        </div>
+        <button
+          type="button"
+          class="assistente__fechar"
+          id="assistente-fechar"
+          aria-label="Fechar o assistente"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </header>
+      <p class="assistente__aviso">
+        <strong>Em teste:</strong> o assistente pode errar. Confira os números
+        nas páginas do site.
+      </p>
+      <div
+        class="assistente__conversa"
+        id="assistente-conversa"
+        aria-live="polite"
+      >
+        <p class="assistente__msg assistente__msg--ia">Oi! Sou a IA da ArborIA, desenvolvida pelos alunos Anauã Vieitas (RM 576103), Bruno Smoktunowicz (RM 574739) e Caio Machado (RM 575113), do 1º ano de Engenharia de Software da FIAP, para o projeto ArborIA, da Global Solution 2026.2. Pergunte sobre o calor do seu bairro, por que uma área tem nota alta ou como pedir uma árvore.
+        </p>
+        <ul class="assistente__sugestoes" id="assistente-sugestoes">
+          <li><button type="button">Como está o calor em Bangu?</button></li>
+          <li>
+            <button type="button">Por que Cosmos é a área mais urgente?</button>
+          </li>
+          <li>
+            <button type="button">Como peço uma árvore na minha rua?</button>
+          </li>
+        </ul>
+      </div>
+      <form class="assistente__form" id="assistente-form">
+        <label class="visually-hidden" for="assistente-texto"
+          >Sua pergunta</label
+        >
+        <input
+          id="assistente-texto"
+          type="text"
+          maxlength="600"
+          autocomplete="off"
+          placeholder="Ex.: quantas árvores tem na Tijuca?"
+        />
+        <button type="submit" aria-label="Enviar pergunta">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </button>
+      </form>
+      <p class="assistente__rodape">
+        Respostas geradas por IA a partir dos dados do projeto. Não escreva
+        endereço nem dados pessoais.
+      </p>
+    </section>
   </body>
 </html>

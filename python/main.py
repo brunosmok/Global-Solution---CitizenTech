@@ -1,33 +1,37 @@
-# ==========================================
-# SISTEMA ARBORIA INTEGRADO (PRÉ E PÓS-PLANTIO)
-# ==========================================
+# ============================================================
+#  GS CitizenTech · Computational Thinking with Python
+#  Atividade: O Cérebro da CitizenTech
+#
+#  Equipe: [Nome 1 - RM], [Nome 2 - RM], [Nome 3 - RM]
+#  CitizenTech: ArborIA · Guardião da Muda
+#  Problema, em uma frase: Falta de planejamento e de acompanhamento do plantio de árvores em áreas urbanas e domésticas do Rio de Janeiro.
+# ============================================================
+#
+#  COMO USAR ESTE MODELO
+#  1. Este arquivo JÁ RODA. Rode antes de mudar qualquer coisa.
+#  2. Procure as marcações "TODO" e troque pelo problema da equipe.
+#  3. Rode de novo a cada mudança. Simples primeiro, depois incrementem.
+#
+#  Partes do programa:
+#    PARTE 1 - Dados       (lista com 10+ registros)
+#    PARTE 2 - Faixas      (os mesmos limites do circuito de Edge)
+#    PARTE 3 - Menu        (loop que só termina no Sair)
+#    PARTE 4 - Opções      (classificar, resumir, avisar)
+# ============================================================
 
-# ---------------------------------------------------------
-# CONSTANTES E DADOS: PRÉ-PLANTIO
-# ---------------------------------------------------------
+
+# ------------------------------------------------------------
+# PARTE 1 - DADOS
+# Módulo Pré-plantio: nome do programa, época de plantio e histórico
+# de áreas planejadas. Módulo Pós-plantio: leituras do sensor
+# (ESP32), linha de base do dia do plantio e dados dos bairros.
+# Fonte dos dados: simulados pela equipe.
+# ------------------------------------------------------------
+
 NOME_PROGRAMA_PRE = 'Menu de Arborização - Planejamento ArborIA'
-ESPACAMENTO_PEQUENO = 4.0
-ESPACAMENTO_MEDIO = 7.0
-ESPACAMENTO_GRANDE = 10.0
-LIMITE_ALERTA_AREA = 10000
-LARGURA_MINIMA_CM = 150
-LARGURA_MEDIO_CM = 250
-LARGURA_GRANDE_CM = 400
 EPOCA_PLANTIO = 'outubro a dezembro (início das chuvas); até março, com rega frequente'
 
 areas = [] # Guarda o histórico de áreas planejadas
-
-# ---------------------------------------------------------
-# CONSTANTES E DADOS: PÓS-PLANTIO (ESP32)
-# ---------------------------------------------------------
-LIMITE_UMIDO = 60           
-LIMITE_SECO = 30            
-LIMITE_SECO_COM_CALOR = 40  
-LIMITE_CALOR = 36.0         
-LIMITE_SOL = 90             
-TEMPERATURA_MINIMA = -10.0
-TEMPERATURA_MAXIMA = 60.0
-MAX_TENTATIVAS = 2          
 
 leituras = [
     {"hora": 7, "temperatura": 27.5, "solo": 68, "luz": 60, "ar": 38, "tentativas": 0},
@@ -52,13 +56,34 @@ bairros = [
     {"nome": "Tijuca", "areas": 55, "alta": 2},
 ]
 
-# =========================================================
-# FUNÇÕES DO MÓDULO PRÉ-PLANTIO
-# =========================================================
-def mostrar_menu_pre():
-    print('\nOpção: [1] Novo plantio   [2] Consultar espaçamento   '
-          '[3] Ver resumo   [4] Voltar ao Menu Principal')
 
+# ------------------------------------------------------------
+# PARTE 2 - FAIXAS DE DECISÃO
+# Limites e regras de classificação. Os limites do Pós-plantio são
+# os mesmos da lógica embarcada no ESP32 (circuito de Edge).
+# Os textos dos avisos são os mesmos que aparecem na página.
+# ------------------------------------------------------------
+
+# --- Pré-plantio: espaçamento, largura do espaço e área ---
+ESPACAMENTO_PEQUENO = 4.0
+ESPACAMENTO_MEDIO = 7.0
+ESPACAMENTO_GRANDE = 10.0
+LIMITE_ALERTA_AREA = 10000
+LARGURA_MINIMA_CM = 150
+LARGURA_MEDIO_CM = 250
+LARGURA_GRANDE_CM = 400
+
+# --- Pós-plantio: limites dos sensores do ESP32 ---
+LIMITE_UMIDO = 60           
+LIMITE_SECO = 30            
+LIMITE_SECO_COM_CALOR = 40  
+LIMITE_CALOR = 36.0         
+LIMITE_SOL = 90             
+TEMPERATURA_MINIMA = -10.0
+TEMPERATURA_MAXIMA = 60.0
+MAX_TENTATIVAS = 2          
+
+# --- Pré-plantio: regras e textos por porte e por área ---
 def buscar_espacamento(codigo):
     match codigo:
         case '1': return ESPACAMENTO_PEQUENO
@@ -78,25 +103,11 @@ def buscar_dica_porte(codigo):
         case '2': return 'Sombra contínua e espaço para as raízes captarem água.'
         case _: return 'Máxima sombra e filtragem do ar; raízes fundas melhoram o solo.'
 
-def ler_inteiro(mensagem, minimo, maximo):
-    while True:
-        tentativa = input(f'{mensagem} ({minimo} a {maximo}): ').strip()
-        if tentativa.isdecimal():
-            valor = int(tentativa)
-            if minimo <= valor <= maximo:
-                return valor
-            print(f'Valor fora da faixa ({minimo} a {maximo}).')
-        else:
-            print('Isso não é um número.')
-
 def indicar_porte(largura_cm):
     if largura_cm < LARGURA_MINIMA_CM: return '0'
     elif largura_cm < LARGURA_MEDIO_CM: return '1'
     elif largura_cm < LARGURA_GRANDE_CM: return '2'
     else: return '3'
-
-def calcular_area(quantidade_mudas, espacamento):
-    return quantidade_mudas * espacamento ** 2
 
 def classificar_faixa(area):
     if area <= 500: return 'Plantio doméstico (quintal, praça pequena)'
@@ -107,34 +118,48 @@ def classificar_faixa(area):
 def esta_em_alerta(area):
     return area > LIMITE_ALERTA_AREA
 
-def mostrar_espacamentos():
-    print(f'Pequeno: {ESPACAMENTO_PEQUENO:.1f} m  (espaço livre de {LARGURA_MINIMA_CM} a {LARGURA_MEDIO_CM - 1} cm)')
-    print(f'Médio: {ESPACAMENTO_MEDIO:.1f} m  (espaço livre de {LARGURA_MEDIO_CM} a {LARGURA_GRANDE_CM - 1} cm)')
-    print(f'Grande: {ESPACAMENTO_GRANDE:.1f} m  (espaço livre a partir de {LARGURA_GRANDE_CM} cm)')
-    print('Muito junto: as árvores competem por luz e água.')
-    print('Muito longe: perde-se sombra e proteção do solo.')
-    print(f'Melhor época de plantio: {EPOCA_PLANTIO}.')
+# --- Pós-plantio: estados da muda e avisos ---
+def classificar(leitura):
+    if not (TEMPERATURA_MINIMA <= leitura["temperatura"] <= TEMPERATURA_MAXIMA):
+        return "ERRO"
 
-def mostrar_resumo_pre(areas_registradas):
-    if len(areas_registradas) == 0:
-        print('Nenhum plantio registrado ainda.')
+    limite_seco = LIMITE_SECO_COM_CALOR if leitura["temperatura"] >= LIMITE_CALOR else LIMITE_SECO
+    tentativas = leitura.get("tentativas", 0)
+
+    if leitura["solo"] >= LIMITE_UMIDO: return "SOLO OK"
+    elif leitura["solo"] >= limite_seco: return "ATENÇÃO"
+    elif tentativas >= MAX_TENTATIVAS: return "ALERTA"
+    elif leitura["luz"] >= LIMITE_SOL: return "AGUARDANDO"
+    else: return "REGANDO"
+
+def aviso_da_muda(estado):
+    match estado:
+        case "SOLO OK": return "Muda bem cuidada."
+        case "ATENÇÃO": return "Solo secando. Fique de olho."
+        case "REGANDO": return "Regando a muda (Válvula acionada)."
+        case "AGUARDANDO": return "Esperando o sol baixar para regar (Evitando evaporação)."
+        case "ALERTA": return "Sem água? Peça ajuda! (Arduino tentou regar mas o solo continua seco)."
+        case "ERRO": return "Verificar sensor! (Leitura de temperatura inválida)."
+        case _: return "Estado desconhecido."
+
+def aviso_do_bairro(alta, total_areas):
+    if alta == 0:
+        return "Nenhuma área deste bairro tem nota alta hoje."
+    elif alta / total_areas >= 0.5:
+        return "Mais da metade das áreas deste bairro tem nota alta. Aqui, uma árvore nova faz muita diferença."
     else:
-        soma = 0.00
-        maior = areas_registradas[0]
-        alertas = 0
+        return "Parte deste bairro tem nota alta. Vale ver qual é o ponto mais perto de você."
 
-        for numero, area in enumerate(areas_registradas, start=1):
-            print(f'  {numero}. {area:.0f} m² - {classificar_faixa(area)}')
-            soma += area
-            if area > maior: maior = area
-            if esta_em_alerta(area): alertas += 1
 
-        media = soma / len(areas_registradas)
-        percentual = (alertas / len(areas_registradas)) * 100
-        print(f'Plantios registrados: {len(areas_registradas)}')
-        print(f'Área média: {media:.1f} m²')
-        print(f'Maior área: {maior:.1f} m²')
-        print(f'Plantios em alerta: {percentual:.1f}%')
+# ------------------------------------------------------------
+# PARTE 3 - MENU
+# Menu principal e submenus de cada módulo. Cada menu repete até o
+# usuário escolher voltar/sair. Entrada inválida NUNCA derruba o programa.
+# ------------------------------------------------------------
+
+def mostrar_menu_pre():
+    print('\nOpção: [1] Novo plantio   [2] Consultar espaçamento   '
+          '[3] Ver resumo   [4] Voltar ao Menu Principal')
 
 def executar_pre():
     print(f'\n=== {NOME_PROGRAMA_PRE} ===')
@@ -181,45 +206,109 @@ def executar_pre():
             case _:
                 print('Opção inválida.')
 
-# =========================================================
-# FUNÇÕES DO MÓDULO PÓS-PLANTIO
-# =========================================================
+def executar_pos():
+    print("\n=== ArborIA: Dashboard de Monitoramento Pós-Plantio ===")
+    print("Conectado à lógica do Guardião da Muda (ESP32).")
+
+    while True:
+        print("\n1 - Ver leituras diárias do sensor")
+        print("2 - Ver resumo e avisos da planta")
+        print("3 - Comparar com a Linha de Base (Botão Físico)")
+        print("4 - Consultar áreas de plantio (Bairros)")
+        print("5 - Inserir leitura manual do ESP32")
+        print("0 - Voltar ao Menu Principal")
+
+        opcao = ler_texto("> ")
+
+        match opcao:
+            case "0" | None:
+                print("Saindo do Painel de Controle...")
+                break
+            case "1": mostrar_leituras()
+            case "2": mostrar_resumo_pos()
+            case "3": comparar_com_base()
+            case "4": consultar_bairro()
+            case "5": registrar_leitura()
+            case _: print("Opção inválida.")
+
+def main():
+    while True:
+        print("\n===========================================")
+        print("           SISTEMA ARBORIA 1.0             ")
+        print("===========================================")
+        print("Escolha o módulo que deseja iniciar:")
+        print("[1] Planejamento Pré-Plantio (Cálculo de Espaço e Mudas)")
+        print("[2] Dashboard Pós-Plantio (Monitoramento do Sensor Arduino)")
+        print("[0] Encerrar o Sistema")
+        print("===========================================")
+        
+        escolha = input("> ").strip()
+        
+        match escolha:
+            case '1':
+                executar_pre()
+            case '2':
+                executar_pos()
+            case '0':
+                print("\nPrograma encerrado. Cuidar da natureza é cuidar do nosso futuro! ArborIA ˙ᵕ˙")
+                break
+            case _:
+                print("Opção inválida. Digite 1, 2 ou 0.")
+
+
+# ------------------------------------------------------------
+# PARTE 4 - OPÇÕES
+# Leitura de entradas, cálculos, resumos e exibição de cada opção.
+# ------------------------------------------------------------
+
+def ler_inteiro(mensagem, minimo, maximo):
+    while True:
+        tentativa = input(f'{mensagem} ({minimo} a {maximo}): ').strip()
+        if tentativa.isdecimal():
+            valor = int(tentativa)
+            if minimo <= valor <= maximo:
+                return valor
+            print(f'Valor fora da faixa ({minimo} a {maximo}).')
+        else:
+            print('Isso não é um número.')
+
+def calcular_area(quantidade_mudas, espacamento):
+    return quantidade_mudas * espacamento ** 2
+
+def mostrar_espacamentos():
+    print(f'Pequeno: {ESPACAMENTO_PEQUENO:.1f} m  (espaço livre de {LARGURA_MINIMA_CM} a {LARGURA_MEDIO_CM - 1} cm)')
+    print(f'Médio: {ESPACAMENTO_MEDIO:.1f} m  (espaço livre de {LARGURA_MEDIO_CM} a {LARGURA_GRANDE_CM - 1} cm)')
+    print(f'Grande: {ESPACAMENTO_GRANDE:.1f} m  (espaço livre a partir de {LARGURA_GRANDE_CM} cm)')
+    print('Muito junto: as árvores competem por luz e água.')
+    print('Muito longe: perde-se sombra e proteção do solo.')
+    print(f'Melhor época de plantio: {EPOCA_PLANTIO}.')
+
+def mostrar_resumo_pre(areas_registradas):
+    if len(areas_registradas) == 0:
+        print('Nenhum plantio registrado ainda.')
+    else:
+        soma = 0.00
+        maior = areas_registradas[0]
+        alertas = 0
+
+        for numero, area in enumerate(areas_registradas, start=1):
+            print(f'  {numero}. {area:.0f} m² - {classificar_faixa(area)}')
+            soma += area
+            if area > maior: maior = area
+            if esta_em_alerta(area): alertas += 1
+
+        media = soma / len(areas_registradas)
+        percentual = (alertas / len(areas_registradas)) * 100
+        print(f'Plantios registrados: {len(areas_registradas)}')
+        print(f'Área média: {media:.1f} m²')
+        print(f'Maior área: {maior:.1f} m²')
+        print(f'Plantios em alerta: {percentual:.1f}%')
+
 def formatar(valor):
     return f"{valor:.1f}".replace(".", ",")
 
 def formatar_diferenca(valor):
     return f"{valor:+.1f}".replace(".", ",")
-
-def classificar(leitura):
-    if not (TEMPERATURA_MINIMA <= leitura["temperatura"] <= TEMPERATURA_MAXIMA):
-        return "ERRO"
-
-    limite_seco = LIMITE_SECO_COM_CALOR if leitura["temperatura"] >= LIMITE_CALOR else LIMITE_SECO
-    tentativas = leitura.get("tentativas", 0)
-
-    if leitura["solo"] >= LIMITE_UMIDO: return "SOLO OK"
-    elif leitura["solo"] >= limite_seco: return "ATENÇÃO"
-    elif tentativas >= MAX_TENTATIVAS: return "ALERTA"
-    elif leitura["luz"] >= LIMITE_SOL: return "AGUARDANDO"
-    else: return "REGANDO"
-
-def aviso_da_muda(estado):
-    match estado:
-        case "SOLO OK": return "Muda bem cuidada."
-        case "ATENÇÃO": return "Solo secando. Fique de olho."
-        case "REGANDO": return "Regando a muda (Válvula acionada)."
-        case "AGUARDANDO": return "Esperando o sol baixar para regar (Evitando evaporação)."
-        case "ALERTA": return "Sem água? Peça ajuda! (Arduino tentou regar mas o solo continua seco)."
-        case "ERRO": return "Verificar sensor! (Leitura de temperatura inválida)."
-        case _: return "Estado desconhecido."
-
-def aviso_do_bairro(alta, total_areas):
-    if alta == 0:
-        return "Nenhuma área deste bairro tem nota alta hoje."
-    elif alta / total_areas >= 0.5:
-        return "Mais da metade das áreas deste bairro tem nota alta. Aqui, uma árvore nova faz muita diferença."
-    else:
-        return "Parte deste bairro tem nota alta. Vale ver qual é o ponto mais perto de você."
 
 def calcular_resumo(lista):
     soma_temperatura = 0
@@ -335,57 +424,8 @@ def registrar_leitura():
     print(f"\nLeitura recebida do ESP32. Estado identificado: {estado}.")
     print(f"MENSAGEM DO LCD: {aviso_da_muda(estado)}")
 
-def executar_pos():
-    print("\n=== ArborIA: Dashboard de Monitoramento Pós-Plantio ===")
-    print("Conectado à lógica do Guardião da Muda (ESP32).")
-
-    while True:
-        print("\n1 - Ver leituras diárias do sensor")
-        print("2 - Ver resumo e avisos da planta")
-        print("3 - Comparar com a Linha de Base (Botão Físico)")
-        print("4 - Consultar áreas de plantio (Bairros)")
-        print("5 - Inserir leitura manual do ESP32")
-        print("0 - Voltar ao Menu Principal")
-
-        opcao = ler_texto("> ")
-
-        match opcao:
-            case "0" | None:
-                print("Saindo do Painel de Controle...")
-                break
-            case "1": mostrar_leituras()
-            case "2": mostrar_resumo_pos()
-            case "3": comparar_com_base()
-            case "4": consultar_bairro()
-            case "5": registrar_leitura()
-            case _: print("Opção inválida.")
-
-# =========================================================
-# MENU PRINCIPAL (ROTEADOR DE MÓDULOS)
-# =========================================================
-def main():
-    while True:
-        print("\n===========================================")
-        print("           SISTEMA ARBORIA 1.0             ")
-        print("===========================================")
-        print("Escolha o módulo que deseja iniciar:")
-        print("[1] Planejamento Pré-Plantio (Cálculo de Espaço e Mudas)")
-        print("[2] Dashboard Pós-Plantio (Monitoramento do Sensor Arduino)")
-        print("[0] Encerrar o Sistema")
-        print("===========================================")
-        
-        escolha = input("> ").strip()
-        
-        match escolha:
-            case '1':
-                executar_pre()
-            case '2':
-                executar_pos()
-            case '0':
-                print("\nPrograma encerrado. Cuidar da natureza é cuidar do nosso futuro! ArborIA ˙ᵕ˙")
-                break
-            case _:
-                print("Opção inválida. Digite 1, 2 ou 0.")
-
+# ------------------------------------------------------------
+# PROGRAMA PRINCIPAL
+# ------------------------------------------------------------
 if __name__ == "__main__":
     main()

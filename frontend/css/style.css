@@ -1,0 +1,2232 @@
+/* =========================================================================
+   ArborIA — style.css (página inicial)
+   Global Solution 2026.2 · CitizenTech · FIAP, Engenharia de Software, 1º ano
+   Integrantes: Anauã Vieitas (RM 576103) · Bruno Smoktunowicz (RM 574739) · Caio Machado (RM 575113)
+
+   Organização: primeiro a base; depois um bloco para cada parte da página, na ordem em que elas
+   aparecem; no fim, o tema claro, os ajustes para celular e para movimento reduzido.
+   Não há :root nem variáveis: cada cor e cada tamanho está escrito na regra que usa.
+   O reset de CSS fica no <head> do index.html, igual ao do modelo.
+   Nomes de classe no padrão BEM: bloco, bloco__elemento e bloco--variação.
+   Classes de estado, ligadas e desligadas pelo JavaScript: js, has-room, sem-sala, sala-em-foco,
+   sala-pronta, rolou, atual, aberto e in.
+   Únicas var() que sobraram: --delay, --paralaxe e --entrada. Elas não vêm de um :root, o main.js
+   escreve o valor de cada uma no elemento enquanto a página roda, e o CSS usa com valor de reserva.
+
+   Cores do tema escuro (o padrão), para consulta:
+   fundo #0e1512 · superfície #17211c · texto #eef0e6 · texto apagado #b3bbb0 · destaque #c9dc3c
+   destaque escuro #10160c · destaque ao passar o mouse #dcec58 · tronco da logo #e8a33d · linhas #38453e
+   ========================================================================= */
+
+/*----- Base -----*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: inherit;
+}
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+fieldset {
+  margin: 0;
+}
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+html {
+  background: #0e1512;
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0e1512;
+  color: #eef0e6;
+  font:
+    400 clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem)/1.5 Archivo,
+    system-ui,
+    sans-serif;
+  overflow-x: clip;
+}
+
+img {
+  height: auto;
+}
+
+section[id] {
+  scroll-margin-top: 72px;
+}
+
+h1,
+h2 {
+  font-weight: 800;
+  font-stretch: 62%;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.88;
+}
+
+h1 {
+  font-size: clamp(3.2rem, 8.4vw, 11rem);
+}
+
+h2 {
+  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 6rem);
+}
+
+main > section,
+.rodape {
+  position: relative;
+  z-index: 3;
+  background: #0e1512;
+}
+
+:focus-visible {
+  outline: 3px solid #c9dc3c;
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #c9dc3c;
+  color: #10160c;
+}
+
+/*----- Botões -----*/
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 28px;
+  background: #c9dc3c;
+  color: #10160c;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.btn:hover {
+  background: #dcec58;
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.btn--pequeno {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 0.875rem;
+}
+
+.btn.btn--invertido {
+  background: #eef0e6;
+  color: #0e1512;
+}
+
+.btn.btn--invertido:hover {
+  background: #ffffff;
+}
+
+/*----- Topo -----*/
+
+.topo {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 8px clamp(20px, 3vw, 44px);
+  background: color-mix(in srgb, #0e1512 90%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color 300ms ease,
+    padding 300ms ease;
+  animation: barra-desce 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Depois de rolar, o topo ganha uma linha embaixo. */
+.topo.rolou {
+  border-bottom-color: #38453e;
+}
+
+.topo__acoes {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.topo__plantar {
+  animation: desce-pouco 600ms 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Botão do topo: ao passar o mouse ele escurece um pouco e ganha sombra; ao clicar, encolhe. */
+.topo .btn {
+  transition:
+    opacity 200ms,
+    box-shadow 200ms,
+    transform 150ms;
+}
+
+.topo .btn:hover {
+  background: #c9dc3c;
+  transform: none;
+  opacity: 0.85;
+  box-shadow:
+    -2px 4px 6px rgb(0 0 0 / 0.08),
+    0 4px 20px rgb(0 0 0 / 0.18),
+    -1px 2px 3px rgb(0 0 0 / 0.1);
+}
+
+.topo .btn:active,
+.topo__tema:active,
+.topo__menu:active {
+  transform: scale(0.96);
+}
+
+@keyframes barra-desce {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+/*----- Marca -----*/
+
+.marca {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+
+/* Logo desenhado na página, com a mesma fonte dos títulos: as letras seguem o tema, a árvore cresce ao abrir
+   e balança ao passar o mouse. O contorno (stroke) engrossa a árvore e o tronco para acompanhar o peso das letras. */
+.marca__logo {
+  display: block;
+  max-width: none;
+  overflow: visible;
+}
+
+.marca__texto {
+  fill: #eef0e6;
+}
+
+.marca__arvore {
+  fill: #c9dc3c;
+  stroke: #c9dc3c;
+  stroke-width: 9;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: arvore-cresce 1100ms 350ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.marca__tronco {
+  fill: #e8a33d;
+  stroke: #e8a33d;
+  stroke-width: 5.4;
+}
+
+.marca:hover .marca__arvore {
+  animation:
+    arvore-cresce 1100ms 350ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    arvore-balanca 1000ms ease-in-out;
+}
+
+@keyframes arvore-cresce {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes arvore-balanca {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -9deg;
+  }
+  60% {
+    rotate: 6deg;
+  }
+  85% {
+    rotate: -2deg;
+  }
+}
+
+/*----- Menu -----*/
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+
+.menu__lista {
+  display: flex;
+  gap: 24px;
+}
+
+/* Links do topo: entram um a um. Ao passar o mouse, um traço fino entra pela esquerda; ao sair, ele some pela direita.
+   O link da seção que está na tela fica com o traço. */
+.menu__lista a {
+  position: relative;
+  display: block;
+  padding-block: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  animation: desce-pouco 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.menu__lista li:nth-child(1) a {
+  animation-delay: 220ms;
+}
+
+.menu__lista li:nth-child(2) a {
+  animation-delay: 280ms;
+}
+
+.menu__lista li:nth-child(3) a {
+  animation-delay: 340ms;
+}
+
+.menu__lista li:nth-child(4) a {
+  animation-delay: 400ms;
+}
+
+.menu__lista a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 300ms;
+}
+
+.menu__lista a:hover::after,
+.menu__lista a.atual::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+@keyframes desce-pouco {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* O atalho "Plantar perto de mim" dentro do menu só aparece no celular (ver a seção Celular). */
+.menu__plantar {
+  display: none;
+}
+
+.topo__tema,
+.topo__menu {
+  min-height: 44px;
+  background: none;
+  border: 1px solid #38453e;
+  color: inherit;
+  font:
+    500 0.875rem Archivo,
+    system-ui,
+    sans-serif;
+  transition:
+    background-color 200ms,
+    transform 150ms;
+}
+
+.topo__tema {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  animation: desce-pouco 600ms 460ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Mostra só o ícone do botão de tema que corresponde ao tema atual. */
+html[data-theme="light"] .no-escuro,
+html:not([data-theme="light"]) .no-claro {
+  display: none;
+}
+
+/* Ícone do tema: gira ao trocar de modo e inclina ao passar o mouse. */
+.topo__tema svg {
+  animation: icone-entra 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.topo__tema:hover svg {
+  transform: rotate(30deg) scale(1.12);
+}
+
+.topo__tema:active svg {
+  transform: rotate(30deg) scale(0.9);
+}
+
+@keyframes icone-entra {
+  from {
+    opacity: 0;
+    transform: rotate(-140deg) scale(0.3);
+  }
+}
+
+.topo__tema:hover,
+.topo__menu:hover {
+  background: #17211c;
+}
+
+.topo__menu {
+  display: none;
+  padding: 0 14px;
+}
+
+/*----- Sala 3D -----*/
+
+.sala {
+  position: relative;
+}
+
+.sala__palco {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  overflow: hidden;
+  background: #0d2a2e;
+}
+
+/* A sala 3D aparece aos poucos quando o primeiro quadro fica pronto (classe sala-pronta, posta por sala.ts). */
+.sala__palco canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 1400ms ease;
+}
+
+.sala-pronta .sala__palco canvas {
+  opacity: 1;
+}
+
+/* Véu neutro só sob o texto, sobre a imagem da sala. */
+.sala__veu {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(8 10 6 / 0.86),
+    rgb(8 10 6 / 0.62) 38%,
+    rgb(8 10 6 / 0) 62%
+  ); /* taste-skill-ignore */
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+html:not(.has-room) .sala__palco {
+  display: none;
+}
+
+/* Sala 3D clicável: com um item em destaque (classe sala-em-foco, posta por sala.ts),
+   o texto da abertura e o véu saem da frente, e a legenda do mapa ou da tela aparece. */
+.sala-em-foco .capitulo.abertura .capitulo__texto {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 400ms ease,
+    visibility 0s 400ms;
+}
+
+.sala-em-foco .sala__veu {
+  opacity: 0;
+}
+
+.sala-legenda {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 12px 20px;
+  width: max-content;
+  max-width: calc(100vw - 2 * clamp(20px, 3vw, 44px));
+  padding: 16px 20px;
+  background: color-mix(in srgb, #0e1512 94%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1px solid #38453e;
+  transform: translateX(-50%);
+  animation: sobe-centro 500ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.sala-legenda[hidden] {
+  display: none;
+}
+
+.sala-legenda > div {
+  max-width: 44ch;
+  margin-right: 12px;
+  font-size: 0.875rem;
+}
+
+.sala-legenda__titulo {
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.sala-legenda__lista {
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid #38453e;
+}
+
+.sala-legenda__lista[hidden] {
+  display: none;
+}
+
+.sala-legenda__lista li {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 2px;
+  font-weight: 500;
+}
+
+.sala-legenda__lista span {
+  color: #b3bbb0;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.sala-legenda .btn {
+  flex: none;
+}
+
+.sala-legenda__voltar {
+  flex: none;
+  min-height: 44px;
+  padding: 0 14px;
+  background: none;
+  border: 1px solid #38453e;
+  color: inherit;
+  font:
+    500 0.875rem Archivo,
+    system-ui,
+    sans-serif;
+  transition:
+    background-color 200ms,
+    transform 150ms;
+}
+
+.sala-legenda__voltar:hover {
+  background: #17211c;
+}
+
+.sala-legenda__voltar:active {
+  transform: scale(0.96);
+}
+
+@keyframes sobe-centro {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 32px);
+  }
+}
+
+/*----- Abertura -----*/
+
+/* A sala 3D fica só atrás da abertura. */
+.capitulo.abertura {
+  display: flex;
+  min-height: 120svh;
+  align-items: flex-end;
+  padding-bottom: 28svh;
+}
+
+.abertura .capitulo__texto {
+  max-width: none;
+}
+
+.capitulo.abertura .capitulo__texto {
+  transition:
+    opacity 400ms ease,
+    visibility 0s;
+}
+
+html:not(.has-room) .capitulo.abertura {
+  min-height: 100svh;
+  padding-top: 120px;
+  padding-bottom: 72px;
+}
+
+/* Abertura sem sala 3D: o Cristo de dia aparece entre as árvores, esmaecido na cor do fundo, nos dois temas. */
+.abertura__foto {
+  display: none;
+}
+
+.sem-sala .capitulo.abertura {
+  isolation: isolate;
+}
+
+.sem-sala .abertura__foto {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: #0e1512;
+}
+
+.abertura__foto picture {
+  display: block;
+  height: 100%;
+  transform: translate3d(0, var(--paralaxe, 0px), 0);
+}
+
+.abertura__foto img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 54% 40%;
+  opacity: 0.78;
+  transform: scale(1.06);
+  animation: foto-entra 2600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.abertura__foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, #0e1512 70%, transparent) 0,
+      transparent 22%,
+      transparent 42%,
+      color-mix(in srgb, #0e1512 88%, transparent) 78%,
+      #0e1512 100%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, #0e1512 72%, transparent) 0,
+      transparent 58%
+    );
+}
+
+@keyframes foto-entra {
+  from {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+}
+
+/* A dica só aparece quando a sala 3D está ligada. */
+.abertura__dica {
+  display: none;
+}
+
+.has-room .capitulo__texto .abertura__dica {
+  display: block;
+  margin-top: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Abertura da página, em sequência: as duas linhas do título sobem de dentro de uma "janela",
+   depois entram o texto, o botão e a dica. A sala 3D surge por trás (ver .sala__palco canvas e sala.ts). */
+h1 .abertura__linha {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+h1 .abertura__linha > span {
+  display: block;
+}
+
+.js .abertura h1 .abertura__linha > span {
+  animation: linha-sobe 1100ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both;
+}
+
+.js .abertura h1 .abertura__linha + .abertura__linha > span {
+  animation-delay: 270ms;
+}
+
+.js .abertura .capitulo__texto > :not(h1) {
+  animation: sobe 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.js .abertura .capitulo__texto > :nth-child(2) {
+  animation-delay: 620ms;
+}
+
+.js .abertura .capitulo__texto > :nth-child(3) {
+  animation-delay: 760ms;
+}
+
+.js .abertura .capitulo__texto > :nth-child(4) {
+  animation-delay: 1500ms;
+}
+
+@keyframes linha-sobe {
+  from {
+    transform: translateY(108%);
+  }
+}
+
+@keyframes sobe {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
+
+/*----- Capítulos (calor, sombra, nota, calçada) -----*/
+
+.capitulo {
+  position: relative;
+  z-index: 2;
+  padding: 0 clamp(20px, 3vw, 44px);
+}
+
+.capitulo__texto {
+  max-width: 540px;
+}
+
+.capitulo__texto p {
+  margin-top: 28px;
+  max-width: 46ch;
+}
+
+.capitulo__texto .abertura__lead {
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.28;
+  max-width: 30ch;
+}
+
+.capitulo__texto .btn {
+  margin-top: 36px;
+}
+
+.capitulo__mapa {
+  margin-top: 32px;
+}
+
+.capitulo__mapa--celular {
+  max-width: 240px;
+}
+
+/* Depois da abertura, cada capítulo tem texto de um lado e mapa do outro, alternando. */
+.capitulo:not(.abertura) {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(20px, 3vw, 44px);
+  align-items: center;
+  padding-block: 140px;
+}
+
+.capitulo:not(.abertura) .capitulo__texto {
+  grid-column: 1 / 6;
+  grid-row: 1;
+}
+
+.capitulo:not(.abertura) .capitulo__mapa {
+  grid-column: 7 / -1;
+  grid-row: 1;
+  width: 100%;
+  margin: 0;
+}
+
+.capitulo.capitulo--invertido .capitulo__texto {
+  grid-column: 8 / -1;
+}
+
+.capitulo.capitulo--invertido .capitulo__mapa {
+  grid-column: 1 / 7;
+}
+
+.capitulo .capitulo__mapa--celular {
+  width: min(100%, 300px);
+  justify-self: center;
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.6);
+}
+
+.capitulo + .capitulo {
+  border-top: 1px solid #38453e;
+}
+
+.capitulo__texto .capitulo__numero {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #38453e;
+}
+
+.capitulo__numero strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #c9dc3c;
+  font-weight: 800;
+  font-stretch: 62%;
+  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 6rem);
+  line-height: 0.88;
+  font-variant-numeric: tabular-nums;
+}
+
+/*----- Seu bairro -----*/
+
+.bairro {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 64px clamp(20px, 3vw, 44px);
+  padding: 180px clamp(20px, 3vw, 44px);
+  background: #c9dc3c;
+  color: #10160c;
+}
+
+.bairro p {
+  margin-top: 24px;
+  max-width: 34ch;
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.28;
+}
+
+.bairro label {
+  display: block;
+  margin-top: 40px;
+  font-weight: 600;
+}
+
+.bairro select {
+  display: block;
+  width: min(100%, 380px);
+  min-height: 56px;
+  margin-top: 8px;
+  padding: 0 14px;
+  background: #10160c;
+  color: #eef0e6;
+  color-scheme: dark;
+  border: 0;
+  border-radius: 0;
+  font:
+    500 clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem) Archivo,
+    sans-serif;
+}
+
+.bairro .bairro__aviso {
+  margin-top: 20px;
+  font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.bairro .bairro__aviso:empty {
+  display: none;
+}
+
+.bairro :focus-visible {
+  outline-color: #10160c;
+}
+
+.bairro__numeros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px clamp(20px, 3vw, 44px);
+  align-content: end;
+  margin: 0;
+}
+
+.bairro__numeros .bairro__item--grande {
+  grid-column: 1 / -1;
+}
+
+.bairro__numeros > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+}
+
+.bairro__numeros dt {
+  font-size: 0.875rem;
+  font-weight: 500;
+  max-width: 24ch;
+}
+
+.bairro__numeros dd {
+  margin: 6px 0 0;
+  font-weight: 800;
+  font-stretch: 62%;
+  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 6rem);
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+}
+
+.bairro__numeros .bairro__item--grande dd {
+  font-size: clamp(3.2rem, 8.4vw, 11rem);
+  line-height: 0.85;
+}
+
+/* Os três números menores ficam numa linha só, alinhados pelo topo. */
+.bairro__numeros > div:not(.bairro__item--grande) dd {
+  font-size: clamp(2.25rem, 1.2rem + 2.2vw, 3.75rem);
+  white-space: nowrap;
+}
+
+.bairro__numeros > div:not(.bairro__item--grande) {
+  border-top: 1px solid color-mix(in srgb, #10160c 30%, transparent);
+  padding-top: 16px;
+}
+
+/*----- Método -----*/
+
+.metodo {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 56px clamp(20px, 3vw, 44px);
+  padding: 180px clamp(20px, 3vw, 44px) 160px;
+}
+
+.metodo h2 {
+  grid-column: 1 / -1;
+}
+
+.metodo__lead {
+  grid-column: 1 / 6;
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.28;
+}
+
+.metodo__tabela {
+  grid-column: 6 / -1;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.metodo__tabela caption {
+  text-align: left;
+  padding-bottom: 12px;
+  color: #b3bbb0;
+  font-size: 0.875rem;
+}
+
+.metodo__tabela th {
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #b3bbb0;
+  padding: 8px 12px 8px 0;
+}
+
+.metodo__tabela td {
+  padding: 16px 12px 16px 0;
+  border-top: 1px solid #38453e;
+}
+
+.metodo__tabela td:nth-child(2) {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.metodo__tabela td:last-child,
+.metodo__tabela th:last-child {
+  color: #b3bbb0;
+}
+
+.metodo__ia {
+  grid-column: 6 / -1;
+  max-width: 60ch;
+}
+
+.metodo__ia strong {
+  font-weight: 600;
+}
+
+.metodo__destaque {
+  grid-column: 1 / 8;
+}
+
+.metodo__valor {
+  font-weight: 800;
+  font-stretch: 62%;
+  font-size: clamp(3.2rem, 8.4vw, 11rem);
+  line-height: 0.85;
+  color: #c9dc3c;
+}
+
+.metodo__destaque p:last-child {
+  margin-top: 24px;
+  max-width: 54ch;
+}
+
+.metodo .btn {
+  grid-column: 8 / -1;
+  align-self: end;
+  justify-self: end;
+}
+
+.metodo__mapas {
+  grid-column: 1 / -1;
+  margin: 40px 0 0;
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: clamp(20px, 3vw, 44px);
+}
+
+.metodo__mapas img {
+  width: 100%;
+}
+
+.metodo__mapa--nota {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.metodo__mapa--calor {
+  grid-column: 2;
+}
+
+.metodo__mapa--copa {
+  grid-column: 2;
+}
+
+.metodo__mapas figcaption {
+  grid-column: 1 / -1;
+  font-size: 0.875rem;
+  color: #b3bbb0;
+}
+
+/*----- Limites -----*/
+
+.limites {
+  padding: 160px clamp(20px, 3vw, 44px);
+  background: #17211c;
+}
+
+.limites__lista {
+  margin: 72px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 44px clamp(20px, 3vw, 44px);
+}
+
+.limites__lista li {
+  max-width: 52ch;
+}
+
+.limites strong {
+  display: block;
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/*----- ODS -----*/
+
+.ods {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 56px clamp(20px, 3vw, 44px);
+  padding: 160px clamp(20px, 3vw, 44px);
+}
+
+.ods__intro p {
+  margin-top: 28px;
+  max-width: 34ch;
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.28;
+}
+
+.ods__lista li {
+  display: grid;
+  grid-template-columns: clamp(56px, 7vw, 112px) 1fr;
+  gap: 0 20px;
+  padding: 28px 0;
+  border-top: 1px solid #38453e;
+}
+
+.ods__numero {
+  font-weight: 800;
+  font-stretch: 62%;
+  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 6rem);
+  line-height: 0.9;
+  color: #c9dc3c;
+  font-variant-numeric: tabular-nums;
+}
+
+.ods__lista h3 {
+  margin: 0 0 8px;
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.ods__lista p:not(.ods__numero) {
+  max-width: 56ch;
+}
+
+.ods__meta {
+  margin-top: 10px;
+  color: #b3bbb0;
+  font-size: 0.875rem;
+}
+
+.ods__nota {
+  grid-column: 2;
+  max-width: 56ch;
+  color: #b3bbb0;
+  font-size: 0.875rem;
+}
+
+/*----- Portas -----*/
+
+.portas {
+  display: grid;
+  gap: 56px;
+  padding: 180px clamp(20px, 3vw, 44px);
+}
+
+.portas__lista {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 56px clamp(20px, 3vw, 44px);
+}
+
+.porta {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.porta img {
+  width: 100%;
+  height: clamp(320px, 42vw, 620px);
+  object-fit: cover;
+  object-position: top;
+  transition: transform 500ms ease;
+}
+
+.porta:hover img {
+  transform: scale(1.03);
+}
+
+.porta__titulo {
+  display: block;
+  margin-top: 20px;
+  font-weight: 800;
+  font-stretch: 62%;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.6rem);
+  line-height: 1;
+}
+
+.porta__titulo + span {
+  display: block;
+  margin-top: 8px;
+}
+
+/*----- Rodapé -----*/
+
+/* Rodapé em três colunas: links, o nome ArborIA no centro e atalhos. O nome passa da borda de baixo e fica cortado. */
+.rodape {
+  overflow: hidden;
+  border-top: 1px solid #38453e;
+}
+
+/* O script escreve --entrada, de 0 a 1, conforme a rolagem: o rodapé sobe 20% da própria altura e aparece. */
+.rodape__conteudo {
+  position: relative;
+  isolation: isolate;
+  padding: 96px clamp(20px, 3vw, 44px) 0;
+}
+
+.js .rodape__conteudo {
+  transform: translate3d(0, calc((1 - var(--entrada, 1)) * 20%), 0);
+  opacity: var(--entrada, 1);
+  transition:
+    transform 500ms ease-out,
+    opacity 500ms ease-out;
+}
+
+.rodape__creditos {
+  max-width: 84ch;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #b3bbb0;
+}
+
+.rodape__faixa {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 2.4fr) 1fr;
+  align-items: end;
+  gap: clamp(20px, 3vw, 44px);
+  margin-top: 96px;
+}
+
+.rodape__links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding-bottom: clamp(20px, 3vw, 44px);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.rodape__links ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.rodape__links--direita {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.rodape__links--direita ul {
+  align-items: flex-end;
+}
+
+.rodape__links--direita p {
+  margin-top: 12px;
+  color: #b3bbb0;
+  font-weight: 400;
+}
+
+.rodape__links a {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  padding-block: 4px;
+}
+
+.rodape__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 300ms;
+}
+
+.rodape__links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* O nome ArborIA mistura maiúsculas e minúsculas, então o letreiro não força caixa alta.
+   O tamanho é ajustado pelo script para ocupar a coluna do meio; 18vw é o valor de partida.
+   A margem negativa empurra a base das letras para fora do rodapé, que corta o que passa. */
+.rodape__marca {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -0.2em;
+  font-weight: 800;
+  font-stretch: 62%;
+  font-size: 18vw;
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: #c9dc3c;
+}
+
+/* Foto do Cristo atrás do rodapé, esmaecida na cor do fundo para o texto continuar legível. */
+.rodape__foto {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #0e1512;
+}
+
+.rodape__foto picture {
+  display: block;
+  height: 100%;
+}
+
+.rodape__foto img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 54% 35%;
+  opacity: 0.6;
+}
+
+.rodape__foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #0e1512 0,
+    color-mix(in srgb, #0e1512 70%, transparent) 38%,
+    color-mix(in srgb, #0e1512 30%, transparent) 100%
+  );
+}
+
+/*----- Entradas ao rolar a página -----*/
+
+/* Entradas: o conteúdo só fica escondido quando o script está ativo. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
+}
+
+.js [data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
+
+/* As imagens se abrem da esquerda para a direita, como uma cortina. */
+.js img[data-reveal] {
+  opacity: 1;
+  transform: scale(1.05);
+  clip-path: inset(0 100% 0 0);
+  transition:
+    clip-path 1200ms cubic-bezier(0.65, 0, 0.35, 1),
+    transform 1600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
+}
+
+.js img[data-reveal].in {
+  clip-path: inset(0);
+  transform: none;
+}
+
+/* A tela do celular é estreita e alta: ela sobe e aparece de uma vez, mais rápido que a cortina dos mapas. */
+.js img.capitulo__mapa--celular[data-reveal] {
+  opacity: 0;
+  clip-path: none;
+  transform: translateY(40px);
+  transition:
+    opacity 500ms ease,
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0ms;
+}
+
+.js img.capitulo__mapa--celular[data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
+
+/*----- Assistente IA -----*/
+
+/* Botão no canto esquerdo e painel de conversa (iniciarAssistente, em main.js). */
+@keyframes bola-entra {
+  from {
+    scale: 0;
+  }
+}
+
+.assistente-botao {
+  position: fixed;
+  left: clamp(20px, 3vw, 44px);
+  bottom: 20px;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 18px 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #eef0e6;
+  color: #0e1512;
+  font:
+    600 0.875rem Archivo,
+    sans-serif;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.3);
+  transition: transform 180ms ease;
+  animation: bola-entra 500ms 1100ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.assistente-botao[hidden] {
+  display: none;
+}
+
+.assistente-botao:hover {
+  transform: translateY(-3px);
+}
+
+.assistente-botao:active {
+  transform: scale(0.96);
+}
+
+.assistente-botao svg {
+  color: #e8a33d;
+}
+
+.assistente {
+  position: fixed;
+  left: clamp(20px, 3vw, 44px);
+  bottom: 84px;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  width: min(420px, calc(100vw - 2 * clamp(20px, 3vw, 44px)));
+  height: min(600px, calc(100svh - 120px));
+  background: #17211c;
+  color: #eef0e6;
+  border: 1px solid #38453e;
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.35);
+  animation: sobe 250ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.assistente[hidden] {
+  display: none;
+}
+
+.assistente__topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid #38453e;
+}
+
+.assistente__titulo {
+  font-weight: 800;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  font-size: 1.125rem;
+  line-height: 1.1;
+}
+
+.assistente__sub {
+  margin-top: 2px;
+  color: #b3bbb0;
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
+
+.assistente__fechar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  color: #eef0e6;
+}
+
+.assistente__fechar:hover {
+  background: #0e1512;
+}
+
+.assistente__aviso {
+  padding: 10px 16px;
+  background: color-mix(in srgb, #e8a33d 18%, #17211c);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.assistente__conversa {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.assistente__sugestoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.assistente__sugestoes[hidden] {
+  display: none;
+}
+
+.assistente__sugestoes button {
+  padding: 8px 12px;
+  border: 1px solid #38453e;
+  border-radius: 999px;
+  background: #0e1512;
+  color: #eef0e6;
+  font:
+    500 0.875rem Archivo,
+    sans-serif;
+  text-align: left;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.assistente__sugestoes button:hover {
+  background: #c9dc3c;
+  color: #10160c;
+  border-color: #c9dc3c;
+}
+
+.assistente__msg {
+  max-width: 88%;
+  padding: 10px 14px;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.assistente__msg.assistente__msg--pessoa {
+  align-self: flex-end;
+  background: #c9dc3c;
+  color: #10160c;
+}
+
+.assistente__msg.assistente__msg--ia {
+  align-self: flex-start;
+  background: #0e1512;
+}
+
+.assistente__msg.assistente__msg--ia.assistente__msg--erro {
+  color: #b3bbb0;
+}
+
+.assistente__msg.assistente__msg--ia:empty::after {
+  content: "Pensando…";
+  color: #b3bbb0;
+}
+
+.assistente__form {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 6px;
+  border-top: 1px solid #38453e;
+}
+
+.assistente__form input {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 12px;
+  border: 1px solid #38453e;
+  background: #0e1512;
+  color: #eef0e6;
+  font:
+    400 1rem Archivo,
+    sans-serif;
+  border-radius: 0;
+}
+
+.assistente__form input:focus-visible {
+  outline: 2px solid #c9dc3c;
+  outline-offset: 0;
+}
+
+.assistente__form button {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  border: 0;
+  background: #c9dc3c;
+  color: #10160c;
+}
+
+.assistente__form button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.assistente__rodape {
+  padding: 0 16px 12px;
+  color: #b3bbb0;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+/*----- Tema claro -----*/
+
+/* O botão de tema (tema.js) coloca data-theme="light" no <html>. Aqui ficam só as cores que mudam em relação ao
+   tema escuro. O :where() não soma força ao seletor, então cada regra abaixo vale o mesmo que a regra original
+   que ela troca (e, por vir depois, ganha dela). Valores do tema claro:
+   fundo #f4f2e6 · superfície #e8e6d6 · texto #12180f · texto apagado #4c554b · destaque como texto #4d5f00
+   destaque ao passar o mouse #bdd02a · tronco da logo #8a5200 · linhas #b9bba8 · botão invertido ao passar o mouse #2b3327 */
+
+html[data-theme="light"] {
+  background: #f4f2e6;
+  color-scheme: light;
+}
+
+:where(html[data-theme="light"]) body {
+  background: #f4f2e6;
+  color: #12180f;
+}
+
+:where(html[data-theme="light"]) main > section,
+:where(html[data-theme="light"]) .rodape {
+  background: #f4f2e6;
+}
+
+:where(html[data-theme="light"]) .limites {
+  background: #e8e6d6;
+}
+
+:where(html[data-theme="light"]) :focus-visible {
+  outline-color: #4d5f00;
+}
+
+/* Botões */
+:where(html[data-theme="light"]) .btn:hover {
+  background: #bdd02a;
+}
+
+:where(html[data-theme="light"]) .btn.btn--invertido {
+  background: #12180f;
+  color: #f4f2e6;
+}
+
+:where(html[data-theme="light"]) .btn.btn--invertido:hover {
+  background: #2b3327;
+}
+
+/* Topo */
+:where(html[data-theme="light"]) .topo {
+  background: color-mix(in srgb, #f4f2e6 90%, transparent);
+}
+
+:where(html[data-theme="light"]) .topo.rolou {
+  border-bottom-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .marca__texto {
+  fill: #12180f;
+}
+
+:where(html[data-theme="light"]) .marca__arvore {
+  fill: #4d5f00;
+  stroke: #4d5f00;
+}
+
+:where(html[data-theme="light"]) .marca__tronco {
+  fill: #8a5200;
+  stroke: #8a5200;
+}
+
+:where(html[data-theme="light"]) .topo__tema,
+:where(html[data-theme="light"]) .topo__menu {
+  border-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .topo__tema:hover,
+:where(html[data-theme="light"]) .topo__menu:hover {
+  background: #e8e6d6;
+}
+
+/* Sala 3D e abertura */
+:where(html[data-theme="light"]) .sala__veu {
+  background: linear-gradient(
+    90deg,
+    rgb(244 242 230 / 0.97),
+    rgb(244 242 230 / 0.88) 42%,
+    rgb(244 242 230 / 0) 68%
+  ); /* taste-skill-ignore */
+}
+
+:where(html[data-theme="light"]) .sala-legenda {
+  background: color-mix(in srgb, #f4f2e6 94%, transparent);
+  border-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .sala-legenda__lista {
+  border-top-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .sala-legenda__lista span {
+  color: #4c554b;
+}
+
+:where(html[data-theme="light"]) .sala-legenda__voltar {
+  border-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .sala-legenda__voltar:hover {
+  background: #e8e6d6;
+}
+
+/* sem-sala é classe do próprio <html>, por isso o seletor não usa :where() aqui. */
+html[data-theme="light"].sem-sala .abertura__foto {
+  background: #f4f2e6;
+}
+
+:where(html[data-theme="light"]) .abertura__foto::after {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, #f4f2e6 70%, transparent) 0,
+      transparent 22%,
+      transparent 42%,
+      color-mix(in srgb, #f4f2e6 88%, transparent) 78%,
+      #f4f2e6 100%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, #f4f2e6 72%, transparent) 0,
+      transparent 58%
+    );
+}
+
+/* Capítulos */
+:where(html[data-theme="light"]) .capitulo + .capitulo {
+  border-top-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .capitulo__texto .capitulo__numero {
+  border-top-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .capitulo__numero strong {
+  color: #4d5f00;
+}
+
+/* Método */
+:where(html[data-theme="light"]) .metodo__tabela caption,
+:where(html[data-theme="light"]) .metodo__tabela th,
+:where(html[data-theme="light"]) .metodo__tabela td:last-child,
+:where(html[data-theme="light"]) .metodo__tabela th:last-child,
+:where(html[data-theme="light"]) .metodo__mapas figcaption {
+  color: #4c554b;
+}
+
+:where(html[data-theme="light"]) .metodo__tabela td {
+  border-top-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .metodo__valor {
+  color: #4d5f00;
+}
+
+/* ODS */
+:where(html[data-theme="light"]) .ods__lista li {
+  border-top-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .ods__numero {
+  color: #4d5f00;
+}
+
+:where(html[data-theme="light"]) .ods__meta,
+:where(html[data-theme="light"]) .ods__nota {
+  color: #4c554b;
+}
+
+/* Rodapé */
+:where(html[data-theme="light"]) .rodape {
+  border-top-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .rodape__creditos,
+:where(html[data-theme="light"]) .rodape__links--direita p {
+  color: #4c554b;
+}
+
+:where(html[data-theme="light"]) .rodape__marca {
+  color: #4d5f00;
+}
+
+:where(html[data-theme="light"]) .rodape__foto {
+  background: #f4f2e6;
+}
+
+:where(html[data-theme="light"]) .rodape__foto::after {
+  background: linear-gradient(
+    180deg,
+    #f4f2e6 0,
+    color-mix(in srgb, #f4f2e6 70%, transparent) 38%,
+    color-mix(in srgb, #f4f2e6 30%, transparent) 100%
+  );
+}
+
+/* Assistente IA */
+:where(html[data-theme="light"]) .assistente-botao {
+  background: #12180f;
+  color: #f4f2e6;
+}
+
+:where(html[data-theme="light"]) .assistente-botao svg {
+  color: #8a5200;
+}
+
+:where(html[data-theme="light"]) .assistente {
+  background: #e8e6d6;
+  color: #12180f;
+  border-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .assistente__topo {
+  border-bottom-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .assistente__sub,
+:where(html[data-theme="light"]) .assistente__rodape {
+  color: #4c554b;
+}
+
+:where(html[data-theme="light"]) .assistente__fechar {
+  color: #12180f;
+}
+
+:where(html[data-theme="light"]) .assistente__fechar:hover {
+  background: #f4f2e6;
+}
+
+:where(html[data-theme="light"]) .assistente__aviso {
+  background: color-mix(in srgb, #8a5200 18%, #e8e6d6);
+}
+
+:where(html[data-theme="light"]) .assistente__sugestoes button {
+  border-color: #b9bba8;
+  background: #f4f2e6;
+  color: #12180f;
+}
+
+:where(html[data-theme="light"]) .assistente__msg.assistente__msg--ia {
+  background: #f4f2e6;
+}
+
+:where(html[data-theme="light"])
+  .assistente__msg.assistente__msg--ia.assistente__msg--erro,
+:where(html[data-theme="light"])
+  .assistente__msg.assistente__msg--ia:empty::after {
+  color: #4c554b;
+}
+
+:where(html[data-theme="light"]) .assistente__form {
+  border-top-color: #b9bba8;
+}
+
+:where(html[data-theme="light"]) .assistente__form input {
+  border-color: #b9bba8;
+  background: #f4f2e6;
+  color: #12180f;
+}
+
+:where(html[data-theme="light"]) .assistente__form input:focus-visible {
+  outline-color: #4d5f00;
+}
+
+/*----- Celular (até 860px) -----*/
+
+@media (max-width: 860px) {
+  .topo {
+    gap: 8px;
+  }
+
+  .topo__acoes {
+    gap: 8px;
+  }
+
+  .topo__plantar {
+    display: none;
+  }
+
+  .js .topo__menu {
+    display: block;
+  }
+
+  .js .menu {
+    display: none;
+  }
+
+  .js .menu.aberto {
+    display: block;
+    position: absolute;
+    inset: 100% 0 auto;
+    padding: 4px clamp(20px, 3vw, 44px) 16px;
+    background: #0e1512;
+    border-bottom: 1px solid #38453e;
+  }
+
+  .menu__lista {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  .js .menu.aberto .menu__lista {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .menu.aberto a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  }
+
+  .menu.aberto .menu__plantar {
+    display: block;
+  }
+
+  .menu.aberto .menu__plantar a {
+    font-weight: 700;
+    color: #c9dc3c;
+  }
+
+  .sala__veu {
+    background: linear-gradient(
+      180deg,
+      rgb(8 10 6 / 0) 34%,
+      rgb(8 10 6 / 0.78) 66%
+    ); /* taste-skill-ignore */
+  }
+
+  .capitulo.abertura {
+    padding-bottom: 12svh;
+    min-height: 110svh;
+  }
+
+  .abertura__foto img {
+    object-position: 50% 30%;
+  }
+
+  .abertura__foto::after {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, #0e1512 60%, transparent) 0,
+      transparent 18%,
+      transparent 36%,
+      color-mix(in srgb, #0e1512 90%, transparent) 70%,
+      #0e1512 100%
+    );
+  }
+
+  .capitulo__texto p {
+    margin-top: 14px;
+  }
+
+  .capitulo .capitulo__texto > h2 {
+    font-size: 2.6rem;
+  }
+
+  .capitulo:not(.abertura) {
+    display: block;
+    padding-block: 88px;
+  }
+
+  .capitulo:not(.abertura) .capitulo__mapa {
+    margin-top: 40px;
+  }
+
+  .capitulo .capitulo__mapa--celular {
+    width: min(72%, 280px);
+    margin-inline: auto;
+  }
+
+  .bairro {
+    grid-template-columns: 1fr;
+    padding-block: 96px;
+  }
+
+  .bairro__numeros {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px 20px;
+  }
+
+  .bairro__numeros > :last-child {
+    grid-column: auto;
+  }
+
+  .metodo {
+    display: block;
+    padding-block: 96px;
+  }
+
+  .metodo > * + * {
+    margin-top: 48px;
+  }
+
+  .metodo .metodo__destaque {
+    margin-top: 112px;
+  }
+
+  .metodo__tabela {
+    font-size: 0.9375rem;
+  }
+
+  .metodo__tabela th:nth-child(3),
+  .metodo__tabela td:nth-child(3) {
+    display: none;
+  }
+
+  .metodo .btn {
+    display: flex;
+  }
+
+  .metodo__mapas {
+    display: block;
+  }
+
+  .metodo__mapas img + img {
+    margin-top: 16px;
+  }
+
+  .limites {
+    padding-block: 96px;
+  }
+
+  .limites__lista {
+    grid-template-columns: 1fr;
+    margin-top: 48px;
+  }
+
+  .ods {
+    grid-template-columns: 1fr;
+    padding-block: 96px;
+  }
+
+  .ods__nota {
+    grid-column: auto;
+  }
+
+  .portas {
+    padding-block: 96px;
+  }
+
+  .portas__lista {
+    grid-template-columns: 1fr;
+  }
+
+  .rodape__conteudo {
+    padding-top: 72px;
+  }
+
+  .rodape__faixa {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    margin-top: 56px;
+  }
+
+  .rodape__marca {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .sala-legenda {
+    flex-wrap: wrap;
+    width: auto;
+    left: clamp(20px, 3vw, 44px);
+    right: clamp(20px, 3vw, 44px);
+    bottom: 16px;
+    transform: none;
+    animation-name: sobe;
+  }
+
+  .sala-legenda > div {
+    flex-basis: 100%;
+    margin-right: 0;
+  }
+
+  .assistente-botao {
+    bottom: 22px;
+    min-height: 52px;
+  }
+
+  .assistente {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: min(100dvh, 680px);
+    border-inline: 0;
+  }
+
+  body:has(.assistente:not([hidden])) {
+    overflow: hidden;
+  }
+
+  body:has(.sala-legenda:not([hidden])) .assistente-botao {
+    display: none;
+  }
+
+  /* Tema claro no celular: as regras acima trocam algumas cores, então elas são refeitas aqui. */
+  :where(html[data-theme="light"]) .sala__veu {
+    background: linear-gradient(
+      180deg,
+      rgb(244 242 230 / 0) 34%,
+      rgb(244 242 230 / 0.94) 66%
+    ); /* taste-skill-ignore */
+  }
+
+  :where(html[data-theme="light"]) .abertura__foto::after {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, #f4f2e6 60%, transparent) 0,
+      transparent 18%,
+      transparent 36%,
+      color-mix(in srgb, #f4f2e6 90%, transparent) 70%,
+      #f4f2e6 100%
+    );
+  }
+
+  html[data-theme="light"].js .menu.aberto {
+    background: #f4f2e6;
+    border-bottom-color: #b9bba8;
+  }
+
+  :where(html[data-theme="light"]) .menu.aberto .menu__plantar a {
+    color: #4d5f00;
+  }
+}
+
+/*----- Telas baixas -----*/
+
+/* Telas baixas (celular deitado, janela pequena): o painel tira os textos de apoio para a conversa caber. */
+@media (max-height: 600px) {
+  .assistente {
+    top: 8px;
+    bottom: 8px;
+    height: auto;
+  }
+
+  .assistente__sub,
+  .assistente__rodape {
+    display: none;
+  }
+
+  .assistente__topo {
+    padding-block: 8px;
+  }
+
+  .assistente__aviso {
+    padding-block: 6px;
+  }
+
+  .assistente__form {
+    padding-bottom: 12px;
+  }
+}
+
+/*----- Movimento reduzido -----*/
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js [data-reveal],
+  .js img[data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    clip-path: none;
+  }
+
+  .topo,
+  .menu__lista a,
+  .topo__plantar,
+  .topo__tema,
+  .topo__tema svg,
+  .marca__arvore,
+  .marca:hover .marca__arvore,
+  .assistente-botao,
+  .assistente {
+    animation: none;
+  }
+
+  .js .abertura .capitulo__texto > *,
+  .js .abertura h1 .abertura__linha > span,
+  .abertura__foto img {
+    animation: none;
+  }
+
+  .sala__palco canvas {
+    opacity: 1;
+    transition: none;
+  }
+
+  .js .rodape__conteudo {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .btn,
+  .topo .btn,
+  .topo__tema,
+  .topo__menu,
+  .porta img,
+  .assistente-botao,
+  .assistente {
+    transition: none;
+  }
+}
