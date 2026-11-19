@@ -9,7 +9,7 @@ Se a equipe não usou IA, escreva: **Não utilizamos IA nesta parte.**
 
 ## Prompt 1
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** escrever a base do código do Guardião da Muda para o ESP32 no Wokwi
 
@@ -38,7 +38,7 @@ coloque as regras de rega: elas virão da equipe.
 
 ## Prompt 2
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** colocar no código as regras que a equipe definiu a partir das próprias pesquisas
 
@@ -65,7 +65,7 @@ forma de evitar que uma leitura isolada mude o estado.
 
 ## Prompt 3
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** testar os estados lógicos do Guardião da Muda na simulação do Wokwi
 

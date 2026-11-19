@@ -19,7 +19,7 @@ python main.py
 ## De onde vêm os dados
 
 - **Grandeza medida:** temperatura em °C, umidade do solo em %, luz em % e índice de qualidade do ar (0 a 100)
-- **Quantidade de registros:** [mínimo 10]
+- **Quantidade de registros:** 10 leituras do sensor ao longo de um dia quente, das 7h às 19h, e 6 bairros do Rio
 - **Origem:** simulados pela equipe (leituras do Guardião da Muda, linha de base do dia do plantio e dados de bairros do Rio de Janeiro)
 
 ## Faixas de decisão
@@ -65,24 +65,21 @@ Os mesmos limites usados no circuito de Edge e os mesmos textos da página.
 | Parte | Como conversa com o Python |
 |---|---|
 | Sensor · Edge | os registros simulam as leituras do ESP32; o estado da muda usa a mesma lógica embarcada no microcontrolador e a linha de base vem do botão físico |
-| Experiência · STXD | [as opções do menu saíram da jornada do cidadão] |
-| Interface · Front-end | [as mensagens impressas são os textos da página] |
-| Interação · Web Dev | [a regra de decisão foi reescrita em JavaScript] |
-| Pitch · Storytelling | [o programa rodando aparece no vídeo] |
+| Experiência · STXD | as opções do menu seguem a jornada do cidadão: planejar o plantio antes e acompanhar a muda depois |
+| Interface · Front-end | os avisos impressos ("Muda bem cuidada.", "Sem água? Peça ajuda!") são os mesmos textos da seção "Planejar e acompanhar a muda" da página |
+| Interação · Web Dev | a regra de decisão foi reescrita em JavaScript em `frontend/js/guardiao.js`, com os mesmos limites e textos |
+| Pitch · Storytelling | o programa rodando aparece no vídeo como prova de que a lógica funciona |
 
 ## Execução
 
-[Cole aqui um print do programa rodando: o menu, a opção 1 e o resumo.]
+O menu principal, o módulo Pós-plantio, a opção 1 (leituras) e a opção 2 (resumo e aviso):
 
 ![Execução do programa](execucao.png)
 
-## Antes de enviar
+## Equipe
 
-- [ ] O programa roda do início ao fim, e o menu só termina no **0 - Sair**
-- [ ] A lista tem 10 ou mais registros do problema da equipe
-- [ ] Cada registro é classificado com `if/elif/else`, com faixas que fazem sentido
-- [ ] O resumo mostra média, maior valor e % de leituras em alerta
-- [ ] Letra, número fora do menu e Enter vazio não derrubam o programa
-- [ ] Faixas e avisos iguais aos do circuito e da página
-- [ ] Este README está preenchido, com print, e o `prompts.md` está atualizado
-- [ ] Todos os integrantes sabem explicar qualquer linha do `main.py`
+- Anauã Paulo Campolina Vieitas Lima · RM 576103
+- Bruno Smoktunowicz Baptista · RM 574739
+- Caio Medeiros Machado · RM 575113
+
+Prompts usados: [`prompts.md`](prompts.md).

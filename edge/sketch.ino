@@ -5,9 +5,9 @@
   Funciona sem internet.
 
   Integrantes:
-  Anauã Vieitas (RM 576103)
-  Bruno Smoktunowicz (RM 574739)
-  Caio Machado (RM 575113)
+  Anauã Paulo Campolina Vieitas Lima (RM 576103)
+  Bruno Smoktunowicz Baptista (RM 574739)
+  Caio Medeiros Machado (RM 575113)
 */
 
 #include <DHTesp.h>
