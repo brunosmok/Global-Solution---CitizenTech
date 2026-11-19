@@ -2,15 +2,13 @@
 #  GS CitizenTech · Computational Thinking with Python
 #  Atividade: O Cérebro da CitizenTech
 #
-#  Equipe: [Nome 1 - RM], [Nome 2 - RM], [Nome 3 - RM]
+#  Equipe: Anauã Paulo Campolina Vieitas Lima - RM 576103
+#          Bruno Smoktunowicz Baptista - RM 574739
+#          Caio Medeiros Machado - RM 575113
 #  CitizenTech: ArborIA · Guardião da Muda
-#  Problema, em uma frase: Falta de planejamento e de acompanhamento do plantio de árvores em áreas urbanas e domésticas do Rio de Janeiro.
+#  Problema, em uma frase: Quem mora em áreas quentes do Rio não sabe onde plantar,
+#  qual muda usar nem a quem pedir, e a cidade precisa decidir onde plantar primeiro.
 # ============================================================
-#
-#  COMO USAR ESTE MODELO
-#  1. Este arquivo JÁ RODA. Rode antes de mudar qualquer coisa.
-#  2. Procure as marcações "TODO" e troque pelo problema da equipe.
-#  3. Rode de novo a cada mudança. Simples primeiro, depois incrementem.
 #
 #  Partes do programa:
 #    PARTE 1 - Dados       (lista com 10+ registros)
@@ -168,13 +166,14 @@ def executar_pre():
     
     while True:
         mostrar_menu_pre()
-        opcao = input("> ").strip()
+        opcao = ler_texto("> ")
         match opcao:
             case '1':
-                codigo = input('Porte da árvore: [1] Pequeno  [2] Médio  [3] Grande  '
-                               '[4] Não sei, medir pelo espaço\n').strip()
+                codigo = ler_texto('Porte da árvore: [1] Pequeno  [2] Médio  [3] Grande  '
+                                   '[4] Não sei, medir pelo espaço\n')
                 if codigo == '4':
-                    largura = ler_inteiro('Largura do espaço livre em cm', 150, 2000)
+                    largura = ler_inteiro('Largura do espaço livre em cm', 1, 2000)
+                    if largura is None: continue
                     codigo = indicar_porte(largura)
                     if codigo != '0':
                         print(f'Para {largura} cm de largura, o porte indicado é {buscar_nome_porte(codigo)}.')
@@ -185,6 +184,7 @@ def executar_pre():
                     print(f'Porte não definido: código inválido ou espaço abaixo de {LARGURA_MINIMA_CM} cm.')
                 else:
                     quantidade_mudas = ler_inteiro('Quantidade de mudas a plantar', 1, 1000)
+                    if quantidade_mudas is None: continue
                     area = calcular_area(quantidade_mudas, espacamento)
                     faixa = classificar_faixa(area)
                     areas.append(area)
@@ -201,7 +201,7 @@ def executar_pre():
                 mostrar_espacamentos()
             case '3':
                 mostrar_resumo_pre(areas)
-            case '4':
+            case '4' | None:
                 print("Saindo do módulo Pré-Plantio...")
                 break
             case _:
@@ -243,14 +243,14 @@ def main():
         print("[0] Encerrar o Sistema")
         print("===========================================")
         
-        escolha = input("> ").strip()
+        escolha = ler_texto("> ")
         
         match escolha:
             case '1':
                 executar_pre()
             case '2':
                 executar_pos()
-            case '0':
+            case '0' | None:
                 print("\nPrograma encerrado. Cuidar da natureza é cuidar do nosso futuro! ArborIA ˙ᵕ˙")
                 break
             case _:
@@ -264,7 +264,8 @@ def main():
 
 def ler_inteiro(mensagem, minimo, maximo):
     while True:
-        tentativa = input(f'{mensagem} ({minimo} a {maximo}): ').strip()
+        tentativa = ler_texto(f'{mensagem} ({minimo} a {maximo}): ')
+        if tentativa is None: return None  # Ctrl+D ou Ctrl+C: volta ao menu
         if tentativa.isdecimal():
             valor = int(tentativa)
             if minimo <= valor <= maximo:

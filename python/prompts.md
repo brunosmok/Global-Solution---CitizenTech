@@ -9,7 +9,7 @@ Se a equipe não usou IA, escreva: **Não utilizamos IA nesta parte.**
 
 ## Prompt 1
 
-- **Quem usou:** Bruno Smoktunowicz
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** reestruturar em funções os loops while True que concentravam quase toda a lógica do programa
 
@@ -36,7 +36,7 @@ não altere as regras de cálculo.
 
 ## Prompt 2
 
-- **Quem usou:** Bruno Smoktunowicz
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** separar o loop de cada módulo em executar_pre() e executar_pos(), cada um com seu menu e a opção de voltar
 
@@ -59,7 +59,7 @@ Mantenha o uso de match/case.
 
 ## Prompt 3
 
-- **Quem usou:** Bruno Smoktunowicz
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** extrair o conteúdo de cada opção dos menus para funções próprias
 
@@ -88,7 +88,7 @@ Assim, cada opção do menu deve chamar apenas uma função.
 
 ## Prompt 4
 
-- **Quem usou:** Bruno Smoktunowicz
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** deixar a main() enxuta, só com o Menu Principal e o direcionamento para os módulos
 
@@ -111,7 +111,7 @@ Não deve haver cálculos nem regras de negócio dentro de main().
 
 ## Prompt 5
 
-- **Quem usou:** Bruno Smoktunowicz
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** conferir se o comportamento do programa não mudou depois da reestruturação
 
