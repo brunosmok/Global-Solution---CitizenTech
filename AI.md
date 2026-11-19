@@ -8,7 +8,7 @@ Usamos o **Claude (Anthropic)** como copiloto, para escrever, converter e revisa
 |---|---|---|
 | Análise de dados (gera os mapas e a nota do site) | Escrever os scripts, os testes e a documentação das limitações. O código fica no repositório do site, fora deste | No repositório do site |
 | Site de mapeamento (Vercel) | Gerar o site completo, a partir dos dados e das regras da equipe | `frontend/prompts.md`, Prompt 3 |
-| Página inicial (`frontend/`) | Escrever a sala 3D em TypeScript, converter funções do Python para JavaScript, escrever as páginas e as interações, revisar a acessibilidade e deixar o código com nomes em português e comentários, sem mudar o funcionamento | `frontend/prompts.md` |
+| Página inicial (`frontend/`) | Escrever a sala 3D em TypeScript, converter funções do Python para JavaScript e revisar a acessibilidade | `frontend/prompts.md` |
 | Programa em Python (`python/`) | Reestruturar o programa em funções, sem mudar as regras, e revisar o README | `python/prompts.md` |
 | Sensor (`edge/`) | Escrever a base do código e o circuito (`diagram.json`) do Guardião da Muda, colocar nele as regras definidas pela equipe e montar o roteiro de testes no Wokwi | `edge/prompts.md` |
 | Matemática (`matematica/`) | Sugerir a estrutura do `modelo.py` e levar os dados para dentro dele | `matematica/prompts.md` |
