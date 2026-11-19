@@ -11,10 +11,7 @@
 **Integrantes:** Anauã Vieitas (RM 576103), Bruno Smoktunowicz (RM 574739) e Caio Machado (RM 575113).
 
 ## Como abrir no Wokwi
-1. Entre em [wokwi.com/projects/new/esp32](https://wokwi.com/projects/new/esp32).
-2. Cole `sketch.ino` e `diagram.json` nas abas de mesmo nome.
-3. Na aba **Library Manager**, adicione as três bibliotecas de `libraries.txt`.
-4. Faça login, clique em **Save** e depois em **Share** para gerar o link público.
+1. Entre em [https://wokwi.com/projects/480444508590213121](https://wokwi.com/projects/480444508590213121).
 
 ## Componentes
 | Componente | Por que está ali |

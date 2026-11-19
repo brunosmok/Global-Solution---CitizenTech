@@ -43,6 +43,7 @@ leituras = [
     {"hora": 16, "temperatura": 39.2, "solo": 15, "luz": 80, "ar": 43, "tentativas": 2},
     {"hora": 17, "temperatura": -127.0, "solo": 14, "luz": 80, "ar": 49, "tentativas": 2},
     {"hora": 18, "temperatura": 33.0, "solo": 62, "luz": 60, "ar": 52, "tentativas": 0},
+    {"hora": 19, "temperatura": 31.0, "solo": 60, "luz": 56, "ar": 52, "tentativas": 0},
 ]
 
 linha_de_base = {"temperatura": 35.8, "ar": 47.0}

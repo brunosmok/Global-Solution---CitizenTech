@@ -3,7 +3,7 @@
      ArborIA — index.html (página inicial)
      Global Solution 2026.2 · CitizenTech · FIAP, Engenharia de Software, 1º ano
      Integrantes: Anauã Vieitas (RM 576103) · Bruno Smoktunowicz (RM 574739) · Caio Machado (RM 575113)
-     Estilos em style.css e interações em main.js (com tema.js, bairros.js e sala.js).
+     Estilos em style.css e interações em main.js (com tema.js, bairros.js e sala.js) e guardiao.js.
      ========================================================================= -->
 <html lang="pt-BR">
   <head>
@@ -39,6 +39,7 @@
     <script src="js/tema.js"></script>
     <script src="js/bairros.js" defer></script>
     <script src="js/main.js" defer></script>
+    <script src="js/guardiao.js" defer></script>
   </head>
   <body>
     <!-- ============================ TOPO ============================ -->
@@ -69,6 +70,7 @@
       <nav class="menu" id="menu" aria-label="Seções">
         <ul class="menu__lista">
           <li><a href="#bairro">Seu bairro</a></li>
+          <li><a href="#guardiao">A muda</a></li>
           <li><a href="#metodo">O método</a></li>
           <li><a href="#limites">Os limites</a></li>
           <li><a href="#ods">ODS</a></li>
@@ -355,6 +357,103 @@
             <dd id="r-copa">–</dd>
           </div>
         </dl>
+      </section>
+
+      <!-- ======================= PLANEJAR E ACOMPANHAR A MUDA ======================= -->
+      <!-- O programa do Guardião da Muda (python/main.py) em JavaScript: o mesmo menu virou dois blocos,
+           antes e depois do plantio, com os mesmos dados, regras e textos (guardiao.js). -->
+      <section class="guardiao" data-section="guardiao" id="guardiao" aria-labelledby="guardiao-titulo">
+        <div class="guardiao__intro">
+          <h2 id="guardiao-titulo">Planejar e acompanhar a muda</h2>
+          <p>Antes de plantar, calcule o espaço que as mudas pedem. Depois, o Guardião da Muda, um sensor com ESP32 que fica ao lado da árvore, mede o solo, o calor, a luz e o ar, e decide o que fazer. As regras são as mesmas do nosso programa em Python.</p>
+        </div>
+
+        <!-- Antes do plantio: opções 1, 2 e 3 do módulo Pré-plantio. -->
+        <div class="guardiao__parte" aria-labelledby="pre-titulo">
+          <h3 id="pre-titulo">Antes do plantio</h3>
+          <form class="guardiao__form" id="pre-form" novalidate>
+            <fieldset class="guardiao__portes">
+              <legend>Porte da árvore</legend>
+              <label><input type="radio" name="porte" value="1" checked /> Pequeno</label>
+              <label><input type="radio" name="porte" value="2" /> Médio</label>
+              <label><input type="radio" name="porte" value="3" /> Grande</label>
+              <label><input type="radio" name="porte" value="4" /> Não sei, medir pelo espaço</label>
+            </fieldset>
+            <div class="guardiao__campo" id="pre-largura-campo" hidden>
+              <label for="pre-largura">Largura do espaço livre, em cm (150 a 2000)</label>
+              <input id="pre-largura" type="text" inputmode="numeric" autocomplete="off" placeholder="Ex.: 260" />
+            </div>
+            <div class="guardiao__campo">
+              <label for="pre-mudas">Quantidade de mudas (1 a 1000)</label>
+              <input id="pre-mudas" type="text" inputmode="numeric" autocomplete="off" value="10" />
+            </div>
+            <button type="submit" class="btn">Calcular</button>
+            <p class="guardiao__mensagem guardiao__mensagem--erro" id="pre-erro" aria-live="polite"></p>
+          </form>
+          <div class="guardiao__resultado" id="pre-resultado" aria-live="polite">
+            <p class="guardiao__vazio">Escolha o porte e a quantidade de mudas para ver o espaço necessário.</p>
+          </div>
+          <div class="guardiao__apoio">
+            <table class="guardiao__tabela">
+              <caption>Espaçamento entre as mudas, pelo porte da árvore</caption>
+              <thead><tr><th scope="col">Porte</th><th scope="col">Espaçamento</th><th scope="col">Espaço livre indicado</th></tr></thead>
+              <tbody id="pre-espacamentos"></tbody>
+            </table>
+            <p>Muito junto, as árvores competem por luz e água. Muito longe, perde-se sombra e proteção do solo.</p>
+            <p id="pre-epoca"></p>
+          </div>
+          <div class="guardiao__historico">
+            <h4>Plantios que você calculou</h4>
+            <div id="pre-historico" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <!-- Depois do plantio: opções 1, 2, 3 e 5 do módulo Pós-plantio.
+             A opção 4 (bairros) é a seção "E o seu bairro?", com a mesma regra e os dados reais. -->
+        <div class="guardiao__parte" aria-labelledby="pos-titulo">
+          <h3 id="pos-titulo">Depois do plantio</h3>
+          <p class="guardiao__nota">Leituras simuladas de um dia quente, como as que o Guardião mandaria. Às 17h, o sensor de temperatura falhou.</p>
+          <div class="guardiao__agora" aria-live="polite">
+            <p>Estado na última leitura</p>
+            <p class="guardiao__estado-atual" id="pos-estado">–</p>
+            <p id="pos-aviso"></p>
+          </div>
+          <dl class="guardiao__numeros" id="pos-resumo"></dl>
+          <div class="guardiao__rolagem">
+            <table class="guardiao__tabela guardiao__tabela--leituras">
+              <caption>Leituras do sensor ao longo do dia</caption>
+              <thead><tr><th scope="col">Hora</th><th scope="col">Temp.</th><th scope="col">Solo</th><th scope="col">Luz</th><th scope="col">Ar</th><th scope="col">Estado</th></tr></thead>
+              <tbody id="pos-leituras"></tbody>
+            </table>
+          </div>
+          <div class="guardiao__base">
+            <h4>Desde o dia do plantio</h4>
+            <p>Comparado com a linha de base, gravada quando o botão BASE foi apertado no Guardião.</p>
+            <dl id="pos-base"></dl>
+            <p>Essa comparação ajuda a entender a evolução do microclima local.</p>
+          </div>
+          <form class="guardiao__form guardiao__form--leitura" id="pos-form" novalidate>
+            <h4>Inserir leitura manual do ESP32</h4>
+            <div class="guardiao__campos">
+              <div class="guardiao__campo"><label for="pos-hora">Hora (0 a 23)</label><input id="pos-hora" name="hora" type="text" inputmode="numeric" autocomplete="off" value="19" /></div>
+              <div class="guardiao__campo"><label for="pos-temperatura">Temperatura, °C</label><input id="pos-temperatura" name="temperatura" type="text" inputmode="decimal" autocomplete="off" value="30" /></div>
+              <div class="guardiao__campo"><label for="pos-solo">Umidade do solo, %</label><input id="pos-solo" name="solo" type="text" inputmode="decimal" autocomplete="off" value="25" /></div>
+              <div class="guardiao__campo"><label for="pos-luz">Luz, %</label><input id="pos-luz" name="luz" type="text" inputmode="decimal" autocomplete="off" value="40" /></div>
+              <div class="guardiao__campo"><label for="pos-ar">Índice do ar (0 a 100)</label><input id="pos-ar" name="ar" type="text" inputmode="decimal" autocomplete="off" value="45" /></div>
+              <div class="guardiao__campo"><label for="pos-tentativas">Tentativas de rega falhas (0 a 3)</label><input id="pos-tentativas" name="tentativas" type="text" inputmode="numeric" autocomplete="off" value="0" /></div>
+            </div>
+            <button type="submit" class="btn">Inserir leitura</button>
+            <p class="guardiao__mensagem" id="pos-mensagem" aria-live="polite"></p>
+          </form>
+          <ul class="guardiao__regras">
+            <li><strong>ERRO</strong> Temperatura fora de -10 °C a 60 °C.</li>
+            <li><strong>SOLO OK</strong> Solo com 60% de umidade ou mais.</li>
+            <li><strong>ATENÇÃO</strong> Solo abaixo de 60%, mas ainda acima do limite seco: 30%, ou 40% com 36 °C ou mais.</li>
+            <li><strong>ALERTA</strong> Solo seco depois de 2 ou mais tentativas de rega.</li>
+            <li><strong>AGUARDANDO</strong> Solo seco e luz em 90% ou mais: espera o sol baixar.</li>
+            <li><strong>REGANDO</strong> Solo seco e pouco sol: a válvula abre.</li>
+          </ul>
+        </div>
       </section>
 
       <!-- ============================ MÉTODO ============================ -->
@@ -661,6 +760,7 @@
           <nav class="rodape__links" aria-label="Rodapé">
             <ul>
               <li><a href="#bairro">Seu bairro</a></li>
+              <li><a href="#guardiao">A muda</a></li>
               <li><a href="#metodo">O método</a></li>
               <li><a href="#limites">Os limites</a></li>
               <li><a href="#ods">ODS</a></li>

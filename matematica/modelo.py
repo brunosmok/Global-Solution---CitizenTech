@@ -5,11 +5,18 @@
 # Modelo 3, função logarítmica: tempo para a copa chegar a uma parte do tamanho adulto.
 # Modelo 4, função polinomial do 1º grau: associação entre copa e calor da superfície.
 #
-# Como rodar, na raiz do repositório:
-#   pip install -r matematica/requirements.txt
-#   python matematica/modelo.py
+# Este arquivo tem tudo o que o modelo precisa: as fórmulas, as leituras simuladas,
+# os dados das áreas de Cosmos e o resultado da regressão térmica. Ele não lê nenhum
+# outro arquivo. Ao rodar, cria a pasta graficos/ ao lado dele com os 5 gráficos
+# usados no relatorio.pdf.
+#
+# Como rodar, na pasta deste arquivo:
+#   pip install "matplotlib>=3.9" "numpy>=2.0" "sympy>=1.13"
+#   python modelo.py
+#
+# O relatório em PDF foi montado com reportlab (reportlab>=4.0), que não é preciso
+# para rodar o modelo.
 
-import json
 import math
 from pathlib import Path
 
@@ -23,8 +30,6 @@ from sympy import Eq, cos, exp, pi, solve, symbols
 PASTA = Path(__file__).parent
 PASTA_GRAFICOS = PASTA / "graficos"
 PASTA_GRAFICOS.mkdir(exist_ok=True)
-ARQUIVO_HEXAGONOS = PASTA / "hexes.json"
-ARQUIVO_METADADOS = PASTA / "meta.json"
 
 x = symbols("x", real=True)  # Incógnita das equações resolvidas com o sympy.
 
@@ -198,30 +203,139 @@ plt.close()
 # Aplicação dos Modelos 2 e 3: quantas árvores plantar em Cosmos.
 # ---------------------------------------------------------------------------
 # Os dados do bairro são os mesmos do site. Somamos só as áreas que têm nota.
+#
+# De onde vêm os dados: o site divide o município do Rio de Janeiro em 11.274
+# hexágonos (arquivo hexes.json do projeto). Cosmos tem 106 deles; 6 ficam sem nota
+# porque já são arborizados, e os 100 que têm nota estão copiados logo abaixo, na
+# mesma ordem do arquivo original. De cada um usamos só três valores:
+#   areaHa: área do hexágono em hectares
+#   canopy: fração do chão coberta por copa de árvores (0 a 1)
+#   open:   fração de espaço aberto onde ainda dá para plantar (0 a 1)
 
 BAIRRO = "Cosmos"
 META_COPA = 0.20  # 20% do chão coberto, a mesma meta padrão do simulador do site.
 PRAZOS = [5, 10, 20]  # anos
 
-hexagonos = json.loads(ARQUIVO_HEXAGONOS.read_text(encoding="utf8"))
+AREAS_COSMOS = [
+    # (id do hexágono, areaHa, canopy, open)
+    ("89a8a028007ffff", 10.82, 0.058, 0.034),
+    ("89a8a02800fffff", 10.82, 0.086, 0.035),
+    ("89a8a028017ffff", 10.82, 0.07, 0.0),
+    ("89a8a028023ffff", 10.82, 0.071, 0.0),
+    ("89a8a028027ffff", 10.82, 0.064, 0.0),
+    ("89a8a02802bffff", 10.82, 0.022, 0.001),
+    ("89a8a02802fffff", 10.82, 0.057, 0.058),
+    ("89a8a028033ffff", 10.82, 0.056, 0.041),
+    ("89a8a028037ffff", 10.82, 0.064, 0.009),
+    ("89a8a02803bffff", 10.82, 0.061, 0.006),
+    ("89a8a028067ffff", 10.82, 0.069, 0.0),
+    ("89a8a028077ffff", 10.82, 0.079, 0.0),
+    ("89a8a028083ffff", 10.82, 0.121, 0.002),
+    ("89a8a028087ffff", 10.82, 0.154, 0.006),
+    ("89a8a02808fffff", 10.82, 0.038, 0.0),
+    ("89a8a028093ffff", 10.82, 0.109, 0.326),
+    ("89a8a028097ffff", 10.82, 0.21, 0.135),
+    ("89a8a0280a3ffff", 10.82, 0.081, 0.002),
+    ("89a8a0280a7ffff", 10.82, 0.078, 0.019),
+    ("89a8a0280abffff", 10.82, 0.039, 0.0),
+    ("89a8a0280afffff", 10.82, 0.056, 0.0),
+    ("89a8a0280b3ffff", 10.82, 0.233, 0.016),
+    ("89a8a0280b7ffff", 10.82, 0.079, 0.0),
+    ("89a8a0280bbffff", 10.82, 0.081, 0.001),
+    ("89a8a02810bffff", 10.82, 0.166, 0.645),
+    ("89a8a028113ffff", 10.82, 0.481, 0.241),
+    ("89a8a028143ffff", 10.82, 0.299, 0.132),
+    ("89a8a028147ffff", 10.82, 0.489, 0.278),
+    ("89a8a02814bffff", 10.82, 0.107, 0.211),
+    ("89a8a02814fffff", 10.82, 0.241, 0.449),
+    ("89a8a028153ffff", 10.82, 0.099, 0.038),
+    ("89a8a028157ffff", 10.82, 0.398, 0.185),
+    ("89a8a02815bffff", 10.82, 0.103, 0.034),
+    ("89a8a02816bffff", 10.82, 0.337, 0.061),
+    ("89a8a02817bffff", 10.82, 0.223, 0.554),
+    ("89a8a02819bffff", 10.82, 0.053, 0.013),
+    ("89a8a0281c3ffff", 10.82, 0.029, 0.006),
+    ("89a8a0281c7ffff", 10.82, 0.393, 0.16),
+    ("89a8a0281cbffff", 10.82, 0.065, 0.008),
+    ("89a8a0281cfffff", 10.82, 0.041, 0.02),
+    ("89a8a0281d3ffff", 10.82, 0.061, 0.018),
+    ("89a8a0281d7ffff", 10.82, 0.058, 0.007),
+    ("89a8a0281dbffff", 10.82, 0.05, 0.004),
+    ("89a8a028303ffff", 10.82, 0.087, 0.0),
+    ("89a8a028307ffff", 10.82, 0.033, 0.0),
+    ("89a8a02830bffff", 10.82, 0.093, 0.001),
+    ("89a8a02830fffff", 10.82, 0.069, 0.0),
+    ("89a8a028313ffff", 10.82, 0.063, 0.0),
+    ("89a8a028317ffff", 10.82, 0.047, 0.0),
+    ("89a8a02831bffff", 10.82, 0.072, 0.003),
+    ("89a8a028333ffff", 10.82, 0.058, 0.0),
+    ("89a8a028337ffff", 10.82, 0.172, 0.002),
+    ("89a8a02833bffff", 10.82, 0.066, 0.013),
+    ("89a8a028347ffff", 10.82, 0.153, 0.08),
+    ("89a8a028357ffff", 10.82, 0.088, 0.008),
+    ("89a8a028373ffff", 10.82, 0.093, 0.021),
+    ("89a8a028383ffff", 10.82, 0.03, 0.566),
+    ("89a8a028387ffff", 10.82, 0.195, 0.36),
+    ("89a8a02838bffff", 10.82, 0.045, 0.216),
+    ("89a8a02838fffff", 10.82, 0.088, 0.034),
+    ("89a8a028393ffff", 10.82, 0.061, 0.0),
+    ("89a8a028397ffff", 10.82, 0.074, 0.358),
+    ("89a8a02839bffff", 10.82, 0.049, 0.046),
+    ("89a8a0283a3ffff", 10.82, 0.027, 0.143),
+    ("89a8a0283a7ffff", 10.82, 0.045, 0.0),
+    ("89a8a0283abffff", 10.82, 0.046, 0.01),
+    ("89a8a0283afffff", 10.82, 0.045, 0.0),
+    ("89a8a0283b3ffff", 10.82, 0.055, 0.037),
+    ("89a8a0283b7ffff", 10.82, 0.372, 0.297),
+    ("89a8a0283bbffff", 10.82, 0.045, 0.0),
+    ("89a8a0283c3ffff", 10.82, 0.125, 0.069),
+    ("89a8a0283c7ffff", 10.82, 0.12, 0.225),
+    ("89a8a0283cfffff", 10.82, 0.125, 0.001),
+    ("89a8a0283d7ffff", 10.82, 0.114, 0.043),
+    ("89a8a028423ffff", 10.82, 0.411, 0.427),
+    ("89a8a028427ffff", 10.82, 0.364, 0.282),
+    ("89a8a02842fffff", 10.82, 0.16, 0.445),
+    ("89a8a028433ffff", 10.82, 0.44, 0.231),
+    ("89a8a028437ffff", 10.82, 0.465, 0.332),
+    ("89a8a0284a7ffff", 10.81, 0.376, 0.434),
+    ("89a8a028543ffff", 10.82, 0.246, 0.001),
+    ("89a8a028547ffff", 10.82, 0.054, 0.015),
+    ("89a8a02854bffff", 10.82, 0.307, 0.036),
+    ("89a8a02854fffff", 10.82, 0.075, 0.0),
+    ("89a8a028553ffff", 10.82, 0.277, 0.035),
+    ("89a8a028557ffff", 10.82, 0.032, 0.0),
+    ("89a8a02855bffff", 10.82, 0.482, 0.15),
+    ("89a8a028563ffff", 10.82, 0.075, 0.006),
+    ("89a8a028567ffff", 10.82, 0.051, 0.037),
+    ("89a8a02856bffff", 10.82, 0.049, 0.013),
+    ("89a8a02856fffff", 10.82, 0.063, 0.031),
+    ("89a8a028573ffff", 10.82, 0.055, 0.004),
+    ("89a8a02857bffff", 10.82, 0.061, 0.0),
+    ("89a8a0285c3ffff", 10.82, 0.179, 0.506),
+    ("89a8a0285cbffff", 10.82, 0.498, 0.164),
+    ("89a8a0285cfffff", 10.82, 0.215, 0.11),
+    ("89a8a0285d3ffff", 10.82, 0.285, 0.566),
+    ("89a8a0285dbffff", 10.82, 0.421, 0.392),
+    ("89a8a028ed3ffff", 10.82, 0.36, 0.316),
+    ("89a8a028edbffff", 10.82, 0.089, 0.006),
+]
+
 areas = 0
 area_total = 0  # m²
 copa_atual = 0  # m²
 falta = 0  # m² de copa que faltam para a meta
 espaco_aberto = 0  # m²
 nao_cabe = 0  # m² de copa que faltam além do espaço aberto da própria área
-for hexagono in hexagonos:
-    if hexagono["bairro"] == BAIRRO and not hexagono["excluded"]:
-        dados = hexagono["raw"]
-        area = dados["areaHa"] * 10_000  # hectares para metros quadrados
-        falta_da_area = max(0, META_COPA - dados["canopy"]) * area
-        aberto_da_area = dados["open"] * area
-        areas = areas + 1
-        area_total = area_total + area
-        copa_atual = copa_atual + dados["canopy"] * area
-        falta = falta + falta_da_area
-        espaco_aberto = espaco_aberto + aberto_da_area
-        nao_cabe = nao_cabe + max(0, falta_da_area - aberto_da_area)
+for _id, area_ha, copa_da_area, aberto in AREAS_COSMOS:
+    area = area_ha * 10_000  # hectares para metros quadrados
+    falta_da_area = max(0, META_COPA - copa_da_area) * area
+    aberto_da_area = aberto * area
+    areas = areas + 1
+    area_total = area_total + area
+    copa_atual = copa_atual + copa_da_area * area
+    falta = falta + falta_da_area
+    espaco_aberto = espaco_aberto + aberto_da_area
+    nao_cabe = nao_cabe + max(0, falta_da_area - aberto_da_area)
 copa_media = copa_atual / area_total
 
 
@@ -264,14 +378,25 @@ plt.close()
 # Modelo 4: função polinomial do 1º grau. Copa e calor da superfície.
 # ---------------------------------------------------------------------------
 # O projeto mediu, entre as áreas da cidade, quanto a superfície é mais fria onde há mais copa.
-# O resultado está em meta.json e foi calculado em pipeline/thermal_model.py.
+# O resultado foi calculado em pipeline/thermal_model.py e copiado aqui do arquivo
+# meta.json do projeto (parte "thermal"):
+#   método: regressão entre hexágonos com bootstrap por blocos espaciais
+#   resposta: temperatura da superfície relativa à mediana do recorte, por volta das
+#             10h, nas estações quentes
+#   controles: área construída, declividade e altitude
+#   7.225 hexágonos, 269 blocos espaciais (resolução 7), 2.000 sorteios do bootstrap
+#   R² = 0,713 (0,707 deixando cada bloco de fora)
+#   sem os controles, o efeito seria -1,55 °C a cada 10 pontos de copa
+#   abaixo da mediana de copa (12,47%): -0,782 °C; acima dela: -0,462 °C
+#   a copa dos hexágonos vai de 1,75% (P5) a 42,55% (P95)
+#   VIF: copa 1,48; construído 1,35; declividade 2,57; altitude 2,31
+#   classificação: estimado
 #   D(c) = a.c
 # onde c são os pontos percentuais de copa a mais e D(c) é a diferença de temperatura em °C.
 
-termico = json.loads(ARQUIVO_METADADOS.read_text(encoding="utf8"))["thermal"]
-POR_10 = termico["per10pts"]  # °C a cada 10 pontos de copa
-POR_10_BAIXO = termico["per10ptsLow"]
-POR_10_ALTO = termico["per10ptsHigh"]
+POR_10 = -0.524  # °C a cada 10 pontos de copa
+POR_10_BAIXO = -0.623  # limite do intervalo do bootstrap
+POR_10_ALTO = -0.414  # outro limite do intervalo do bootstrap
 COEFICIENTE = POR_10 / 10  # °C por ponto de copa
 
 
