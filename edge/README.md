@@ -65,15 +65,4 @@ Isso é um **acompanhamento, não uma prova de impacto**:
 
 O indicador mais direto continua sendo saber se a muda segue viva depois de um ano.
 
-## Roteiro do vídeo (até 5 minutos)
-1. **A ideia (1 min):** quem é o cidadão, o problema em uma frase, onde o dispositivo fica e os ODS.
-2. **O circuito (1 min):** cada componente e por que está ali. Digam que o potenciômetro faz o papel do sensor de solo e o servo, o da válvula.
-3. **A lógica (1 min):** limites e estados, mostrando `decidirEstado()` e `adicionarNaMedia()`.
-4. **A simulação (2 min):** com o Serial Monitor aberto, mudem os valores e esperem cerca de 6 segundos a cada mudança, o tempo da média:
-   - Solo alto: SOLO OK.
-   - Solo em 50%: ATENCAO.
-   - Solo em 20% com pouca luz: REGANDO, e o servo gira.
-   - Solo em 20% com a luz no máximo: AGUARDANDO.
-   - Solo seco por duas regas: ALERTA.
-   - Temperatura em 70 °C: ERRO.
-   - Apertem o botão azul e mudem o ar e a temperatura para mostrar a comparação com a base.
+*Vídeo disponibilizado diretamente para o professor via Teams.
