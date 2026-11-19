@@ -53,7 +53,9 @@ AMPLITUDE = 10
 HORA_PICO = 14
 LIMITE_CALOR = 36  # Mesmo limite do programa em Python e do sensor.
 
-# Mesmas leituras simuladas de python/main.py: hora e temperatura em °C.
+# Leituras simuladas de um dia quente, de hora em hora, das 7h às 18h: hora e temperatura em °C.
+# São as mesmas de python/main.py nas horas em comum (7, 9, 11, 12, 14, 15, 16 e 18h). A diferença é
+# às 17h: o Python tem 10 registros e simula ali uma falha do sensor, e aqui usamos 36,4 °C.
 HORAS = np.arange(7, 19, 1)
 TEMPERATURAS = np.array([27.5, 29.0, 31.2, 33.4, 35.1, 36.8, 38.2, 40.3, 41.0, 39.2, 36.4, 33.0])
 
@@ -205,7 +207,7 @@ plt.close()
 # Os dados do bairro são os mesmos do site. Somamos só as áreas que têm nota.
 #
 # De onde vêm os dados: o site divide o município do Rio de Janeiro em 11.274
-# hexágonos (arquivo hexes.json do projeto). Cosmos tem 106 deles; 6 ficam sem nota
+# hexágonos (arquivo hexes.json do projeto do site, que não está neste repositório). Cosmos tem 106 deles; 6 ficam sem nota
 # porque já são arborizados, e os 100 que têm nota estão copiados logo abaixo, na
 # mesma ordem do arquivo original. De cada um usamos só três valores:
 #   areaHa: área do hexágono em hectares
@@ -378,8 +380,8 @@ plt.close()
 # Modelo 4: função polinomial do 1º grau. Copa e calor da superfície.
 # ---------------------------------------------------------------------------
 # O projeto mediu, entre as áreas da cidade, quanto a superfície é mais fria onde há mais copa.
-# O resultado foi calculado em pipeline/thermal_model.py e copiado aqui do arquivo
-# meta.json do projeto (parte "thermal"):
+# O resultado foi calculado na análise de dados do projeto do site e copiado aqui do arquivo
+# meta.json (parte "thermal"), que não está neste repositório:
 #   método: regressão entre hexágonos com bootstrap por blocos espaciais
 #   resposta: temperatura da superfície relativa à mediana do recorte, por volta das
 #             10h, nas estações quentes
