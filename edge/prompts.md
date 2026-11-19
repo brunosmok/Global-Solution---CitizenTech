@@ -11,7 +11,7 @@ Se a equipe não usou IA, escreva: **Não utilizamos IA nesta parte.**
 
 - **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
-- **Para quê:** escrever a base do código do Guardião da Muda para o ESP32 no Wokwi
+- **Para quê:** escrever a base do código do Guardião da Muda para o ESP32 e montar o circuito no Wokwi (`diagram.json`)
 
 **Prompt enviado:**
 
@@ -30,7 +30,7 @@ Use millis() no lugar de delay(), para não travar o programa. Ainda não
 coloque as regras de rega: elas virão da equipe.
 ```
 
-**O que aproveitamos da resposta:** A estrutura do sketch.ino: os pinos, o setup(), o loop() com millis(), a leitura dos sensores em lerSensores() e a escrita na tela e no Serial Monitor.
+**O que aproveitamos da resposta:** O arquivo `diagram.json` com o circuito (ESP32, sensores, servo, LEDs, buzzer, botão e tela) e a estrutura do sketch.ino: os pinos, o setup(), o loop() com millis(), a leitura dos sensores em lerSensores() e a escrita na tela e no Serial Monitor.
 
 **O que mudamos ou descartamos, e por quê:** Os nomes das funções e das variáveis foram trocados para português, e os comentários foram reescritos pela equipe. A equipe revisou e entendeu o código antes de seguir.
 

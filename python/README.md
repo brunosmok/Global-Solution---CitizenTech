@@ -21,6 +21,7 @@ python main.py
 - **Grandeza medida:** temperatura em °C, umidade do solo em %, luz em % e índice de qualidade do ar (0 a 100)
 - **Quantidade de registros:** 10 leituras do sensor ao longo de um dia quente, das 7h às 19h, e 6 bairros do Rio
 - **Origem:** simulados pela equipe (leituras do Guardião da Muda, linha de base do dia do plantio e dados de bairros do Rio de Janeiro)
+- **Leitura inválida de propósito:** a leitura das 17h tem temperatura de −127 °C, valor que o sensor DHT22 devolve quando falha. Ela mostra o estado ERRO e é ignorada na média e no pico de calor.
 
 ## Faixas de decisão
 

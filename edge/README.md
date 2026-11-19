@@ -1,6 +1,6 @@
 # Sensor: o Guardião da Muda
 
-**Cidadão:** quem plantou ou cuida de uma muda em um bairro quente, como Cosmos.
+**Cidadão:** quem plantou ou cuida de uma muda em um bairro quente.
 
 **Problema:** a ArborIA mostra onde plantar e orienta a regar a muda no primeiro ano, mas nada acompanha a muda depois do plantio. Sem água nos períodos secos, ela pode não vingar.
 
