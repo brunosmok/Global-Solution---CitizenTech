@@ -1,7 +1,7 @@
 /* =========================================================================
    ArborIA — guardiao.js (seção "Planejar e acompanhar a muda" da página inicial)
    Global Solution 2026.2 · CitizenTech · FIAP, Engenharia de Software, 1º ano
-   Integrantes: Anauã Vieitas (RM 576103) · Bruno Smoktunowicz (RM 574739) · Caio Machado (RM 575113)
+   Integrantes: Anauã Paulo Campolina Vieitas Lima (RM 576103) · Bruno Smoktunowicz Baptista (RM 574739) · Caio Medeiros Machado (RM 575113)
    ========================================================================= */
 
 // O programa do Guardião da Muda (python/main.py) reescrito em JavaScript, para a página.

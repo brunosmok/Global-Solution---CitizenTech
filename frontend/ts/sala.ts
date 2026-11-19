@@ -627,9 +627,9 @@ interface Clicavel {
 
 // Quem fez o projeto: aparece ao clicar na plaquinha da mesa. São os mesmos dados de integrantes.txt.
 const INTEGRANTES = [
-  ['Anauã Vieitas', 'RM 576103'],
-  ['Bruno Smoktunowicz', 'RM 574739'],
-  ['Caio Machado', 'RM 575113'],
+  ['Anauã Paulo Campolina Vieitas Lima', 'RM 576103'],
+  ['Bruno Smoktunowicz Baptista', 'RM 574739'],
+  ['Caio Medeiros Machado', 'RM 575113'],
 ]
 
 // Um painel com imagem, que flutua de leve na sala. Dá para clicar nele para ver de perto.

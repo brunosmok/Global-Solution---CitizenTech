@@ -9,7 +9,7 @@ Se a equipe não usou IA, escreva: **Não utilizamos IA nesta parte.**
 
 ## Prompt 1
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** converter para JavaScript a parte da Muda que a equipe escreveu em Python
 
@@ -33,7 +33,7 @@ números devem aparecer no jeito brasileiro, como 4,7% e +6,8 °C.
 
 ## Prompt 2
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** implementar em TypeScript o fundo animado em 3D da abertura da página
 
@@ -59,16 +59,17 @@ normal, sem a parte 3D.
 
 ## Prompt 3
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
-- **Para quê:** gerar por completo o site de mapeamento da cidade do Rio de Janeiro, publicado na Vercel
+- **Para quê:** gerar por completo o site de mapeamento da cidade do Rio de Janeiro, e sua área técnica, publicados na Vercel
 
 **Prompt enviado:**
 
 ```
-Crie o site de mapeamento da ArborIA para a cidade do Rio de Janeiro. Ele
-deve mostrar no mapa as áreas da cidade com a nota de prioridade para
-plantar árvores, a copa e o calor de cada área, e ter:
+Crie o site de mapeamento da ArborIA para a cidade do Rio de Janeiro. 
+Utilize as mesmas fontes e paletas de cores, bem como a logo, que foram 
+utilizada na landing page do ArborIA. Ele deve mostrar no mapa as áreas
+da cidade com a nota de prioridade para plantar árvores, a copa e o calor de cada área, e ter:
 - uma página para moradores, que acha a área mais perto da pessoa;
 - uma página técnica, que mostra o método e os dados de cada área.
 
@@ -78,6 +79,44 @@ pronto para publicar na Vercel.
 
 **O que aproveitamos da resposta:** O site de mapeamento inteiro foi gerado pela IA e está publicado em https://arboria-ai.vercel.app/plantar, com as páginas /plantar e /tecnico, para onde os links desta página levam.
 
-**O que mudamos ou descartamos, e por quê:** Os dados das áreas e as regras de prioridade são da equipe. A equipe revisou, testou o site publicado e conferiu os números de cada página antes de entregar.
+**O que mudamos ou descartamos, e por quê:** Os dados das áreas e as regras de prioridade são da equipe. A equipe revisou, testou o site publicado e conferiu os números de cada página antes de entregar. Os arquivos `hexes.json` e `meta.json` citados no prompt são os dados gerados pela equipe na análise de dados. Eles ficam no projeto do site e não estão neste repositório; os números que a página inicial usa estão em `js/bairros.js`.
 
 ---
+
+## Prompt 4
+
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima
+- **Ferramenta:** Claude (Anthropic)
+- **Para quê:** trocar o fundo da sala 3D da abertura por uma sala com outra cor e uma varanda com vista para o Cristo Redentor
+
+**Prompt enviado:**
+
+```
+cara sabe o que eu pensei em fazer pra usarmos em um site de teste , trocar o fundo da sala que esta na pagina inicial pra uma sala com uma cor diferente e com uma janela / varanda pro cristo redentor do rj
+```
+
+**O que aproveitamos da resposta:** a sala com paredes azul-petróleo e a varanda com a vista ilustrada do Cristo, em `ts/sala.ts` (e `js/sala.js`). Sem 3D, a página mostra a foto do Cristo (`imagens/cristo.jpg`).
+
+**O que mudamos ou descartamos, e por quê:** a ideia e a escolha da vista foram da equipe. Testamos primeiro em um site de teste e só depois levamos para a página inicial.
+
+---
+
+## Prompt 5
+
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima
+- **Ferramenta:** Claude (Anthropic)
+- **Para quê:** criar o Assistente IA da página inicial e colocar nele as informações básicas do projeto
+
+**Prompts enviados:**
+
+```
+https://centrovlr.com.br/time/179 olha o assistente ia desse site , nao acha que ficaria melhor fazer um assim no arboria ?
+```
+
+```
+coloca dados basicos do projeto no assistente tipo quem e do grupo
+```
+
+**O que aproveitamos da resposta:** o painel do assistente na página (`index.html`, `css/style.css` e a função `iniciarAssistente()` em `js/main.js`), com sugestões de perguntas e a apresentação da equipe.
+
+**O que mudamos ou descartamos, e por quê:** a equipe definiu o que o assistente deve saber sobre o projeto e o grupo. O assistente avisa que está em teste e pode errar, e a nota das áreas não depende dele.

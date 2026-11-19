@@ -9,7 +9,7 @@ Se a equipe não usou IA, escreva: **Não utilizamos IA nesta parte.**
 
 ## Prompt 1
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** organizar a estrutura geral do modelo.py, com uma seção para cada modelo matemático
 
@@ -37,7 +37,7 @@ pela equipe.
 
 ## Prompt 2
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Anauã Paulo Campolina Vieitas Lima, Bruno Smoktunowicz Baptista e Caio Medeiros Machado
 - **Ferramenta:** Claude (Anthropic)
 - **Para quê:** deixar o modelo.py com tudo dentro dele, para a entrega ter só modelo.py e relatorio.pdf
 
@@ -56,6 +56,4 @@ Não altere os cálculos.
 
 **O que aproveitamos da resposta:** Os dados das 100 áreas de Cosmos com nota e os números da regressão térmica passaram para dentro do modelo.py, com comentários sobre a origem de cada um, e a instrução de instalação foi para o cabeçalho.
 
-**O que mudamos ou descartamos, e por quê:** Nenhum cálculo foi alterado: a lógica é da equipe e a IA só reorganizou o código existente. A equipe conferiu que o texto impresso e os gráficos ficaram iguais aos de antes, e entendeu o código final antes de entregar.
-
----
+**O que mudamos ou descartamos, e por quê:** Nenhum cálculo foi alterado: a lógica é da equipe e a IA só reorganizou o código existente. A equipe conferiu que o texto impresso e os gráficos ficaram iguais aos de antes, e entendeu o código final antes de entregar. Os arquivos `hexes.json` e `meta.json` citados no prompt ficam no projeto do site e não estão neste repositório; por isso os dados de Cosmos e o resultado da regressão foram copiados para dentro do `modelo.py`.

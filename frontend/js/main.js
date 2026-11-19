@@ -1,7 +1,7 @@
 /* =========================================================================
    ArborIA — main.js (interações da página inicial)
    Global Solution 2026.2 · CitizenTech · FIAP, Engenharia de Software, 1º ano
-   Integrantes: Anauã Vieitas (RM 576103) · Bruno Smoktunowicz (RM 574739) · Caio Machado (RM 575113)
+   Integrantes: Anauã Paulo Campolina Vieitas Lima (RM 576103) · Bruno Smoktunowicz Baptista (RM 574739) · Caio Medeiros Machado (RM 575113)
    ========================================================================= */
 
 // Interações da página inicial, em JavaScript puro (sem React):
