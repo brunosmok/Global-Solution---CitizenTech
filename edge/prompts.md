@@ -9,80 +9,128 @@ Se a equipe não usou IA, escreva: **Não utilizamos IA nesta parte.**
 
 ## Prompt 1
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
-- **Para quê:** escrever a base do código do Guardião da Muda para o ESP32 no Wokwi
+- **Para quê:** reestruturar em funções os loops while True que concentravam quase toda a lógica do programa
 
 **Prompt enviado:**
 
 ```
-Estamos criando o Guardião da Muda, um dispositivo com ESP32 que fica ao
-lado de uma muda recém-plantada e funciona sem internet. Ele vai ter:
-- um potenciômetro no papel do sensor de umidade do solo;
-- um LDR para a luz e um DHT22 para a temperatura;
-- um sensor de gás para acompanhar o ar;
-- um servo no papel da válvula de água;
-- LEDs verde, amarelo e vermelho, um buzzer, um botão e uma tela LCD 20x4 I2C.
+Tenho um programa em Python com dois módulos (planejamento pré-plantio e
+dashboard pós-plantio do Guardião da Muda, com ESP32). Hoje, quase toda a
+lógica está dentro de loops while True dentro do programa principal, e o
+código está difícil de ler.
 
-Escreva a BASE do sketch.ino para o Wokwi: os pinos, a leitura dos
-sensores em setup() e loop(), e a escrita na tela e no Serial Monitor.
-Use millis() no lugar de delay(), para não travar o programa. Ainda não
-coloque as regras de rega: elas virão da equipe.
+Quero que você REESTRUTURE esses loops em funções, sem mudar o
+comportamento do programa. Cada loop deve virar uma função com um nome
+claro e uma única responsabilidade. Não adicione novas funcionalidades e
+não altere as regras de cálculo.
+
 ```
 
-**O que aproveitamos da resposta:** A estrutura do sketch.ino: os pinos, o setup(), o loop() com millis(), a leitura dos sensores em lerSensores() e a escrita na tela e no Serial Monitor.
+**O que aproveitamos da resposta:** Os blocos dentro dos loops viraram funções com nomes claros e uma responsabilidade cada, no main.py inteiro (Partes 2, 3 e 4).
 
-**O que mudamos ou descartamos, e por quê:** Os nomes das funções e das variáveis foram trocados para português, e os comentários foram reescritos pela equipe. A equipe revisou e entendeu o código antes de seguir.
+**O que mudamos ou descartamos, e por quê:** Nenhuma regra de negócio foi alterada e nenhuma funcionalidade nova foi criada: a lógica é da equipe e a IA só reorganizou o código existente. A equipe revisou, testou e entendeu o código final antes de entregar.
 
 ---
 
 ## Prompt 2
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
-- **Para quê:** colocar no código as regras que a equipe definiu a partir das próprias pesquisas
+- **Para quê:** separar o loop de cada módulo em executar_pre() e executar_pos(), cada um com seu menu e a opção de voltar
 
 **Prompt enviado:**
 
 ```
-A equipe pesquisou e definiu as regras do Guardião da Muda:
-- solo com 60% ou mais está bom; abaixo de 30% precisa regar;
-- com calor de 36 °C ou mais, o limite de seco sobe para 40%;
-- com luz de 90% ou mais, ele espera, porque a água evapora mais;
-- depois de 2 regas sem resultado, ele pede ajuda;
-- temperatura fora de -10 a 60 °C é erro do sensor, e aí ele não rega.
+Agora separe o loop do módulo de Pré-plantio em uma função chamada
+executar_pre(), e o loop do módulo de Pós-plantio em uma função chamada
+executar_pos(). Cada uma deve conter o seu próprio menu, o seu próprio
+loop e a opção de voltar ao Menu Principal.
 
-Os estados são SOLO OK, ATENCAO, REGANDO, AGUARDANDO, ALERTA e ERRO.
-Coloque essas regras em uma função decidirEstado() e mostre mais de uma
-forma de evitar que uma leitura isolada mude o estado.
+Mantenha o uso de match/case.
 ```
 
-**O que aproveitamos da resposta:** A função decidirEstado() com os seis estados e as opções para suavizar as leituras. A equipe avaliou as opções geradas e escolheu a média das 3 últimas leituras, em adicionarNaMedia().
+**O que aproveitamos da resposta:** As funções executar_pre() e executar_pos(), cada uma com seu menu, seu loop e a opção de voltar ao Menu Principal, na Parte 3, mantendo match/case (Python 3.10+).
 
-**O que mudamos ou descartamos, e por quê:** Os limites, os estados e o que cada um faz nos LEDs, no buzzer e na válvula vieram das pesquisas da equipe, não da IA. As outras opções de suavização foram descartadas por serem mais difíceis de explicar e de testar na demonstração.
+**O que mudamos ou descartamos, e por quê:** Nenhuma regra de negócio foi alterada e nenhuma funcionalidade nova foi criada: a lógica é da equipe e a IA só reorganizou o código existente. A equipe revisou, testou e entendeu o código final antes de entregar.
 
 ---
 
 ## Prompt 3
 
-- **Quem usou:** Anauã Vieitas, Bruno Smoktunowicz e Caio Machado
+- **Quem usou:** Bruno Smoktunowicz Baptista
 - **Ferramenta:** Claude (Anthropic)
-- **Para quê:** testar os estados lógicos do Guardião da Muda na simulação do Wokwi
+- **Para quê:** extrair o conteúdo de cada opção dos menus para funções próprias
 
 **Prompt enviado:**
 
 ```
-Monte um roteiro de testes para a simulação no Wokwi que passe por todos
-os estados: SOLO OK, ATENCAO, REGANDO, AGUARDANDO, ALERTA e ERRO. Para
-cada um, diga em que valor colocar o potenciômetro, o LDR e o DHT22, e o
-que deve aparecer na tela, nos LEDs e no Serial Monitor.
+Dentro de executar_pre() e executar_pos(), algumas opções ainda têm muito
+código. Extraia o conteúdo de cada opção para uma função própria, por
+exemplo:
+- exibir a tabela de espaçamentos
+- exibir o resumo dos plantios registrados
+- exibir as leituras diárias do sensor
+- exibir o resumo e os avisos da planta
+- comparar com a linha de base
+- consultar os dados de um bairro
+- registrar uma leitura manual
 
-Inclua também o teste do botão que salva a linha de base. Se algum estado
-não puder ser alcançado com o código atual, aponte antes de corrigir.
+Assim, cada opção do menu deve chamar apenas uma função.
 ```
 
-**O que aproveitamos da resposta:** O roteiro de testes, que a equipe rodou no Wokwi estado por estado e que virou a parte da simulação do roteiro do vídeo, no README.md.
+**O que aproveitamos da resposta:** Funções como mostrar_espacamentos(), mostrar_resumo_pre(), mostrar_leituras(), mostrar_resumo_pos(), comparar_com_base(), consultar_bairro() e registrar_leitura(), na Parte 4.
 
-**O que mudamos ou descartamos, e por quê:** A equipe ajustou os tempos de espera do roteiro depois de ver na simulação que a média leva cerca de 6 segundos para mudar o estado. Nenhuma regra foi alterada nos testes.
+**O que mudamos ou descartamos, e por quê:** Nenhuma regra de negócio foi alterada e nenhuma funcionalidade nova foi criada: a lógica é da equipe e a IA só reorganizou o código existente. A equipe revisou, testou e entendeu o código final antes de entregar.
+
+---
+
+## Prompt 4
+
+- **Quem usou:** Bruno Smoktunowicz Baptista
+- **Ferramenta:** Claude (Anthropic)
+- **Para quê:** deixar a main() enxuta, só com o Menu Principal e o direcionamento para os módulos
+
+**Prompt enviado:**
+
+```
+Agora deixe a função main() o menor possível. Ela deve apenas:
+1. exibir o Menu Principal (Pré-plantio, Pós-plantio ou Encerrar);
+2. chamar executar_pre() ou executar_pos() conforme a escolha;
+3. encerrar o programa com uma mensagem final.
+
+Não deve haver cálculos nem regras de negócio dentro de main().
+```
+
+**O que aproveitamos da resposta:** A main() na Parte 3, que só exibe o Menu Principal, chama executar_pre() ou executar_pos() e encerra com a mensagem final.
+
+**O que mudamos ou descartamos, e por quê:** Nenhuma regra de negócio foi alterada e nenhuma funcionalidade nova foi criada: a lógica é da equipe e a IA só reorganizou o código existente. A equipe revisou, testou e entendeu o código final antes de entregar.
+
+---
+
+## Prompt 5
+
+- **Quem usou:** Bruno Smoktunowicz Baptista
+- **Ferramenta:** Claude (Anthropic)
+- **Para quê:** conferir se o comportamento do programa não mudou depois da reestruturação
+
+**Prompt enviado:**
+
+```
+Revise o código reestruturado e confirme que:
+- as regras de espaçamento (4 m, 7 m e 10 m) e as faixas de área
+  continuam iguais;
+- a classificação da muda (SOLO OK, ATENÇÃO, REGANDO, AGUARDANDO, ALERTA e
+  ERRO) continua igual;
+- nenhuma variável global foi perdida;
+- as opções de voltar ao Menu Principal continuam funcionando.
+
+Se encontrar qualquer diferença de comportamento, aponte antes de corrigir.
+```
+
+**O que aproveitamos da resposta:** A conferência das regras de espaçamento, das faixas de área, dos estados da muda, das variáveis globais e das opções de voltar ao Menu Principal.
+
+**O que mudamos ou descartamos, e por quê:** Nenhuma regra de negócio foi alterada e nenhuma funcionalidade nova foi criada: a lógica é da equipe e a IA só reorganizou o código existente. A equipe revisou, testou e entendeu o código final antes de entregar.
 
 ---

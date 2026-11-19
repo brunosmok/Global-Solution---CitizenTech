@@ -8,7 +8,7 @@
 
 **ODS:** 11 (espaços verdes nas cidades), 13 (adaptação ao clima) e 3 (riscos do calor à saúde).
 
-**Integrantes:** Anauã Vieitas (RM 576103), Bruno Smoktunowicz (RM 574739) e Caio Machado (RM 575113).
+**Integrantes:** Anauã Paulo Campolina Vieitas Lima (RM 576103), Bruno Smoktunowicz Baptista (RM 574739) e Caio Medeiros Machado (RM 575113).
 
 ## Como abrir no Wokwi
 1. Entre em [https://wokwi.com/projects/480444508590213121](https://wokwi.com/projects/480444508590213121).
