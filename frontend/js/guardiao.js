@@ -131,7 +131,7 @@
       case 'ATENÇÃO': return 'Solo secando. Fique de olho.'
       case 'REGANDO': return 'Regando a muda (Válvula acionada).'
       case 'AGUARDANDO': return 'Esperando o sol baixar para regar (Evitando evaporação).'
-      case 'ALERTA': return 'Sem água? Peça ajuda! (Arduino tentou regar mas o solo continua seco).'
+      case 'ALERTA': return 'Sem água? Peça ajuda! (ESP32 tentou regar mas o solo continua seco).'
       case 'ERRO': return 'Verificar sensor! (Leitura de temperatura inválida).'
       default: return 'Estado desconhecido.'
     }

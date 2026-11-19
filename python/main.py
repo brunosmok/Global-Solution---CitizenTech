@@ -137,7 +137,7 @@ def aviso_da_muda(estado):
         case "ATENÇÃO": return "Solo secando. Fique de olho."
         case "REGANDO": return "Regando a muda (Válvula acionada)."
         case "AGUARDANDO": return "Esperando o sol baixar para regar (Evitando evaporação)."
-        case "ALERTA": return "Sem água? Peça ajuda! (Arduino tentou regar mas o solo continua seco)."
+        case "ALERTA": return "Sem água? Peça ajuda! (ESP32 tentou regar mas o solo continua seco)."
         case "ERRO": return "Verificar sensor! (Leitura de temperatura inválida)."
         case _: return "Estado desconhecido."
 
@@ -239,7 +239,7 @@ def main():
         print("===========================================")
         print("Escolha o módulo que deseja iniciar:")
         print("[1] Planejamento Pré-Plantio (Cálculo de Espaço e Mudas)")
-        print("[2] Dashboard Pós-Plantio (Monitoramento do Sensor Arduino)")
+        print("[2] Dashboard Pós-Plantio (Monitoramento do Sensor ESP32)")
         print("[0] Encerrar o Sistema")
         print("===========================================")
         
@@ -384,7 +384,7 @@ def comparar_com_base():
     resumo = calcular_resumo(leituras)
     diferenca_temperatura = resumo["media_temperatura"] - linha_de_base["temperatura"]
     diferenca_ar = resumo["media_ar"] - linha_de_base["ar"]
-    print(f"\nDesde o dia em que o BOTAO BASE foi apertado no Arduino:")
+    print(f"\nDesde o dia em que o BOTAO BASE foi apertado no ESP32:")
     print(f"Temperatura média: {formatar(resumo['media_temperatura'])} °C, base {formatar(linha_de_base['temperatura'])} °C ({formatar_diferenca(diferenca_temperatura)})")
     print(f"Qualidade do ar: {formatar(resumo['media_ar'])}, base {formatar(linha_de_base['ar'])} ({formatar_diferenca(diferenca_ar)})")
     print("Nota: Essa comparação ajuda a entender a evolução do microclima local.")

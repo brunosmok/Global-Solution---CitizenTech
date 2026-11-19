@@ -34,7 +34,7 @@ Os mesmos limites usados no circuito de Edge e os mesmos textos da página.
 | ERRO | temperatura fora de -10 °C a 60 °C | Verificar sensor! (Leitura de temperatura inválida). |
 | SOLO OK | solo ≥ 60% | Muda bem cuidada. |
 | ATENÇÃO | solo ≥ 30% (≥ 40% se temperatura ≥ 36 °C) e < 60% | Solo secando. Fique de olho. |
-| ALERTA | solo abaixo do limite seco e 2 ou mais tentativas de rega | Sem água? Peça ajuda! (Arduino tentou regar mas o solo continua seco). |
+| ALERTA | solo abaixo do limite seco e 2 ou mais tentativas de rega | Sem água? Peça ajuda! (ESP32 tentou regar mas o solo continua seco). |
 | AGUARDANDO | solo abaixo do limite seco e luz ≥ 90% | Esperando o sol baixar para regar (Evitando evaporação). |
 | REGANDO | solo abaixo do limite seco, luz < 90% e menos de 2 tentativas | Regando a muda (Válvula acionada). |
 

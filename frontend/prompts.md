@@ -110,11 +110,11 @@ cara sabe o que eu pensei em fazer pra usarmos em um site de teste , trocar o fu
 **Prompts enviados:**
 
 ```
-https://centrovlr.com.br/time/179 olha o assistente ia desse site , nao acha que ficaria melhor fazer um assim no arboria ?
+https://centrovlr.com.br/time/179 Quero um assistente IA parecido com o desse site no meu projeto, consegue fazer isso?
 ```
 
 ```
-coloca dados basicos do projeto no assistente tipo quem e do grupo
+Coloca dados básicos do projeto no assistente, por exemplo as informações dos integrantes.
 ```
 
 **O que aproveitamos da resposta:** o painel do assistente na página (`index.html`, `css/style.css` e a função `iniciarAssistente()` em `js/main.js`), com sugestões de perguntas e a apresentação da equipe.

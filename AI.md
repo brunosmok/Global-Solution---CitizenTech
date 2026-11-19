@@ -11,8 +11,8 @@ Usamos o **Claude (Anthropic)** como copiloto, para escrever, converter e revisa
 | Página inicial (`frontend/`) | Escrever a sala 3D em TypeScript, converter funções do Python para JavaScript, escrever as páginas e as interações, revisar a acessibilidade e deixar o código com nomes em português e comentários, sem mudar o funcionamento | `frontend/prompts.md` |
 | Programa em Python (`python/`) | Reestruturar o programa em funções, sem mudar as regras, e revisar o README | `python/prompts.md` |
 | Sensor (`edge/`) | Escrever a base do código e o circuito (`diagram.json`) do Guardião da Muda, colocar nele as regras definidas pela equipe e montar o roteiro de testes no Wokwi | `edge/prompts.md` |
-| Matemática (`matematica/`) | Sugerir a estrutura do `modelo.py`, levar os dados para dentro dele e auxiliar na geração do relatório final | `matematica/prompts.md` |
-| Experiência (`experience/`) e pitch | Organizar requisitos, backlog e priorização, redigir os slides e apoiar a ideação do roteiro | Seção 06 dos slides de Experience |
+| Matemática (`matematica/`) | Sugerir a estrutura do `modelo.py` e levar os dados para dentro dele | `matematica/prompts.md` |
+| Experiência (`experience/`) e pitch | Organizar os requisitos com ID, categoria e justificativa, escrever os critérios de aceite do backlog, revisar escopo e priorização MoSCoW com esforço e dependências, diagramar os slides e apoiar a ideação do roteiro do pitch | `experience/prompts.md` e slide 08 do deck de Experience |
 | Revisão final | Comparar as entregas com o PDF do desafio, listar o que faltava e atualizar os textos dos READMEs | — |
 
 **O que a equipe definiu:** o problema, o cidadão e a ideia do Guardião da Muda; os limites de solo, calor e luz, os estados e as respostas do dispositivo, a partir das próprias pesquisas; os quatro modelos matemáticos, as fórmulas, a taxa de crescimento, os tamanhos de copa e a meta de 20%; as leituras simuladas; a cena, as cores e os textos da página inicial; e a versão final do backlog. A IA só escreveu, converteu e organizou a partir dessas decisões.
