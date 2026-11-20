@@ -13,7 +13,7 @@ Site publicado: [arboria-ai.vercel.app](https://arboria-ai.vercel.app)
 | **Cidadão beneficiado** | Quem mora em bairro quente e com poucas árvores e quer mais sombra na rua. Em segundo lugar, quem planeja a arborização da cidade |
 | **Problema, em uma frase** | Quem mora em áreas quentes do Rio não sabe onde plantar, qual muda usar nem a quem pedir, e a cidade precisa decidir onde plantar primeiro com mudas e orçamento limitados |
 | **Como funciona** | O site cruza satélite, Censo e mapas, dá uma nota a cada área e leva o morador ao ponto prioritário mais próximo, com muda, época e pedido pronto para o 1746. Depois do plantio, o Guardião da Muda mede o solo, rega sozinho e acompanha o ar e o calor |
-| **O que cada parte faz** | Python: recebe as leituras da muda, calcula o resumo e decide o aviso. Matemática: calcula a janela de calor forte e quantas árvores plantar. Edge: o Guardião da Muda, um ESP32 no Wokwi que mede, decide e rega sem internet. Site (Front-end e Web Development): a página que o cidadão vê e as interações em JavaScript. Experiência: escopo, requisitos, backlog e priorização. Pitch: vídeo de 3 minutos |
+| **O que cada parte faz** | Python: recebe as leituras da muda, calcula o resumo e decide o aviso. Matemática: calcula a janela de calor forte e quantas árvores plantar. Edge: o Guardião da Muda, um ESP32 no Wokwi que mede, decide e rega sem internet. Site (Front-end e Web Development): a página que o cidadão vê e as interações em JavaScript. Experiência: escopo, requisitos, backlog e priorização. Pitch: vídeo de 3 minutos ([youtu.be/Ze6i0NY8RRQ](https://youtu.be/Ze6i0NY8RRQ)) |
 | **Link do repositório** | [github.com/brunosmok/Global-Solution---CitizenTech](https://github.com/brunosmok/Global-Solution---CitizenTech) |
 | **Indicador de impacto** | Pedidos de plantio abertos a partir do site, mudas vivas depois de um ano e cobertura de árvores nas 473 áreas que seguem no topo da lista, hoje em 4,7%. Ainda não medimos o efeito do projeto |
 | **ODS conectados** | ODS 3, ODS 11 e ODS 13 (veja abaixo como o projeto contribui com cada um) |
@@ -36,7 +36,7 @@ Site publicado: [arboria-ai.vercel.app](https://arboria-ai.vercel.app)
 | Interface | Front-end Design | [`frontend/`](frontend/) | A landing page em HTML e CSS, com menu, seções, imagens e rodapé |
 | Experiência | Software & Total Experience Design | [`experience/`](experience/) | Escopo, requisitos, product backlog e priorização |
 | Interação | Web Development | [`frontend/js/`](frontend/js/) | O JavaScript da página: modo claro e escuro, seletor de bairro, planejamento e acompanhamento da muda e menu do celular |
-| Pitch | Storytelling & Inspiração Empreendedora | — | Vídeo de até 3 minutos no YouTube, com o link enviado no Teams da disciplina |
+| Pitch | Storytelling & Inspiração Empreendedora | — | Vídeo de até 3 minutos no YouTube: [youtu.be/Ze6i0NY8RRQ](https://youtu.be/Ze6i0NY8RRQ) (link também enviado no Teams da disciplina) |
 
 Uso de IA no projeto: [`AI.md`](AI.md). Prompts de cada parte: `prompts.md` dentro de cada pasta (a etapa de dados fica no repositório do site).
 
