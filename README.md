@@ -4,6 +4,12 @@
 
 Site publicado: [arboria-ai.vercel.app](https://arboria-ai.vercel.app)
 
+## Vídeo do pitch
+
+[![Assista ao pitch da ArborIA no YouTube](https://img.youtube.com/vi/Ze6i0NY8RRQ/hqdefault.jpg)](https://youtu.be/Ze6i0NY8RRQ)
+
+**Assista:** [youtu.be/Ze6i0NY8RRQ](https://youtu.be/Ze6i0NY8RRQ)
+
 ## Ficha da CitizenTech
 
 | Campo | Resposta da equipe |
